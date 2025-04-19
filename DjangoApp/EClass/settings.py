@@ -79,8 +79,8 @@ DATABASES = {
         'NAME': 'E-Class',
         'USER': 'postgres',
         'PASSWORD': 'JONICAGE123',
-        'HOST': 'localhost',  # Replace with your PostgreSQL server's address if necessary
-        'PORT': '',          # Leave empty to use the default PostgreSQL port (usually 5432)
+        'HOST': 'localhost',  
+        'PORT': '5432',          
     }
 }
 
