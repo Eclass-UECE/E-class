@@ -1,14 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt_BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Eclass</title>
+    <link rel="stylesheet" href="{% static 'PagInicial/pag_inicial.css' %}">
 </head>
 <body>
-    <h1>corpo do site</h1>
+    <section class="navbar-container">
+        <div class="navbar">
+            <div class="nav-left">
+                <a href="#sobre-eclass">Sobre o Eclass</a>
+                <a href="#quem-somos">Quem somos</a>
+                <a href="#inscricoes">Inscrições</a>
+                <a href="#teste-nivel">Teste de nível</a>
+            </div>
+            <div class="nav-icon">Login</div>
+        </div>
+    </section>
+    <section class="corpo">
+        <div id="sobre-nos">
+            oi o eclass....
+        </div>
+    </section>
 </body>
 <footer>
-    <h2>Info ssobre o eclass, contatos e etc</h2>
+    <h2>meu eeeus</h2>
 </footer>
 </html>
