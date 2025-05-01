@@ -1,18 +1,13 @@
 <html>
 <body>
 
-<h1>Members</h1>
-  
-<ul>
-  {% for x in alunos %}
-    <li>{{ x.nome }} {{ x.sobrenome }}</li>
-  {% endfor %}
-</ul>
-
-<form action = "" method = "post">
+<h1>INSCRIÇÃO</h1>
+<form action="." method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  {{form }}
-  <input type="submit" value="Submit">
+  {{ form.as_p }}
+  {{ file_form.as_p }}
+  <input type="submit" value="Salvar">
 </form>
+
 </body>
 </html>

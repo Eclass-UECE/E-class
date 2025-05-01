@@ -1,0 +1,40 @@
+Tabelas:
+Alunos - ID(PK, AutoIncrement); Nome(Varchar); CPF(Varchar,max_length=11); Telefone(Varchar); dt_nasc(Date); Email(Email); Endereço(Varchar); Instituição_ensino(Varchar); ocupação(Varchar); Semestre(INT); *relatorio_final(Varchar)* 
+Professores - ID:Matricula(PK, INT); Nome(Varchar); CPF(Varchar,max_length=11); RG(Varchar,max_lenght=10); Telefone(Varchar); dt_nasc(Date); Email(Email); Endereço(Varchar); *Semestre_Ingresso(INT)*; Turno(Varchar)
+Coordenadores - ID:Matricula(PK, INT); Nome(Varchar); CPF(Varchar,max_length=11); RG(Varchar,max_lenght=10); Telefone(Varchar); Email(Email)
+Turmas - ID(PK, AutoIncrement), *(FK ID_Prof)*; Semestre_letivo(Varchar); Turno(Varchar); Sala(Varchar); Num_vagas(INT)
+
+Frequencia - ID_Frequencia(PK, Autoincrement),(FK, ID_Aluno),(FK, ID_Aula); Data(date); Presença(bool)
+Inscrição - DADOS QUE TÃO NO FORMS
+Provas - ID_Nota(PK, Autoincrement); Tipo(Varchar); Conteudo(Varchar); Data(Datetime)
+
+Dados bancarios - TEM Q VE QUAIS SÃO
+anexo_inscricao -
+
+Nota - ID_NOTA(PK, Autoincrement),(FK, ID_Aluno), (FK, ID_Prova); Pontuação(Float);
+Provas - ID_Nota(PK, Autoincrement); Tipo(Varchar); Conteudo(Varchar); Data(Datetime), nota(INT), 
+]
+
+
+
+
+Aulas - ID_Aula(PK, Autoincrement),(FK, ID_Turma); Data(Datetime); Conteudo(Varchar); Objetivos(Varchar)
+
+
+
+1:N
+
+
+1:N = chave do lado N
+N:N = tabela pivo
+
+# verbose_name	A human-readable name for the field.
+# If the verbose name isn’t given, Django will automatically create it
+# using the field’s attribute name, converting underscores to spaces.
+# TEM Q BOTAR ESSE VERBOSE NAME PRA TODOS OS ATRIBUTOS NO FINAL
+# A LISTA DE PRIORIDADE PROVAVELMENTE VAI TER Q ENTRAR NA TABELA DE INSCRIÇÃO COMO ATRIBUTOS É O UNICO JEITO DE FAZER FUNCIONAR
+# OS ARQUIVOS VÃO TER Q FICAR NUMA TABELA A PARTE LIGA USANDO FK
+
+aluno_provas fk das duas / nota
+
+1:N
