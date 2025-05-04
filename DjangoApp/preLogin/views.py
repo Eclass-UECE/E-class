@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def pagInicial(request):
+    return render(request, 'preLogin/pagInicial.html')
