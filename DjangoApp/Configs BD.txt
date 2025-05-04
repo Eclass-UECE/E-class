@@ -1,0 +1,23 @@
+1 - Instalar o postgre (durante a instalação quando for pedido marcar a opção de instalar tambem o PGAdmin4)
+
+2 - Deixa todas suas configurações como padrão a unica coisa que você vai escolher mudar é a senha
+
+3 - Ao terminar a instalação do postgre vá no arquivo settings.py procure por DATABASE e coloca essas opções:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'eclass',
+        'USER': 'postgres',
+        'PASSWORD': 'SUA SENHA',
+        'HOST': 'localhost',  
+        'PORT': '5432',          
+    }
+}
+
+4 - Abra o  app "PGAdmin 4" e crie um novo banco chamado "eclass", basta clicar com o botão direito em cima do PostgreSQL 17
+
+5 - Pro postgre funcionar no python você precisa da biblioteca "psycopg2", instale ela com o comando no terminal "pip install psycopg2"
+
+6 - Vai no terminal e digite os seguintes comandos: "python manage.py makemigrations", e em seguida "python manage.py migrate"
+
+7 - Se tu fez tudo direitinho agr o banco de dados deve estar funcionando no seu computador!
