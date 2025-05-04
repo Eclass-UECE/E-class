@@ -38,12 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'testedb',
-<<<<<<< HEAD
-    'preLogin',True
-    'posLogin',True
-=======
-    'PagInicial',False
->>>>>>> origin/database
+    'preLogin',
+    'posLogin',
 ]
 
 MIDDLEWARE = [
@@ -83,15 +79,9 @@ WSGI_APPLICATION = 'EClass.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-<<<<<<< HEAD
         'NAME': 'Eclass',
         'USER': 'postgres',
         'PASSWORD': '2606',
-=======
-        'NAME': 'eclass',
-        'USER': 'postgres',
-        'PASSWORD': 'Sua senha',
->>>>>>> origin/database
         'HOST': 'localhost',  
         'PORT': '5432',          
     }

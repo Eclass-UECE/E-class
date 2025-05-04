@@ -22,15 +22,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
     path('', include("preLogin.urls")),
     path('testedb/', include("testedb.urls")), 
-]
-=======
-    path('', include("testedb.urls")),
-    path('', include("PagInicial.urls")),  
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
->>>>>>> origin/database

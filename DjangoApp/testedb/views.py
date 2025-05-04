@@ -1,38 +1,54 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from .forms import InscricaoForm
+from django.urls import reverse
 from .models import Inscricao, AnexosInscricao
-from .forms import InscricaoForm, MultiFileForm
 
-# views.py
-
-def upload_files(request, inscrição_id):
-    teste =  Inscricao.objects.get(pk=inscrição_id)
-
-    if request.method == "POST":
-        form = MultiFileForm(request.POST, request.FILES)
-        if form.is_valid():
-            files = form.cleaned_data["arquivo"]
-            for file in files:
-                AnexosInscricao.objects.create(teste=teste, file=file)
-
-def thanks(request):
-    return render(request, "teste/thanks.html")
-
-
-def teste(request):
+def inscricao_view(request):
     if request.method == 'POST':
-        form = InscricaoForm(request.POST)
-        file_form = MultiFileForm(request.POST, request.FILES)
+        inscricao_form = InscricaoForm(request.POST, request.FILES)
 
-        if form.is_valid() and file_form.is_valid():
-            inscricao = form.save()
+        if inscricao_form.is_valid():
+            inscricao = inscricao_form.save()
+            return HttpResponseRedirect(reverse('anexos', kwargs={'inscricao_id': inscricao.pk}))
 
-            arquivos = request.FILES.getlist('arquivos')
-            for arquivo in arquivos:
-                AnexosInscricao.objects.create(inscricao=inscricao, arquivo=arquivo)
-
-            return redirect('thanks')
     else:
-        form = InscricaoForm()
-        file_form = MultiFileForm()
+        inscricao_form = InscricaoForm()
 
-    return render(request, 'teste/teste.html', {'form': form, 'file_form': file_form})
+    return render(request, 'teste/teste.html', {
+        'inscricao_form': inscricao_form,
+    })
+
+
+def anexos_view(request, inscricao_id):
+    inscricao = get_object_or_404(Inscricao, cpf=inscricao_id)
+    
+    if request.method == 'POST':
+        files = request.FILES.getlist('arquivo')
+        
+        if files:
+            for file in files:
+                AnexosInscricao.objects.create(
+                    inscricao=inscricao,
+                    arquivo=file
+                )
+            
+            # Mantém o usuário na mesma página com mensagem de sucesso
+            anexos_existentes = AnexosInscricao.objects.filter(inscricao=inscricao)
+            return render(request, 'teste/anexos.html', {
+                'inscricao': inscricao,
+                'anexos_existentes': anexos_existentes,
+                'mensagem_sucesso': f'{len(files)} arquivo(s) enviado(s) com sucesso!'
+            })
+    
+    anexos_existentes = AnexosInscricao.objects.filter(inscricao=inscricao)
+    return render(request, 'teste/anexos.html', {
+        'inscricao': inscricao,
+        'anexos_existentes': anexos_existentes
+    })
+
+def sucesso_view(request, inscricao_id):
+    inscricao = get_object_or_404(Inscricao, cpf=inscricao_id)
+    return render(request, 'teste/pagina_de_sucesso.html', {
+        'inscricao': inscricao
+    })
