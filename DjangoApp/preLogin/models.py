@@ -26,7 +26,8 @@ aluno_uece_escolhas = [
 
 turma_entrada_escolhas = [
     ('Manhã', 'S01 - Turma A: sábado, manhã 08h às 11h40.'),
-    ('Tarde', 'S01 - Turma B: sábado, tarde 13h às 16h40.')
+    ('Tarde', 'S01 - Turma B: sábado, tarde 13h às 16h40.'),
+    ('Teste_Nivel', 'Quero fazer um teste de nível.')
 ]
 
 termo_escolhas = [
@@ -64,6 +65,22 @@ priodades_escolhas = [
     ('Nenhum', 'Não me enquadro em nenhuma das anteriores')
 ]
 
+testedenivel_escolhas = [
+    ('S02', 'Sábado - Tarde - 13h às 16:40'),
+    ('S03', 'Sábado - Tarde - 13h às 16:40'),
+    ('S04', 'Sábado - Tarde - 13h às 16:40'),
+    ('S05', 'Sábado - Tarde - 13h às 16:40'),
+    ('S06', 'Sexta - Tarde - 14h às 17:40')
+]
+
+raca_escolhas = [
+    ('Amarelo(a)', 'Amarelo(a)'),
+    ('Branco(a)', 'Branco(a)'),
+    ('Pardo(a)', 'Pardo(a)'),
+    ('Preto(a)', 'Preto(a)'),
+    ('Indígena', 'Indígena'),
+    ('Outro', 'Outro:'),
+]
 
 class Turmas(models.Model):
     id_turma = models.AutoField(_('ID_Turma'), primary_key=True)
@@ -132,27 +149,32 @@ class Coordenadores(models.Model):
 
 class Inscricao(models.Model):
     nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
+    nome_social = models.CharField(_('Nome social'), max_length=255, null=True, blank=True)
     dt_nasc = models.DateField(_('Data de nascimento'), null=False)
-    cpf = models.CharField(_('CPF'), max_length=11, primary_key=True)
+    cpf = models.CharField(_('CPF'), max_length=11, primary_key=True, validators=[validar_cpf])
     email = models.EmailField(_('Email'), null=False)
     telefone = models.CharField(_('Telefone (WhatsApp)'), max_length=12, validators=[validar_telefone], null=False)
     endereco = models.CharField(_('Endereço Completo'), max_length=255, null=False)
+    possui_deficiencia = models.CharField(_('Possui alguma deficiência'), max_length=255, null=True, blank=True)
     aluno_uece = models.CharField(_('Você é aluno da FECLI-UECE'), choices=aluno_uece_escolhas, max_length=10, null=False)
     como_conheceu = models.CharField(_('Como você conheceu o Eclass'), choices=como_conheceu_escolhas, max_length=20, null=False)
     prioridades = models.CharField(_("Critérios de prioridades"), choices=priodades_escolhas, null=False)
     ocupacao = models.CharField(_('Qual a sua ocupação atual?'), max_length=255, null=False)
     motivacao = models.TextField(_('''Escreva aqui as suas motivações para participar no curso e também mencione as razões pelas quais você deve ser selecionada(o) para cursar o ECLASS. (Lembre de mencionar os critérios de prioridade listados anteriormente nos quais você se encaixa para a elaboração da resposta)'''), null=False)
-    turma_entrada = models.CharField(_('Turma de entrada'), choices=turma_entrada_escolhas, max_length=10, null=False)
+    turma_entrada = models.CharField(_('Turma de entrada'), choices=turma_entrada_escolhas, max_length=11, null=False)
     foto_frente = models.FileField(_('Foto da identidade (Frente)'), upload_to=upload_path, null=False)
     foto_verso = models.FileField(_('Foto da identidade (Verso)'), upload_to=upload_path, null=False)
     diploma_ensino_medio = models.FileField(_('Foto do diploma do ensino médio'), upload_to=upload_path, null=False)
     termo_inscricao = models.CharField(_('''Declaro que li e concordo com os termos de inscrição referente ao período letivo 2024.1 do ECLASS, estando ciente de que o curso não efetuará a matrícula de alunos que fornecerem dados incorretos ou falsos'''), choices=termo_escolhas, max_length=5, null=False)
+    teste_de_nivel = models.BooleanField(_('Deseja fazer o teste de nível'), null=True)
+    turma_teste_de_nivel = models.CharField(_('Turma que deseja concorrer'), choices=testedenivel_escolhas, null=True)
+
 
     class Meta:
         verbose_name_plural = "Inscrições"
 
     def __str__(self):
-        return self.nome_completo
+        return (f"{self.nome_completo} - CPF: {self.cpf}")
 
 class AnexosInscricao(models.Model):
     inscricao = models.ForeignKey(Inscricao, on_delete=models.CASCADE)
@@ -163,7 +185,7 @@ class AnexosInscricao(models.Model):
         verbose_name_plural = "Anexos das Inscrições"
         
     def __str__(self):
-        return f"Anexo de {self.inscricao} enviado em {self.data_upload.strftime('%d/%m/%Y %H:%M')}"
+        return f"Anexo de {self.inscricao.nome_completo} enviado em {self.data_upload.strftime('%d/%m/%Y')}"
 
 class Provas(models.Model):
     id_prova = models.AutoField(_('ID_Prova'), primary_key=True)
@@ -229,6 +251,13 @@ class DadosBancarios(models.Model):
     def __str__(self):
         return f"Conta do professor - {self.professor.nome_completo}"
 
+
+
+
+
+
+#A TABELA PROVA PRECISA DA FOREING KEY DE TURMAS
+#VER SE A MATRICULA DO ALUNO É AUTOGENRATED OU SE ELA POSSUE ALGUM PADRÃO
 #FALTAFAZER A TABELA INSCRIÇÃO EGRESSO / ANEXOS-EGRESSO
 #FALTA FAZER A TABELA TESTE DE NIVEL / ANEXOS-TESTE DE NIVEL
-#AULA TEM Q TER A FOREING KEY DE TURMA PRA SABER DE QUAL TURMA FOI AQUELA AULA
+#AULA TEM Q TER A FOREING KEY DE TURMA PRA SABER DE QUAL TURMA FOI AQUELA AULA

@@ -1,0 +1,20 @@
+<html>
+<body>
+<h1>TESTE DE NÍVEL</h1>
+
+{% if mensagem %}
+    <p style="color: green;"><strong>{{ mensagem }}</strong></p>
+
+    <form action="{% url 'pagInicial' %}" method="get">
+        <button type="submit">Voltar à Página Inicial</button>
+    </form>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Enviar">
+</form>
+
+</body>
+</html>

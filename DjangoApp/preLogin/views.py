@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-from .forms import InscricaoForm
+from .forms import InscricaoForm, TesteDeNivelForm
 from django.urls import reverse
 from .models import Inscricao, AnexosInscricao
 
@@ -56,3 +56,36 @@ def sucesso_view(request, inscricao_id):
     return render(request, 'preLogin/Inscricao/pagina_de_sucesso.html', {
         'inscricao': inscricao
     })
+
+def testedenivel(request, inscricao_id):
+    inscricao = get_object_or_404(Inscricao, cpf=inscricao_id)
+
+    if request.method == 'POST':
+        testedenivelForm = TesteDeNivelForm(request.POST)
+
+        turma = request.POST.get('turma_teste_de_nivel')
+
+        if testedenivelForm.is_valid():
+            inscricao.teste_de_nivel = True
+            inscricao.turma_teste_de_nivel = turma
+            inscricao.turma_entrada = 'Teste_Nivel'
+            inscricao.save()
+
+            # Aqui renderiza a mensagem de sucesso na mesma página, sem redirecionar
+            return render(request, 'preLogin/Inscricao/testedenivel.html', {
+                'inscricao': inscricao,
+                'form': TesteDeNivelForm(),  # formulário limpo após envio
+                'mensagem': 'Inscrição e Pedido de teste de nível enviados com sucesso'
+            })
+    else:
+        testedenivelForm = TesteDeNivelForm()
+
+    return render(request, 'preLogin/Inscricao/testedenivel.html', {
+        'inscricao': inscricao,
+        'form': testedenivelForm
+    })
+
+
+            
+
+        
