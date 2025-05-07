@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'preLogin',
     'posLogin',
+    'Login'
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'eclass',
         'USER': 'postgres',
-        'PASSWORD': 'JONICAGE123',
+        'PASSWORD': 'mikadb',
         'HOST': 'localhost',  
         'PORT': '5432',          
     }
