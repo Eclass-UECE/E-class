@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="PT_br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +10,16 @@
         <nav>
             <a href="#quemSomos">Quem somos</a>
             <a href="#sobreEclass">Sobre o Eclass</a>
-            <a href="#matricula">Matriculas</a>
-            <a href="testeNivel">Teste de nível</a>
-            <a href="egresso">Egresso</a>
+            <a href="{% url 'inscricao' %}">Matrículas</a>
+            <a href="{% url 'inscricao' %}">Teste de Nivelamento</a>
+            <a href="{% url 'inscricao' %}">Egresso</a>
             <a href="{% url 'login' %}">Login</a>
-
         </nav>
     
     </header>
 
     <div id="matricula" style="background-color: #00bfff; padding: 50px; text-align: center;">
-        <h1 style="color: #333; font-size: 2.5em;">INSCREVA-SE JÁ</h1>
+        <a href="http://127.0.0.1:8000//inscricao/">Inscreva-se Já!</a>
     </div>
 
     <div id="sobreEclass" style="padding: 20px;">
@@ -92,7 +91,7 @@
             <p>(88) 91234-5678</p>
         </div>
         <div>
-            <a href="https://www.instagram.com/" target="_blank">
+            <a href="https://www.instagram.com/eclass.igt/" target="_blank">
                 <img src="" alt="Instagram" style="width: 30px; height: 30px;"> <!--Adicionar a logo do insta-->
             </a>
         </div>

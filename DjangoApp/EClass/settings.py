@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'EClass.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'eclass',
+        'NAME': 'Eclass',
         'USER': 'postgres',
-        'PASSWORD': 'mikadb',
+        'PASSWORD': '2606',
         'HOST': 'localhost',  
         'PORT': '5432',          
     }
