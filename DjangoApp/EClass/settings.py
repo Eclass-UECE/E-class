@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'EClass.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Eclass',
+        'NAME': 'eclass',
         'USER': 'postgres',
         'PASSWORD': 'm15264879O@',
         'HOST': 'localhost',  
