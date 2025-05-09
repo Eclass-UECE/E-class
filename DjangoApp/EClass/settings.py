@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'preLogin',
     'posLogin',
+    'Login'
 ]
 
 MIDDLEWARE = [
@@ -78,9 +79,9 @@ WSGI_APPLICATION = 'EClass.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'eclass',
+        'NAME': 'Eclass',
         'USER': 'postgres',
-        'PASSWORD': 'm15264879O@',
+        'PASSWORD': '2606',
         'HOST': 'localhost',  
         'PORT': '5432',          
     }

@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from .forms import InscricaoForm
 from django.urls import reverse
 from .models import Inscricao, AnexosInscricao
+from .models import Professores, Coordenadores
 
 def pagInicial(request):
     return render(request, 'preLogin/pagInicial.html')
@@ -56,3 +57,4 @@ def sucesso_view(request, inscricao_id):
     return render(request, 'preLogin/Inscricao/pagina_de_sucesso.html', {
         'inscricao': inscricao
     })
+
