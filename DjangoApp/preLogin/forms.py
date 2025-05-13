@@ -2,40 +2,39 @@ from django import forms
 from .models import Inscricao, AnexosInscricao
 
 class InscricaoForm(forms.ModelForm):
+
     dt_nasc = forms.CharField(
-        label='Data de Nascimento',
-        max_length=10,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'dd/mm/aaaa',
-            'id': 'campo-data'
+        label='Data de nascimento',
+        input_formats=['%d/%m/%Y'],
+        widget=forms.DateInput(format='%d/%m/%Y', attrs={
+            'placeholder': '26/08/2003',
+            'type': 'text'
         })
-    )
+    
+        )
 
     telefone = forms.CharField(
         label='Telefone',
-        max_length=15,
+        max_length=12,
         widget=forms.TextInput(attrs={
-            'placeholder': '11 91234 5678',
+            'placeholder': '11 912345678',
             'id': 'campo-telefone'
         })
     )
+
 
     class Meta:
         model = Inscricao
         fields = '__all__'
 
-    def clean_telefone(self):
-        telefone = self.cleaned_data['telefone']
-        
-        # Remove espaços, traços e outros caracteres não numéricos
-        telefone = telefone.replace(" ", "").replace("-", "")
-        
-        # Verifica se o telefone tem 11 dígitos e começa com 9 (telefone celular)
-        if len(telefone) != 11 or not telefone.isdigit() or telefone[2] != '9':
-            raise forms.ValidationError("Número de telefone inválido. Use o formato 11 91234 5678.")
-        
-        return telefone
-
+    cpf = forms.CharField(
+        label='CPF',
+        max_length=14,
+        widget=forms.TextInput(attrs={
+            'placeholder': '123.456.789-00',
+            'id': 'campo-cpf'
+        })
+    )
 
 class MultiFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
