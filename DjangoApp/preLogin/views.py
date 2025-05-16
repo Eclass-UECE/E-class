@@ -58,3 +58,8 @@ def sucesso_view(request, inscricao_id):
         'inscricao': inscricao
     })
 
+def egresso(request):
+    return render(request, 'preLogin/inscricao/egresso.html')
+
+def testeNivel(request):
+    return render(request, 'preLogin/inscricao/testeNivel.html')

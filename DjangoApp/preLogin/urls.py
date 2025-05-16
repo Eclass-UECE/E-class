@@ -12,6 +12,8 @@ urlpatterns = [
     path('inscricao/', views.inscricao_view, name='inscricao'),
     path('anexos/<str:inscricao_id>/', views.anexos_view, name='anexos'),
     path('sucesso/<str:inscricao_id>/', views.sucesso_view, name='pagina_de_sucesso'),
+    path('egresso/', views.egresso, name='egresso'),
+    path('testeNivel/', views.testeNivel, name='testeNivel'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
