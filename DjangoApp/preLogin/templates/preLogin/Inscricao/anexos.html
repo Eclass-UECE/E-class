@@ -20,7 +20,7 @@
             <i class="bi bi-paperclip"></i> Anexos para {{ inscricao.nome_completo }}
         </h2>
         <span class="badge bg-primary">
-            CPF: {{ inscricao.cpf|slice:":3" }}.{{ inscricao.cpf|slice:"3:6" }}.{{ inscricao.cpf|slice:"6:9" }}-{{ inscricao.cpf|slice:"9:11" }}
+            CPF: {{ inscricao.cpf|slice:"0:14" }}
         </span>
     </div>
 

@@ -63,9 +63,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 value.slice(9,11);
             }
             input.value = value;
+
+            validar_cpf(input.value)
         });
     });
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-email');
+    
+        const emailInput = document.getElementById('email');
+        const erroEmail = document.getElementById('erroEmail');
+
+        form.addEventListener('submit', function(event) {
+            const email = emailInput.value;
+            const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+            if (!emailValido) {
+                event.preventDefault(); // Impede o envio do formulário
+                erroEmail.textContent = 'Por favor, insira um e-mail válido.';
+            } else {
+                erroEmail.textContent = ''; // Limpa erro se válido
+            }
+        });
+    });
+    </script>
 
 
 </body>

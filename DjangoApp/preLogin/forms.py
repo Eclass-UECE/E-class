@@ -3,15 +3,19 @@ from .models import Inscricao, AnexosInscricao
 
 class InscricaoForm(forms.ModelForm):
 
-    dt_nasc = forms.CharField(
+    dt_nasc = forms.DateField(
         label='Data de nascimento',
         input_formats=['%d/%m/%Y'],
-        widget=forms.DateInput(format='%d/%m/%Y', attrs={
-            'placeholder': '26/08/2003',
-            'type': 'text'
-        })
-    
+        widget=forms.DateInput(
+            attrs={
+                'placeholder': '01/01/2000',
+                'id': 'campo-data',
+                'type': 'text'
+            }
         )
+    )
+
+    
 
     telefone = forms.CharField(
         label='Telefone',
@@ -19,6 +23,14 @@ class InscricaoForm(forms.ModelForm):
         widget=forms.TextInput(attrs={
             'placeholder': '11 912345678',
             'id': 'campo-telefone'
+        })
+    )
+
+    email = forms.CharField(
+        label='Email',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'email@gmail.com',
+            'id': 'campo-email'
         })
     )
 

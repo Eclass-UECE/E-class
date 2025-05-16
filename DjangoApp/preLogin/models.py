@@ -108,7 +108,7 @@ class Professores(models.Model):
     endereco = models.CharField(_('Endereço'), max_length=255, null=False)
     semestre_ingressao = models.CharField(_('Semestre de Ingresso'), max_length=6, validators=[validar_ingressao], null=False)
     turno = models.CharField(_('Turno'), choices=turnos_escolhas, max_length=20, null=False)
-    primeiro_acesso = models.BooleanField(_('Primeiro Acesso'))
+    primeiro_acesso = models.BooleanField(_('Primeiro Acesso'), default=False)
     class Meta:
         verbose_name_plural = "Professores"
 
