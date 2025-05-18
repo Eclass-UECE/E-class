@@ -1,1 +1,74 @@
-<!--Aqui vai ser a lista de presença dos alunos durante o semestre-->
+<!--Aqui ficará guardado o historico de aulas dado no semestre "2023.2" por exemplo-->
+
+<!DOCTYPE html>
+<html lang="pr_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas</title>
+</head>
+<body>
+  <header class="cabecalho">
+    <nav class="menu-navegacao">
+      <a href="#"><div class="icon circle-icon">perfil</div></a>
+      <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
+    </nav>
+  </header>
+
+  <section style="background-color: aquamarine;">
+
+    <div style="background-color: rgb(0, 254, 169);">
+      
+      <h1>Lançar Aulas e Faltas</h1>
+      <h3>Período Letivo: </h3>
+      <h3>Turma: </h3>
+
+      <a href="{% url 'aulas' %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' %}">Exibir Lista de Frequência</a>
+      
+    </div>
+
+    <div class="adicionar-aula" style="background-color: rgb(160, 206, 190);">
+    <h2>Adicionar Aula</h2>
+    <form id="formAula" method="POST">
+      {% csrf_token %}
+      <label>Data: <input type="date" id="dataAula" name="data" required></label>
+      <label>Conteúdo: <input type="text" id="conteudoAula" name="conteudo" required></label>
+      <button type="submit">Adicionar</button>
+    </form>
+  </div>
+
+  <div class="historico-aula" style="background-color: rgb(171, 242, 217);">
+
+    <h2>Histórico de Aulas</h2>
+
+    <table>
+      <tr>
+        <th>Data</th>
+        <th>Conteudo</th>
+      </tr>
+     {% for aula in aulas %} <!--Puxar os dados do banco de aula-->
+      <tr>
+        <td>{{ aula.data }}</td>
+        <td>{{ aula.conteudo }}</td>
+        <td>{{ aula.turma }}</td>
+
+        <td>
+          <button onclick="editarAula(this)">Editar</button>
+          <button onclick="excluirAula(this)">Excluir</button>
+        </td>
+
+      </tr>
+      {% empty %}
+      <tr><td colspan="3">Nenhuma aula registrada.</td></tr>
+      {% endfor %}
+    </table>
+
+  </div>
+
+  </section>
+  
+<footer class="rodape">
+
+</footer>
+</body>
+</html>

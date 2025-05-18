@@ -1,3 +1,7 @@
 from django.db import models
 
-# Create your models here.
+class Aula(models.Model):
+    data = models.DateField()
+    conteudo = models.TextField()
+    duracao = models.IntegerField()
+    #loucura
