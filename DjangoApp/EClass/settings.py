@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'preLogin',
     'posLogin',
-    'Login'
+    'login'
 ]
 
 MIDDLEWARE = [
@@ -79,9 +79,9 @@ WSGI_APPLICATION = 'EClass.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Eclass',
+        'NAME': 'eclass',
         'USER': 'postgres',
-        'PASSWORD': '2606',
+        'PASSWORD': 'mikadb',
         'HOST': 'localhost',  
         'PORT': '5432',          
     }
