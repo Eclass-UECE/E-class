@@ -1,0 +1,51 @@
+<!--Aqui vai ser a lista de presença dos alunos durante o semestre-->
+
+<!DOCTYPE html>
+<html lang="pr_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas</title>
+</head>
+<body>
+  <header class="cabecalho">
+    <nav class="menu-navegacao">
+      <a href="#"><div class="icon circle-icon">perfil</div></a>
+      <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
+    </nav>
+  </header>
+
+  <section style="background-color: aquamarine;">
+    <form method="POST">
+      {% csrf_token %}
+      
+      <label for="data">Data da Aula:</label>
+      <input type="date" name="data" id="data" required>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Matrícula</th>
+            <th>Nome</th>
+            <th>Presente?</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for aluno in alunos %}
+          <tr>
+            <td>{{ aluno.matricula }}</td>
+            <td>{{ aluno.nome }}</td>
+            <td>
+              <input type="checkbox" name="presenca_{{ aluno.id }}" value="1">
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <button type="submit">Salvar Frequência</button>
+    </form>
+  </section>
+
+</body>
+</html>
