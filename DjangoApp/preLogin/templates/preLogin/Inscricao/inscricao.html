@@ -1,12 +1,32 @@
-<html>
+<!DOCTYPE html>
+<html lang="PT_br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrículas</title>
+</head>
 <body>
-<h1>INSCRIÇÃO</h1>
+    <section>
+        <p>
+            Este formulário destina-se a alunos que desejam participar do processo seletivo do
+            ECLASS para ingressar no semestre 1 ou tem interesse em realizar o teste de nivelamento. Para se inscrever, é preciso ter concluído o Ensino
+            Médio.
+        </p>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ inscricao_form.as_p }}
-    <input type="submit" value="Enviar">
-</form>
-
-</body>
+        <p>
+            Por favor, leia e complete as informações com atenção, pois as respostas a este
+            formulário já serão usadas no seu processo seletivo. Em caso de dúvidas, entre em
+            contato com o ECLASS pelas redes sociais (@eclass.igt) ou pelo e-mail: eclass@uece.br.
+            Este formulário deve ser preenchido apenas uma vez.
+        </p>
+    </section>
+    <h1>INSCRIÇÃO</h1>
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ inscricao_form.as_p }}
+        <input type="submit" value="Enviar">
+    </form>
+    
+    </body>
 </html>

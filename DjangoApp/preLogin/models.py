@@ -1,7 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
-from .validators import validar_cpf, validar_telefone, validar_rg, validar_ingressao
 
 def upload_path(instance, filename):
     # Para AnexosInscricao, use instance.inscricao.cpf
@@ -11,23 +10,15 @@ def upload_path(instance, filename):
     elif hasattr(instance, 'cpf'):
         return f"uploads/Inscricao_{instance.nome_completo}/{filename}"
 
-# Choices
 turnos_escolhas = [
     ('Matutino', 'Matutino'),
     ('Vespertino', 'Vespertino'),
-    ('Noturno', 'Noturno'),
 ]
 
 aluno_uece_escolhas = [
     ('Sim', 'Sim'),
     ('Não', 'Não'),
     ('Outro', 'Outro')
-]
-
-turma_entrada_escolhas = [
-    ('Manhã', 'S01 - Turma A: sábado, manhã 08h às 11h40.'),
-    ('Tarde', 'S01 - Turma B: sábado, tarde 13h às 16h40.'),
-    ('Teste_Nivel', 'Quero fazer um teste de nível.')
 ]
 
 termo_escolhas = [
@@ -42,6 +33,12 @@ como_conheceu_escolhas = [
     ('Outro', 'Outro')
 ]
 
+turma_entrada_escolhas = [
+    ('turma_a','S01 - Turma A: sábado, manhã 08h às 11h40'),
+    ('turma_b','S01 - Turma B: sábado, tarde 13h às 16h40.'),
+    ('testenivel','Desejo realizar o teste de nivel para entrar em uma turma mais avançada.')
+]
+
 tipo_prova_escolhas = [
     ('Writing', 'Writing'),
     ('Use_of_english', 'Use of english'),
@@ -50,6 +47,7 @@ tipo_prova_escolhas = [
 ]
 
 priodades_escolhas = [
+    ('Nenhum', 'Não me enquadro em nenhuma das categorias'),
     ('Aluno_UECE', 'Aluno de Letras-Inglês da UECE'),
     ('Prof_Ingles', 'Atua como professor de inglês na rede pública'),
     ('Aluno_Egresso', 'Aluno egresso do curso de Letras-Inglês'),
@@ -61,30 +59,22 @@ priodades_escolhas = [
     ('Ex_aluno_reprovado', 'Ex aluno do E-class (Reprovado)'),
     ('Ex_aluno_desistente', 'Ex aluno do E-class (Desistente)'),
     ('Servidor_UECE', 'Servidor da UECE'),
-    ('Servidor_publi', 'Servidor público'),
-    ('Nenhum', 'Não me enquadro em nenhuma das anteriores')
+    ('Servidor_publi', 'Servidor público')
+    
 ]
 
-testedenivel_escolhas = [
-    ('S02', 'Sábado - Tarde - 13h às 16:40'),
-    ('S03', 'Sábado - Tarde - 13h às 16:40'),
-    ('S04', 'Sábado - Tarde - 13h às 16:40'),
-    ('S05', 'Sábado - Tarde - 13h às 16:40'),
-    ('S06', 'Sexta - Tarde - 14h às 17:40')
-]
-
-raca_escolhas = [
-    ('Amarelo(a)', 'Amarelo(a)'),
-    ('Branco(a)', 'Branco(a)'),
-    ('Pardo(a)', 'Pardo(a)'),
-    ('Preto(a)', 'Preto(a)'),
-    ('Indígena', 'Indígena'),
-    ('Outro', 'Outro:'),
+deficiencia_choices = [
+    ('Física', 'Física'),
+    ('Auditiva', 'Auditiva'),
+    ('Visual', 'Visual'),
+    ('Intelectual', 'Intelectual'),
+    ('Múltipla', 'Múltipla'),
+    ('Outra', 'Outra')
 ]
 
 class Turmas(models.Model):
     id_turma = models.AutoField(_('ID_Turma'), primary_key=True)
-    semestre_letivo = models.CharField(_('Semestre da turma'), max_length=6, validators=[validar_ingressao], null=False)
+    semestre_letivo = models.CharField(_('Semestre da turma'), max_length=6, null=False)
     turno = models.CharField(_('Turno'), choices=turnos_escolhas, max_length=20, null=False)
     sala = models.CharField(_('Sala'), max_length=10, null=False)
     num_vagas = models.PositiveIntegerField(_('Vagas'), null=False)
@@ -95,10 +85,40 @@ class Turmas(models.Model):
     def __str__(self):
         return f"Turma {self.id_turma} - {self.semestre_letivo}"
 
-class Alunos(models.Model):
+class Inscricao(models.Model):
+    id_inscricao = models.AutoField(_('ID'), primary_key=True)
     nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
-    cpf = models.CharField(_('CPF'), max_length=11, primary_key=True, validators=[validar_cpf])
-    telefone = models.CharField(_('Telefone'), max_length=12, validators=[validar_telefone], null=False)
+    nome_social = models.CharField(_('Nome Social'), max_length=255, null=True)
+    dt_nasc = models.DateField(_('Data de nascimento'), null=False)
+    cpf = models.CharField(_('CPF'), max_length=11)
+    email = models.EmailField(_('Email'), null=False)
+    telefone = models.CharField(_('Telefone (WhatsApp)'), max_length=12, null=False)
+    endereco = models.CharField(_('Endereço Completo'), max_length=255, null=False)
+    aluno_uece = models.CharField(_('Você é aluno da FECLI-UECE'), choices=aluno_uece_escolhas, null=False)
+    possui_deficiencia = models.BooleanField(_('Possui deficiência'), null=False, default=False)
+    qual_deficiencia = models.CharField(_('Se sim selecione o tipo de deficiência'), choices=deficiencia_choices, null=True)
+    como_conheceu = models.CharField(_('Como você conheceu o Eclass'), choices=como_conheceu_escolhas, max_length=20, null=False)
+    prioridades = models.CharField(_("Critérios de prioridades"), choices=priodades_escolhas, null=False)
+    ocupacao = models.CharField(_('Qual a sua ocupação atual?'), max_length=255, null=False)
+    motivacao = models.TextField(_('''Escreva aqui as suas motivações para participar no curso e também mencione as razões pelas quais você deve ser selecionada(o) para cursar o ECLASS. (Lembre de mencionar os critérios de prioridade listados anteriormente nos quais você se encaixa para a elaboração da resposta)'''), null=False)
+    turma_entrada = models.CharField(_('Turma de entrada'), choices=turma_entrada_escolhas, max_length=50, null=False)
+    foto_frente = models.FileField(_('Foto da identidade (Frente)'), upload_to=upload_path, null=False)
+    foto_verso = models.FileField(_('Foto da identidade (Verso)'), upload_to=upload_path, null=False)
+    diploma_ensino_medio = models.FileField(_('Foto do diploma do ensino médio'), upload_to=upload_path, null=False)
+    termo_inscricao = models.CharField(_('''Declaro que li e concordo com os termos de inscrição referente ao período letivo 2024.1 do ECLASS, estando ciente de que o curso não efetuará a matrícula de alunos que fornecerem dados incorretos ou falsos'''), choices=termo_escolhas, max_length=5, null=False)
+    teste_nivel = models.CharField(_('Turma teste de nivel'), max_length=100, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Inscrições"
+
+    def __str__(self):
+        return self.nome_completo
+
+class Alunos(models.Model):
+    matricula = models.AutoField(_('Matricula'), primary_key=True)
+    nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
+    cpf = models.CharField(_('CPF'), max_length=11)
+    telefone = models.CharField(_('Telefone'), max_length=12, null=False)
     dt_nasc = models.DateField(_('Data de nascimento'), null=False)
     email = models.EmailField(_('Email'), null=False)
     instituicao_ensino = models.CharField(_('Instituição de ensino'), max_length=255, null=False)
@@ -106,6 +126,7 @@ class Alunos(models.Model):
     semestre = models.PositiveIntegerField(_('Semestre'), validators=[MinValueValidator(1), MaxValueValidator(6)], null=False)
     relatorio = models.TextField(_('Relatório'), null=True, blank=True)
     turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE)
+    turma = models.ForeignKey(Inscricao, verbose_name=_('Inscrição'), on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Alunos"
@@ -117,15 +138,15 @@ class Professores(models.Model):
     matricula = models.PositiveIntegerField(primary_key=True)
     senha = models.CharField(_('Senha'), default="12345678", max_length=30, blank=True)
     nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
-    cpf = models.CharField(_('CPF'), max_length=11, unique=True, validators=[validar_cpf], null=False)
-    rg = models.CharField(_('RG'), max_length=9, unique=True, validators=[validar_rg], null=False)
-    telefone = models.CharField(_('Telefone'), max_length=12, validators=[validar_telefone], null=False)
+    cpf = models.CharField(_('CPF'), max_length=11, unique=True, null=False)
+    rg = models.CharField(_('RG'), max_length=9, unique=True, null=False)
+    telefone = models.CharField(_('Telefone'), max_length=12, null=False)
     dt_nasc = models.DateField(_('Data de nascimento'), null=False)
     email = models.EmailField(_('Email'), null=False)
     endereco = models.CharField(_('Endereço'), max_length=255, null=False)
-    semestre_ingressao = models.CharField(_('Semestre de Ingresso'), max_length=6, validators=[validar_ingressao], null=False)
+    semestre_ingressao = models.CharField(_('Semestre de Ingresso'), max_length=6,null=False)
     turno = models.CharField(_('Turno'), choices=turnos_escolhas, max_length=20, null=False)
-
+    primeiro_acesso = models.BooleanField(_('Primeiro Acesso'), null=False)
     class Meta:
         verbose_name_plural = "Professores"
 
@@ -136,9 +157,9 @@ class Coordenadores(models.Model):
     matricula = models.PositiveIntegerField(primary_key=True)
     senha = models.CharField(_('Senha'), default="12345678", max_length=30, blank=True)
     nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
-    cpf = models.CharField(_('CPF'), max_length=11, unique=True, validators=[validar_cpf], null=False)
-    rg = models.CharField(_('RG'), max_length=9, unique=True, validators=[validar_rg], null=False)
-    telefone = models.CharField(_('Telefone'), max_length=12, validators=[validar_telefone], null=False)
+    cpf = models.CharField(_('CPF'), max_length=11, unique=True, null=False)
+    rg = models.CharField(_('RG'), max_length=9, unique=True, null=False)
+    telefone = models.CharField(_('Telefone'), max_length=12, null=False)
     email = models.EmailField(_('Email'), null=False)
 
     class Meta:
@@ -146,35 +167,6 @@ class Coordenadores(models.Model):
 
     def __str__(self):
         return self.nome_completo
-
-class Inscricao(models.Model):
-    nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
-    nome_social = models.CharField(_('Nome social'), max_length=255, null=True, blank=True)
-    dt_nasc = models.DateField(_('Data de nascimento'), null=False)
-    cpf = models.CharField(_('CPF'), max_length=11, primary_key=True, validators=[validar_cpf])
-    email = models.EmailField(_('Email'), null=False)
-    telefone = models.CharField(_('Telefone (WhatsApp)'), max_length=12, validators=[validar_telefone], null=False)
-    endereco = models.CharField(_('Endereço Completo'), max_length=255, null=False)
-    possui_deficiencia = models.CharField(_('Possui alguma deficiência'), max_length=255, null=True, blank=True)
-    aluno_uece = models.CharField(_('Você é aluno da FECLI-UECE'), choices=aluno_uece_escolhas, max_length=10, null=False)
-    como_conheceu = models.CharField(_('Como você conheceu o Eclass'), choices=como_conheceu_escolhas, max_length=20, null=False)
-    prioridades = models.CharField(_("Critérios de prioridades"), choices=priodades_escolhas, null=False)
-    ocupacao = models.CharField(_('Qual a sua ocupação atual?'), max_length=255, null=False)
-    motivacao = models.TextField(_('''Escreva aqui as suas motivações para participar no curso e também mencione as razões pelas quais você deve ser selecionada(o) para cursar o ECLASS. (Lembre de mencionar os critérios de prioridade listados anteriormente nos quais você se encaixa para a elaboração da resposta)'''), null=False)
-    turma_entrada = models.CharField(_('Turma de entrada'), choices=turma_entrada_escolhas, max_length=11, null=False)
-    foto_frente = models.FileField(_('Foto da identidade (Frente)'), upload_to=upload_path, null=False)
-    foto_verso = models.FileField(_('Foto da identidade (Verso)'), upload_to=upload_path, null=False)
-    diploma_ensino_medio = models.FileField(_('Foto do diploma do ensino médio'), upload_to=upload_path, null=False)
-    termo_inscricao = models.CharField(_('''Declaro que li e concordo com os termos de inscrição referente ao período letivo 2024.1 do ECLASS, estando ciente de que o curso não efetuará a matrícula de alunos que fornecerem dados incorretos ou falsos'''), choices=termo_escolhas, max_length=5, null=False)
-    teste_de_nivel = models.BooleanField(_('Deseja fazer o teste de nível'), null=True)
-    turma_teste_de_nivel = models.CharField(_('Turma que deseja concorrer'), choices=testedenivel_escolhas, null=True)
-
-
-    class Meta:
-        verbose_name_plural = "Inscrições"
-
-    def __str__(self):
-        return (f"{self.nome_completo} - CPF: {self.cpf}")
 
 class AnexosInscricao(models.Model):
     inscricao = models.ForeignKey(Inscricao, on_delete=models.CASCADE)
@@ -185,7 +177,7 @@ class AnexosInscricao(models.Model):
         verbose_name_plural = "Anexos das Inscrições"
         
     def __str__(self):
-        return f"Anexo de {self.inscricao.nome_completo} enviado em {self.data_upload.strftime('%d/%m/%Y')}"
+        return f"Anexo de {self.inscricao} enviado em {self.data_upload.strftime('%d/%m/%Y %H:%M')}"
 
 class Provas(models.Model):
     id_prova = models.AutoField(_('ID_Prova'), primary_key=True)
@@ -251,13 +243,4 @@ class DadosBancarios(models.Model):
     def __str__(self):
         return f"Conta do professor - {self.professor.nome_completo}"
 
-
-
-
-
-
-#A TABELA PROVA PRECISA DA FOREING KEY DE TURMAS
-#VER SE A MATRICULA DO ALUNO É AUTOGENRATED OU SE ELA POSSUE ALGUM PADRÃO
-#FALTAFAZER A TABELA INSCRIÇÃO EGRESSO / ANEXOS-EGRESSO
-#FALTA FAZER A TABELA TESTE DE NIVEL / ANEXOS-TESTE DE NIVEL
-#AULA TEM Q TER A FOREING KEY DE TURMA PRA SABER DE QUAL TURMA FOI AQUELA AULA
+#VER CERTINHO COMO VAI FUNCIONAR ESSE EGRESSO PQ É PRA SER UMA "REMATRICULA"

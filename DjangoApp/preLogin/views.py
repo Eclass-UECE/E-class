@@ -1,10 +1,12 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-from .forms import InscricaoForm, TesteDeNivelForm
 from django.urls import reverse
+from .forms import InscricaoForm, TestedenivelForm
 from .models import Inscricao, AnexosInscricao
+import os
+import pickle
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
 
 def pagInicial(request):
     return render(request, 'preLogin/pagInicial.html')
@@ -21,11 +23,11 @@ def inscricao_view(request):
         inscricao_form = InscricaoForm()
 
     return render(request, 'preLogin/Inscricao/inscricao.html', {
-    'inscricao_form': inscricao_form,
-})
+        'inscricao_form': inscricao_form,
+    })
 
 def anexos_view(request, inscricao_id):
-    inscricao = get_object_or_404(Inscricao, cpf=inscricao_id)
+    inscricao = get_object_or_404(Inscricao, id_inscricao=inscricao_id)
     
     if request.method == 'POST':
         files = request.FILES.getlist('arquivo')
@@ -36,14 +38,23 @@ def anexos_view(request, inscricao_id):
                     inscricao=inscricao,
                     arquivo=file
                 )
-            
-            # Mantém o usuário na mesma página com mensagem de sucesso
             anexos_existentes = AnexosInscricao.objects.filter(inscricao=inscricao)
-            return render(request, 'preLogin/Inscricao/anexos.html', {
-                'inscricao': inscricao,
-                'anexos_existentes': anexos_existentes,
-                'mensagem_sucesso': f'{len(files)} arquivo(s) enviado(s) com sucesso!'
-            })
+
+            if Inscricao.turma_entrada == 'testenivel':
+                return render(request, 'preLogin/Inscricao/anexos.html', {
+                    'inscricao': inscricao,
+                    'anexos_existentes': anexos_existentes,
+                    'teste_nivel_condicao': 'teste_de_nivel',
+                    'mensagem_sucesso': f'{len(files)} arquivo(s) enviado(s) com sucesso!'
+                })
+            
+            else:
+                return render(request, 'preLogin/Inscricao/anexos.html', {
+                    'inscricao': inscricao,
+                    'anexos_existentes': anexos_existentes,
+                    'teste_nivel_condicao': 'pagina_de_sucesso',
+                    'mensagem_sucesso': f'{len(files)} arquivo(s) enviado(s) com sucesso!'
+                })
     
     anexos_existentes = AnexosInscricao.objects.filter(inscricao=inscricao)
     return render(request, 'preLogin/Inscricao/anexos.html', {
@@ -51,41 +62,48 @@ def anexos_view(request, inscricao_id):
         'anexos_existentes': anexos_existentes
     })
 
+
+def testedenivel_view(request, inscricao_id):
+    inscricao = get_object_or_404(Inscricao, id_inscricao=inscricao_id)
+    
+    if request.method == 'POST':
+        testenivel_form = TestedenivelForm(request.POST, instance=inscricao)
+        
+        if testenivel_form.is_valid():
+            testenivel_form.save()
+            return HttpResponseRedirect(reverse('pagina_de_sucesso', kwargs={'inscricao_id': inscricao.id_inscricao}))
+    else:
+        testenivel_form = TestedenivelForm(instance=inscricao)
+    
+    return render(request, 'preLogin/Inscricao/teste_de_nivel.html', {
+        'inscricao': inscricao,
+        'form': testenivel_form  # Note que mudei o nome para 'form' para ficar mais genérico
+    })
+
 def sucesso_view(request, inscricao_id):
-    inscricao = get_object_or_404(Inscricao, cpf=inscricao_id)
+    inscricao = get_object_or_404(Inscricao, id_inscricao=inscricao_id)
     return render(request, 'preLogin/Inscricao/pagina_de_sucesso.html', {
         'inscricao': inscricao
     })
 
-def testedenivel(request, inscricao_id):
-    inscricao = get_object_or_404(Inscricao, cpf=inscricao_id)
-
+@csrf_exempt
+def coordenador_view(request):
     if request.method == 'POST':
-        testedenivelForm = TesteDeNivelForm(request.POST)
-
-        turma = request.POST.get('turma_teste_de_nivel')
-
-        if testedenivelForm.is_valid():
-            inscricao.teste_de_nivel = True
-            inscricao.turma_teste_de_nivel = turma
-            inscricao.turma_entrada = 'Teste_Nivel'
-            inscricao.save()
-
-            # Aqui renderiza a mensagem de sucesso na mesma página, sem redirecionar
-            return render(request, 'preLogin/Inscricao/testedenivel.html', {
-                'inscricao': inscricao,
-                'form': TesteDeNivelForm(),  # formulário limpo após envio
-                'mensagem': 'Inscrição e Pedido de teste de nível enviados com sucesso'
-            })
-    else:
-        testedenivelForm = TesteDeNivelForm()
-
-    return render(request, 'preLogin/Inscricao/testedenivel.html', {
-        'inscricao': inscricao,
-        'form': testedenivelForm
-    })
-
-
-            
-
+        turmas_selecionadas = request.POST.getlist('turmas')
         
+        # Verifica se há turmas selecionadas
+        if not turmas_selecionadas:
+            return render(request, 'preLogin/coordenador.html', {
+                'mensagem_erro': 'Selecione pelo menos uma turma!'
+            })
+
+        caminho_arquivo = os.path.join(settings.BASE_DIR, 'turmas_escolhidas.pkl')
+        with open(caminho_arquivo, 'wb') as f:
+            pickle.dump(turmas_selecionadas, f)
+
+        return render(request, 'preLogin/coordenador.html', {
+            'mensagem': 'Turmas salvas com sucesso!',
+            'turmas_salvas': turmas_selecionadas
+        })
+
+    return render(request, 'preLogin/coordenador.html')

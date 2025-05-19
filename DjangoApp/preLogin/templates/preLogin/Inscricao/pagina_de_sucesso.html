@@ -1,6 +1,6 @@
-{% block content %}
 <h2>SUCESSO</h2>
 
+{% block content %}
 <div class="alert alert-success" role="alert">
     <h4 class="alert-heading">Inscrição concluída com sucesso!</h4>
     <p>Todos os arquivos foram recebidos.</p>
@@ -8,11 +8,5 @@
     <p class="mb-0">Obrigado por sua participação.</p>
 </div>
 
-<hr>
-
-<h5>Deseja fazer o teste de nível?</h5>
-<div class="d-flex gap-2 mt-2">
-    <a href="{% url 'testedenivel' inscricao.cpf %}" class="btn btn-success">Sim</a>
-    <a href="/" class="btn btn-secondary">Não</a>
-</div>
+<a href="/" class="btn btn-primary">Voltar ao início</a>
 {% endblock %}
