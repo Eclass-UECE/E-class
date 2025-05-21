@@ -6,31 +6,41 @@
     <title>Diário</title>
 </head>
 <body>
-    <nav>
-        <p>perfil</p>
-        <p>sair</p>
+    <header class="cabecalho">
+    <nav class="menu-navegacao">
+      <a href="#"><div class="icon circle-icon">perfil</div></a>
+      <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
     </nav>
-      
-      <section class="diarios">
-        <h2>Meus Diários</h2>
-      
-        <div class="opcoes">
-            <p><strong>Etapas</strong></p>
-            <p>
+  </header>
+  
+  
+  <section class="diarios" style="background-color: aquamarine;">
+    <h2>Meus Diários</h2>
+    
+    <table border="1">
+      <thead>
+        <tr>
+          <th colspan="2">Diário</th>
+          <th>Qtd. Alunos</th>
+          <th>Opções</th>
 
-              <a href="{% url 'aulas' %}">Aula</a>
-              Avaliações:
-              <a href="{% url 'midTerm' %}">Mid</a>
-              <a href="">Final</a>
-            </p>
-          </div>
-          
-      
-        <div class="diario">
-          <div class="ano">2023.2</div>
-          <!-- Conteúdo similar -->
-        </div>
-      </section>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025</td>
+          <td>T6 s1</td>
+          <td>26</td>
+          <td>
+            <a href="{% url 'aulas' %}">Aulas</a>
+            <a>Avaliações</a>
+            <a href="{% url 'midTerm' %}">Mid Term</a>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
       
 </body>
 </html>

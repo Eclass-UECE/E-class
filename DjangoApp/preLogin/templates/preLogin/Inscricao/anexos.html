@@ -40,14 +40,19 @@
                         Formatos aceitos: PDF, DOC, DOCX, JPG, PNG (Máx. 10MB cada)
                     </div>
                 </div>
-                
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-upload"></i> Enviar Arquivos
                     </button>
-                    <a href="{% url 'pagina_de_sucesso' inscricao_id=inscricao.cpf %}" class="btn btn-success">
-                        <i class="bi bi-check-circle"></i> Finalizar
-                    </a>
+                    {% if inscricao.turma_entrada == 'testenivel' %}
+                        <a href="{% url 'teste_de_nivel' inscricao_id=inscricao.id_inscricao %}" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Ir para Teste de Nível
+                        </a>
+                    {% else %}
+                        <a href="{% url 'pagina_de_sucesso' inscricao_id=inscricao.id_inscricao %}" class="btn btn-success">
+                            <i class="bi bi-check-circle"></i> Finalizar Inscrição
+                        </a>
+                    {% endif %}
                 </div>
             </form>
         </div>

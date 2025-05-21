@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Aula
+from preLogin.models import *
 
 def paginaProfessor(request):
     return render(request, 'prof/pagProf.html')

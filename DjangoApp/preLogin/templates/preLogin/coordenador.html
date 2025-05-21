@@ -1,0 +1,32 @@
+<!-- templates/preLogin/coordenador.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Selecionar Turmas</title>
+</head>
+<body>
+    <h1>Selecione as turmas disponíveis</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label><input type="checkbox" name="turmas" value="s01"> s01</label><br>
+        <label><input type="checkbox" name="turmas" value="s02"> s02</label><br>
+        <label><input type="checkbox" name="turmas" value="s03"> s03</label><br>
+        <label><input type="checkbox" name="turmas" value="s04"> s04</label><br>
+        <label><input type="checkbox" name="turmas" value="s05"> s05</label><br>
+        <label><input type="checkbox" name="turmas" value="s06"> s06</label><br><br>
+        <button type="submit">Salvar</button>
+    </form>
+
+    {% if mensagem %}
+        <p style="color: green;">{{ mensagem }}</p>
+    {% endif %}
+
+    {% if mensagem_erro %}
+        <p style="color: red;">{{ mensagem_erro }}</p>
+    {% endif %}
+
+    {% if turmas_salvas %}
+        <p><strong>Turmas salvas:</strong> {{ turmas_salvas }}</p>
+    {% endif %}
+</body>
+</html>

@@ -16,30 +16,38 @@
   </header>
 
   <section style="background-color: aquamarine;">
+    
+    <div style="background-color: rgb(0, 254, 169);">
+      
+      <h1>Lançar Aulas e Faltas</h1>
+      <h3>Período Letivo: </h3>
+      <h3>Turma: </h3>
+
+      <a href="{% url 'aulas' %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' %}">Exibir Lista de Frequência</a>
+      
+    </div>
+
     <form method="POST">
-      {% csrf_token %}
       
       <label for="data">Data da Aula:</label>
       <input type="date" name="data" id="data" required>
 
-      <table>
+      <table border="1">
         <thead>
           <tr>
             <th>Matrícula</th>
             <th>Nome</th>
-            <th>Presente?</th>
+            <th>Presença</th>
           </tr>
         </thead>
         <tbody>
-          {% for aluno in alunos %}
           <tr>
-            <td>{{ aluno.matricula }}</td>
-            <td>{{ aluno.nome }}</td>
+            <td>aaa</td>
+            <td>aaa</td>
             <td>
               <input type="checkbox" name="presenca_{{ aluno.id }}" value="1">
             </td>
           </tr>
-          {% endfor %}
         </tbody>
       </table>
 
