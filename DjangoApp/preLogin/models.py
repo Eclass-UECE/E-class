@@ -133,6 +133,11 @@ class Alunos(models.Model):
 
     def __str__(self):
         return self.nome_completo
+    
+
+class AlunosTurmas(models.Model):
+    aluno = models.ForeignKey(Alunos, verbose_name=_('Aluno'), on_delete=models.CASCADE)
+    turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE)
 
 class Professores(models.Model):
     matricula = models.PositiveIntegerField(primary_key=True)
@@ -146,7 +151,7 @@ class Professores(models.Model):
     endereco = models.CharField(_('Endereço'), max_length=255, null=False)
     semestre_ingressao = models.CharField(_('Semestre de Ingresso'), max_length=6,null=False)
     turno = models.CharField(_('Turno'), choices=turnos_escolhas, max_length=20, null=False)
-    primeiro_acesso = models.BooleanField(_('Primeiro Acesso'), null=False)
+    primeiro_acesso = models.BooleanField(_('Primeiro Acesso'), default=False, null=False)
     class Meta:
         verbose_name_plural = "Professores"
 
