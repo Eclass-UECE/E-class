@@ -16,6 +16,47 @@ def get_turma_choices():
         return []
 
 class InscricaoForm(forms.ModelForm):
+
+    dt_nasc = forms.DateField(
+        label='Data de nascimento',
+        input_formats=['%d/%m/%Y'],
+        widget=forms.DateInput(
+            attrs={
+                'placeholder': '01/01/2000',
+                'id': 'campo-data',
+                'type': 'text'
+            }
+        )
+    )
+
+    cpf = forms.CharField(
+        label='CPF',
+        max_length=14,
+        widget=forms.TextInput(attrs={
+            'placeholder': '123.456.789-00',
+            'id': 'campo-cpf'
+        })
+    )
+    
+
+    telefone = forms.CharField(
+        label='Telefone',
+        max_length=12,
+        widget=forms.TextInput(attrs={
+            'placeholder': '11 912345678',
+            'id': 'campo-telefone'
+        })
+    )
+
+    email = forms.CharField(
+        label='Email',
+        widget=forms.TextInput(attrs={
+            'placeholder': 'email@gmail.com',
+            'id': 'campo-email'
+        })
+    )
+
+
     class Meta:
         model = Inscricao
         fields = ['nome_completo', 'nome_social', 'dt_nasc', 'cpf',
@@ -50,7 +91,14 @@ class TestedenivelForm(forms.ModelForm):
         return self.cleaned_data['teste_nivel']
 
 
-
+    cpf = forms.CharField(
+        label='CPF',
+        max_length=14,
+        widget=forms.TextInput(attrs={
+            'placeholder': '123.456.789-00',
+            'id': 'campo-cpf'
+        })
+    )
 class MultiFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 

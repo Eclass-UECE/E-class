@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
+from .validators import validar_cpf, validar_rg, validar_telefone
 
 def upload_path(instance, filename):
     # Para AnexosInscricao, use instance.inscricao.cpf
@@ -90,7 +91,7 @@ class Inscricao(models.Model):
     nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
     nome_social = models.CharField(_('Nome Social'), max_length=255, null=True)
     dt_nasc = models.DateField(_('Data de nascimento'), null=False)
-    cpf = models.CharField(_('CPF'), max_length=11)
+    cpf = models.CharField(_('CPF'), max_length=14, validators=[validar_cpf])
     email = models.EmailField(_('Email'), null=False)
     telefone = models.CharField(_('Telefone (WhatsApp)'), max_length=12, null=False)
     endereco = models.CharField(_('Endereço Completo'), max_length=255, null=False)
@@ -117,8 +118,8 @@ class Inscricao(models.Model):
 class Alunos(models.Model):
     matricula = models.AutoField(_('Matricula'), primary_key=True)
     nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
-    cpf = models.CharField(_('CPF'), max_length=11)
-    telefone = models.CharField(_('Telefone'), max_length=12, null=False)
+    cpf = models.CharField(_('CPF'), max_length=14, validators=[validar_cpf])
+    telefone = models.CharField(_('Telefone'), max_length=12, validators=[validar_telefone], null=False)
     dt_nasc = models.DateField(_('Data de nascimento'), null=False)
     email = models.EmailField(_('Email'), null=False)
     instituicao_ensino = models.CharField(_('Instituição de ensino'), max_length=255, null=False)
@@ -145,9 +146,9 @@ class Professores(models.Model):
     matricula = models.PositiveIntegerField(primary_key=True)
     senha = models.CharField(_('Senha'), default="12345678", max_length=30, blank=True)
     nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
-    cpf = models.CharField(_('CPF'), max_length=11, unique=True, null=False)
-    rg = models.CharField(_('RG'), max_length=9, unique=True, null=False)
-    telefone = models.CharField(_('Telefone'), max_length=12, null=False)
+    cpf = models.CharField(_('CPF'), max_length=14, unique=True, validators=[validar_cpf], null=False)
+    rg = models.CharField(_('RG'), max_length=9, unique=True, validators=[validar_rg], null=False)
+    telefone = models.CharField(_('Telefone'), max_length=12, validators=[validar_telefone], null=False)
     dt_nasc = models.DateField(_('Data de nascimento'), null=False)
     email = models.EmailField(_('Email'), null=False)
     endereco = models.CharField(_('Endereço'), max_length=255, null=False)
@@ -164,9 +165,9 @@ class Coordenadores(models.Model):
     matricula = models.PositiveIntegerField(primary_key=True)
     senha = models.CharField(_('Senha'), default="12345678", max_length=30, blank=True)
     nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
-    cpf = models.CharField(_('CPF'), max_length=11, unique=True, null=False)
-    rg = models.CharField(_('RG'), max_length=9, unique=True, null=False)
-    telefone = models.CharField(_('Telefone'), max_length=12, null=False)
+    cpf = models.CharField(_('CPF'), max_length=14, unique=True, validators=[validar_cpf], null=False)
+    rg = models.CharField(_('RG'), max_length=9, unique=True, validators=[validar_rg], null=False)
+    telefone = models.CharField(_('Telefone'), max_length=12, validators=[validar_telefone], null=False)
     email = models.EmailField(_('Email'), null=False)
 
     class Meta:

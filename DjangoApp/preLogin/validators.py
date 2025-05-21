@@ -4,17 +4,24 @@ from django.core.validators import RegexValidator
 
 
 def validar_cpf(value):
-    if not value.isdigit() or len(value) != 11:
+    cpf = re.sub(r'\D', '', value)  # Remove pontos, traço e espaços
+
+    if len(cpf) != 11:
         raise ValidationError('O CPF deve conter exatamente 11 números.')
 
-    soma = sum(int(value[i]) * (10 - i) for i in range(9))
+    if cpf == cpf[0] * 11:
+        raise ValidationError('CPF inválido (dígitos repetidos).')
+
+    # Primeiro dígito verificador
+    soma = sum(int(cpf[i]) * (10 - i) for i in range(9))
     digito1 = (soma * 10 % 11) % 10
-    if digito1 != int(value[9]):
+    if digito1 != int(cpf[9]):
         raise ValidationError('CPF inválido.')
 
-    soma = sum(int(value[i]) * (11 - i) for i in range(10))
+    # Segundo dígito verificador
+    soma = sum(int(cpf[i]) * (11 - i) for i in range(10))
     digito2 = (soma * 10 % 11) % 10
-    if digito2 != int(value[10]):
+    if digito2 != int(cpf[10]):
         raise ValidationError('CPF inválido.')
 
 def validar_telefone(value):   
