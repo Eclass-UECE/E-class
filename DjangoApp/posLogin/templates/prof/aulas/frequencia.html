@@ -1,59 +1,60 @@
-<!--Aqui vai ser a lista de presença dos alunos durante o semestre-->
-
 <!DOCTYPE html>
-<html lang="pr_BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aulas</title>
+    <title>Lista de Frequência</title>
 </head>
 <body>
-  <header class="cabecalho">
-    <nav class="menu-navegacao">
-      <a href="#"><div class="icon circle-icon">perfil</div></a>
-      <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
-    </nav>
-  </header>
-
-  <section style="background-color: aquamarine;">
-    
-    <div style="background-color: rgb(0, 254, 169);">
-      
-      <h1>Lançar Aulas e Faltas</h1>
-      <h3>Período Letivo: </h3>
-      <h3>Turma: </h3>
-
-      <a href="{% url 'aulas' %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' %}">Exibir Lista de Frequência</a>
-      
-    </div>
+    <h1>Frequência - {{ turma.semestre_letivo }}</h1>
+    <h2>Turma: {{ turma }}</h2>
 
     <form method="POST">
-      
-      <label for="data">Data da Aula:</label>
-      <input type="date" name="data" id="data" required>
+        {% csrf_token %}
+        
+        <label for="data">Data da nova aula:</label>
+        <input type="date" name="data" id="data" required>
+        <button type="submit">Salvar Frequência</button>
 
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Matrícula</th>
-            <th>Nome</th>
-            <th>Presença</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>aaa</td>
-            <td>aaa</td>
-            <td>
-              <input type="checkbox" name="presenca_{{ aluno.id }}" value="1">
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th>Matrícula</th>
+                    <th>Nome</th>
+                    {% for aula in aulas %}
+                        <th>{{ aula.data|date:"d/m" }}</th>
+                    {% endfor %}
+                    <th>Total Presenças</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aluno in alunos %}
+                    <tr>
+                        <td>{{ aluno.matricula }}</td>
+                        <td>{{ aluno.nome_completo }}</td>
+                        
+                        {% for aula in aulas %}
+                            {% with presenca=False %}
+                                {% for freq in frequencias %}
+                                    {% if freq.aluno.id == aluno.id and freq.aula.id == aula.id %}
+                                        {% with presenca=freq.presenca %}
+                                        {% endwith %}
+                                    {% endif %}
+                                {% endfor %}
+                                <td>
+                                    <input type="checkbox" name="presenca_{{ aluno.matricula }}_{{ aula.id }}" {% if presenca %}checked{% endif %}>
+                                </td>
+                            {% endwith %}
+                        {% endfor %}
 
-      <button type="submit">Salvar Frequência</button>
+                        <td>
+                            {{
+                                frequencias|dictfilter:aluno.id|dictsum
+                            }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </form>
-  </section>
-
 </body>
 </html>

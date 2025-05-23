@@ -108,6 +108,7 @@ class Inscricao(models.Model):
     diploma_ensino_medio = models.FileField(_('Foto do diploma do ensino médio'), upload_to=upload_path, null=False)
     termo_inscricao = models.CharField(_('''Declaro que li e concordo com os termos de inscrição referente ao período letivo 2024.1 do ECLASS, estando ciente de que o curso não efetuará a matrícula de alunos que fornecerem dados incorretos ou falsos'''), choices=termo_escolhas, max_length=5, null=False)
     teste_nivel = models.CharField(_('Turma teste de nivel'), max_length=100, null=True, blank=True)
+    aprovado = models.BooleanField(_("Aprovado"),default=False, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Inscrições"

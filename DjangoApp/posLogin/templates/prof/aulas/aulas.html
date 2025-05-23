@@ -23,7 +23,7 @@
       <h3>Período Letivo: </h3>
       <h3>Turma: </h3>
 
-      <a href="{% url 'aulas' %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' %}">Exibir Lista de Frequência</a>
+      <a href="{% url 'aulas' %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' id_turma=turma.id_turma %}">Exibir Lista de Frequência</a>
       
     </div>
 
