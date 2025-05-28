@@ -20,19 +20,19 @@
     <div style="background-color: rgb(0, 254, 169);">
       
       <h1>Lançar Aulas e Faltas</h1>
-      <h3>Período Letivo: </h3>
-      <h3>Turma: </h3>
+      <h3>Período Letivo: 2025.1 </h3> <!---Informa o período letivo do historico de aulas-->
+      <h3>Turma: S6 T2 </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
 
-      <a href="{% url 'aulas' %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' id_turma=turma.id_turma %}">Exibir Lista de Frequência</a>
+      <a href="{% url 'aulas' %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' %}">Exibir Lista de Frequência</a>
       
     </div>
 
     <div class="adicionar-aula" style="background-color: rgb(160, 206, 190);">
     <h2>Adicionar Aula</h2>
     <form id="formAula" method="POST">
-      {% csrf_token %}
       <label>Data: <input type="date" id="dataAula" name="data" required></label>
       <label>Conteúdo: <input type="text" id="conteudoAula" name="conteudo" required></label>
+      <label>Observações: <input type="text" id="conteudoAula" name="conteudo" required></label>
       <button type="submit">Adicionar</button>
     </form>
   </div>
@@ -41,30 +41,48 @@
 
     <h2>Histórico de Aulas</h2>
 
-    <table>
+    <table border="1">
       <tr>
         <th>Data</th>
         <th>Conteudo</th>
+        <th>Opções</th>
       </tr>
-     {% for aula in aulas %} <!--Puxar os dados do banco de aula-->
       <tr>
-        <td>{{ aula.data }}</td>
-        <td>{{ aula.conteudo }}</td>
-        <td>{{ aula.turma }}</td>
+        <td>08/05/2025</td> <!--Puxa a data do banco e exibe com o conteudo correspondente, da mais atual > mais antiga-->
+        <td>Uso do Will</td> <!--Puxa o conteúdo referente a data e exibe-->
 
         <td>
-          <button onclick="editarAula(this)">Editar</button>
-          <button onclick="excluirAula(this)">Excluir</button>
+          <button onclick="editarAula(this)">Editar</button> <!--Permite editar o conteúdo-->
+          <button onclick="excluirAula(this)">Excluir</button> <!--Exclui o registro-->
         </td>
 
       </tr>
-      {% empty %}
-      <tr><td colspan="3">Nenhuma aula registrada.</td></tr>
-      {% endfor %}
+      <tr><td colspan="3">Nenhuma aula registrada.</td></tr> <!--Caso não hajam registros de aula informa isso na tela-->
     </table>
-
   </div>
 
+  <div>
+    <h2>Observações</h2>
+
+    <table border="1">
+      <tr>
+        <th>Data</th>
+        <th>Observação</th>
+        <th>Opções</th>
+      </tr>
+      <tr>
+        <td>08/05/2025</td> <!--Puxa a data do banco e exibe com a observação correspondente, da mais atual > mais antiga-->
+        <td>A turma teve um bom desempenho [...]</td> <!--Puxa a observação referente a data e exibe-->
+
+        <td>
+          <button onclick="editarAula(this)">Editar</button> <!--Permite editar o conteúdo-->
+          <button onclick="excluirAula(this)">Excluir</button> <!--Exclui o registro-->
+        </td>
+
+      </tr>
+      <tr><td colspan="3">Nenhuma observação registrada.</td></tr> <!--Caso não hajam registros de observações, informa isso na tela-->
+    </table>
+  </div>
   </section>
   
 <footer class="rodape">

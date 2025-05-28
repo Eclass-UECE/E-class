@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrega do Diário</title>
+</head>
+<body>
+    <header class="cabecalho">
+    <nav class="menu-navegacao">
+      <a href="#"><div class="icon circle-icon">perfil</div></a>
+      <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
+    </nav>
+  </header>
+
+  <section style="background-color: aquamarine;">
+
+    <div style="background-color: rgb(0, 254, 169);">
+      
+      <h1>Lançarmento do Diário</h1>
+      <h3>Período Letivo: 2025.1 </h3> <!---Informa o período letivo do historico de aulas-->
+      <h3>Turma: S6 T2 </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
+
+    </div>
+
+
+  <div class="historico-aula" style="background-color: rgb(171, 242, 217);">
+
+    <h2>Histórico de Aulas</h2>
+
+    <h2>Lançamento de Notas</h2>
+
+<table border="1">
+  <thead>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th colspan="2">Média Mid</th>
+        <th colspan="2">Média Final</th>
+      <th>Notas Finais</th>
+    </tr>
+    <tr>
+      <th>MATRÍCULA</th>
+      <th>NOME</th>
+      <th>SITUAÇÃO</th>
+      <th>NOTA</th>
+      <th>FALTAS</th>
+      <th>NOTA</th>
+      <th>FALTAS</th>
+      <th>MÉDIA FINAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1276985</td>
+      <td>Lorem ipsum</td>
+      <td>CURSANDO</td>
+      <td>10</td>
+      <td>10</td>
+      <td>10</td>
+      <td>10</td>
+      <td>10</td>
+    </tr>
+    <!-- Repetir as linhas conforme necessário -->
+    <tr>
+      <td colspan="6"></td>
+      <td><button>Salvar</button></td>
+      <td><button>Editar</button></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="historico-conteudos" style="background-color: aliceblue;">
+  <h3>Conteúdos Ministrados</h3>
+  <ul style="list-style: none; padding-left: 0;">
+    <li>[16/02/2020] - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+    <li>[20/02/2020] - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+    <li>[25/02/2020] - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+    <li>[05/03/2020] - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+    <li>[10/03/2020] - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+  </ul>
+</div>
+<button>Enviar</button>
+  </div>
+  </section>
+  
+<footer class="rodape">
+
+</footer>
+</body>
+</html>

@@ -73,6 +73,10 @@ deficiencia_choices = [
     ('Outra', 'Outra')
 ]
 
+situacao_choices = [('Cursando', 'Cursando'),
+                    ('Aprovado', 'Aprovado'),
+                    ('Reprovado', 'Reprovado')]
+
 class Turmas(models.Model):
     id_turma = models.AutoField(_('ID_Turma'), primary_key=True)
     semestre_letivo = models.CharField(_('Semestre da turma'), max_length=6, null=False)
@@ -127,6 +131,7 @@ class Alunos(models.Model):
     ocupacao = models.CharField(_('Ocupação'), max_length=255, null=False)
     semestre = models.PositiveIntegerField(_('Semestre'), validators=[MinValueValidator(1), MaxValueValidator(6)], null=False)
     relatorio = models.TextField(_('Relatório'), null=True, blank=True)
+    situacao = models.CharField(_("Situacão"), max_length=255, choices=situacao_choices, null=False)
     confirmacao_egresso = models.BooleanField(_("Pedido de rematricula"), default=False, null=True, blank=True)
     turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE)
     inscricao = models.ForeignKey(Inscricao, verbose_name=_('Inscrição'), on_delete=models.CASCADE)
@@ -218,7 +223,8 @@ class Aulas(models.Model):
     turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE)
     data = models.DateField(_('Data'), null=False)
     conteudo = models.TextField(_('Conteúdo da aula'), null=False)
-    objetivos = models.TextField(_('Objetivos'), null=False)
+    objetivos = models.TextField(_('/Objetivos'), null=False)
+    #e a foreignkey pra professor ?
 
     class Meta:
         verbose_name_plural = "Aulas"
