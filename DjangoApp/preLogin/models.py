@@ -73,12 +73,36 @@ deficiencia_choices = [
     ('Outra', 'Outra')
 ]
 
+
+class Professores(models.Model):
+    matricula = models.PositiveIntegerField(primary_key=True)
+    senha = models.CharField(_('Senha'), default="12345678", max_length=30, blank=True)
+    nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
+    cpf = models.CharField(_('CPF'), max_length=14, unique=True, validators=[validar_cpf], null=False)
+    rg = models.CharField(_('RG'), max_length=11, unique=True, validators=[validar_rg], null=False)
+    telefone = models.CharField(_('Telefone'), max_length=12, validators=[validar_telefone], null=False)
+    dt_nasc = models.DateField(_('Data de nascimento'), null=False)
+    email = models.EmailField(_('Email'), null=False)
+    endereco = models.CharField(_('Endereço'), max_length=255, null=False)
+    semestre_ingressao = models.CharField(_('Semestre de Ingresso'), max_length=6,null=False)
+    turno = models.CharField(_('Turno'), choices=turnos_escolhas, max_length=20, null=False)
+    primeiro_acesso = models.BooleanField(_('Primeiro Acesso'), default=False, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Professores"
+
+    def __str__(self):
+        return self.nome_completo
+
 class Turmas(models.Model):
     id_turma = models.AutoField(_('ID_Turma'), primary_key=True)
-    semestre_letivo = models.CharField(_('Semestre da turma'), max_length=6, null=False)
+    semestre_letivo = models.CharField(_('Semestre da turma'), max_length=1, null=False)
+    semestre_atual = models.CharField(_('Semestre atual'), max_length=6, null=False)
     turno = models.CharField(_('Turno'), choices=turnos_escolhas, max_length=20, null=False)
     sala = models.CharField(_('Sala'), max_length=10, null=False)
     num_vagas = models.PositiveIntegerField(_('Vagas'), null=False)
+    professor = models.ForeignKey(Professores, verbose_name=_('Professor'), on_delete=models.CASCADE, null=True, blank=True)
+
 
     class Meta:
         verbose_name_plural = "Turmas"
@@ -142,31 +166,13 @@ class AlunosTurmas(models.Model):
     aluno = models.ForeignKey(Alunos, verbose_name=_('Aluno'), on_delete=models.CASCADE)
     turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE)
 
-class Professores(models.Model):
-    matricula = models.PositiveIntegerField(primary_key=True)
-    senha = models.CharField(_('Senha'), default="12345678", max_length=30, blank=True)
-    nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
-    cpf = models.CharField(_('CPF'), max_length=14, unique=True, validators=[validar_cpf], null=False)
-    rg = models.CharField(_('RG'), max_length=9, unique=True, validators=[validar_rg], null=False)
-    telefone = models.CharField(_('Telefone'), max_length=12, validators=[validar_telefone], null=False)
-    dt_nasc = models.DateField(_('Data de nascimento'), null=False)
-    email = models.EmailField(_('Email'), null=False)
-    endereco = models.CharField(_('Endereço'), max_length=255, null=False)
-    semestre_ingressao = models.CharField(_('Semestre de Ingresso'), max_length=6,null=False)
-    turno = models.CharField(_('Turno'), choices=turnos_escolhas, max_length=20, null=False)
-    primeiro_acesso = models.BooleanField(_('Primeiro Acesso'), default=False, null=True, blank=True)
-    class Meta:
-        verbose_name_plural = "Professores"
-
-    def __str__(self):
-        return self.nome_completo
 
 class Coordenadores(models.Model):
     matricula = models.PositiveIntegerField(primary_key=True)
     senha = models.CharField(_('Senha'), default="12345678", max_length=30, blank=True)
     nome_completo = models.CharField(_('Nome completo'), max_length=255, null=False)
     cpf = models.CharField(_('CPF'), max_length=14, unique=True, validators=[validar_cpf], null=False)
-    rg = models.CharField(_('RG'), max_length=9, unique=True, validators=[validar_rg], null=False)
+    rg = models.CharField(_('RG'), max_length=11, unique=True, validators=[validar_rg], null=False)
     telefone = models.CharField(_('Telefone'), max_length=12, validators=[validar_telefone], null=False)
     email = models.EmailField(_('Email'), null=False)
 
@@ -214,10 +220,10 @@ class AlunosProvas(models.Model):
 
 class Aulas(models.Model):
     id_aulas = models.AutoField(_('ID_Aulas'), primary_key=True)
-    turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE)
+    turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE, null=False)
     data = models.DateField(_('Data'), null=False)
     conteudo = models.TextField(_('Conteúdo da aula'), null=False)
-    objetivos = models.TextField(_('Objetivos'), null=False)
+    
 
     class Meta:
         verbose_name_plural = "Aulas"

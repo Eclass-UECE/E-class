@@ -1,24 +1,32 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from preLogin.models import *
 
 def paginaProfessor(request):
     return render(request, 'prof/pagProf.html')
 
 def diario(request):
-    return render(request, 'prof/diario.html')
+    professor = request.session.get('professor_nome_completo')
+    print(professor)
+
+    professor_turmas = Turmas.objects.filter(professor__nome_completo=professor)
+    print(professor_turmas)
+    return render(request, 'prof/diario.html', {'professor': professor, 'turmas': professor_turmas})
 
 def midTerm(request):
     return render(request, 'prof/provas/midTerm.html')
 
 def aulas(request):
-    # Dados fictícios 
-    lista_aulas = [
-        {'data': '2025-05-10', 'conteudo': 'Introdução ao Django', 'duracao': '1h30'},
-        {'data': '2025-05-11', 'conteudo': 'Modelos e Migrations', 'duracao': '2h00'},
-        {'data': '2025-05-12', 'conteudo': 'Templates e Views', 'duracao': '1h45'},
-    ] # Mudar isso para dados do banco
-    
-    return render(request, 'prof/aulas/aulas.html', {'aulas': lista_aulas})
+    aulas = Aulas.objects.all().order_by('-data')
+    return render(request, 'prof/aulas/aulas.html',{'aulas': aulas})
+
+
+def adicionar_aula(request):
+     if request.method == 'POST':
+        data = request.POST.get('data')
+        conteudo = request.POST.get('conteudo')
+        Aulas.objects.create(data=data, conteudo=conteudo, turma=turma)
+
+        return render(request, 'prof/aulas/aulas.html')
 
 def frequencia(request):
     return render(request, 'prof/aulas/frequencia.html')

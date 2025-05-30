@@ -7,4 +7,5 @@ urlpatterns = [
     path('midTerm/', views.midTerm, name='midTerm'),
     path('aulas/', views.aulas, name='aulas'),
     path('frequencia/', views.frequencia, name='frequencia'),
-]
+    path('adicionar_aula/',views.adicionar_aula, name='adicionar_aula'),
+]   

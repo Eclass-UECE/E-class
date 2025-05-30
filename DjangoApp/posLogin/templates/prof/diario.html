@@ -27,16 +27,17 @@
         </tr>
       </thead>
       <tbody>
+        {% for turma in turmas %} 
         <tr>
-          <td>2025</td>
-          <td>T6 s1</td>
-          <td>26</td>
-          <td>
-            <a href="{% url 'aulas' %}">Aulas</a>
-            <a>Avaliações</a>
-            <a href="{% url 'midTerm' %}">Mid Term</a>
-            
-          </td>
+          <td>{{ turma.semestre_atual}}  S{{turma.semestre_letivo }}</td>
+          <td>{{ turma.turno }}</td>
+          <td>{{ turma.num_vagas }}</td>
+  
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">Nenhuma turma registrada.</td></tr>
+        {% endfor %}
+        
         </tr>
       </tbody>
     </table>

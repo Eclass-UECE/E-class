@@ -29,7 +29,7 @@
 
     <div class="adicionar-aula" style="background-color: rgb(160, 206, 190);">
     <h2>Adicionar Aula</h2>
-    <form id="formAula" method="POST">
+    <form id="formAula" method="POST" action="{% url 'adicionar_aula' %}">
       {% csrf_token %}
       <label>Data: <input type="date" id="dataAula" name="data" required></label>
       <label>Conteúdo: <input type="text" id="conteudoAula" name="conteudo" required></label>
@@ -40,17 +40,15 @@
   <div class="historico-aula" style="background-color: rgb(171, 242, 217);">
 
     <h2>Histórico de Aulas</h2>
-
+    
     <table>
       <tr>
         <th>Data</th>
         <th>Conteudo</th>
       </tr>
-     {% for aula in aulas %} <!--Puxar os dados do banco de aula-->
+     {% for aula in aulas %} 
       <tr>
-        <td>{{ aula.data }}</td>
-        <td>{{ aula.conteudo }}</td>
-        <td>{{ aula.turma }}</td>
+        <li><strong>{{ aula.data }}</strong>: {{ aula.conteudo }}</li>
 
         <td>
           <button onclick="editarAula(this)">Editar</button>
