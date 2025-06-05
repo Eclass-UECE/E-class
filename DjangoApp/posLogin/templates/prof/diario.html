@@ -17,11 +17,13 @@
   <section class="diarios" style="background-color: aquamarine;">
     <h2>Meus Diários</h2>
     
-    <table border="1">
+    <table border="1" style="border-collapse: collapse; width: 100%; text-align: center;">
       <thead>
         <tr>
-          <th colspan="2">Diário</th>
-          <th>Qtd. Alunos</th>
+          <th colspan="1">Semestre</th>
+          <th >Turma</th>
+          <th >Sala</th>
+          <th >Qtd. Alunos</th>
           <th>Opções</th>
 
         </tr>
@@ -29,10 +31,17 @@
       <tbody>
         {% for turma in turmas %} 
         <tr>
-          <td>{{ turma.semestre_atual}}  S{{turma.semestre_letivo }}</td>
-          <td>{{ turma.turno }}</td>
+          <td>{{ turma.semestre_atual}}</td>
+          <td>S{{turma.semestre_letivo }} T{{ turma.numero_turma}} {{ turma.turno }}</td>
+          <td> {{ turma.sala}} </td>
           <td>{{ turma.num_vagas }}</td>
-  
+          
+          <td>
+            <a href="{% url 'aulas' turma.id_turma %}">Aulas</a> <!--Redireciona para o historico de aulas e frequencia da turma especifica-->
+            <a>Avaliações</a><br>
+            <a href="{% url 'midTerm' %}">Mid Term</a> <!--Redireciona para as provas da turma, Mid e Final-->
+            <a href="{% url 'finalExam' %}">Final Exam</a>
+          </td>
         </tr>
         {% empty %}
         <tr><td colspan="3">Nenhuma turma registrada.</td></tr>

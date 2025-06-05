@@ -34,7 +34,6 @@ def login_view(request):
                 print(user.nome_completo)
                 return render(request, 'prof/pagProf.html')
                 
-                
             else:
                 print('senha errada')
                 return HttpResponse("Senha incorreta.")

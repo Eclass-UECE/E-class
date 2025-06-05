@@ -11,7 +11,7 @@
   <header class="cabecalho">
     <nav class="menu-navegacao">
       <a href="#"><div class="icon circle-icon">perfil</div></a>
-      <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
+      <a href="{% url 'diario'%}"><div class="icon">diario</div></a>
     </nav>
   </header>
 
@@ -20,20 +20,29 @@
     <div style="background-color: rgb(0, 254, 169);">
       
       <h1>Lançar Aulas e Faltas</h1>
-      <h3>Período Letivo: 2025.1 </h3> <!---Informa o período letivo do historico de aulas-->
-      <h3>Turma: S6 T2 </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
+      <h3>Período Letivo: {{turma.semestre_atual}} </h3>
+      <h3>Turma: S{{turma.semestre_letivo}} T{{turma.numero_turma}} {{turma.turno}}</h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
 
-      <a href="{% url 'aulas' %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' %}">Exibir Lista de Frequência</a>
+      <a href="{% url 'aulas' turma.id_turma %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' %}">Exibir Lista de Frequência</a>
       
     </div>
 
     <div class="adicionar-aula" style="background-color: rgb(160, 206, 190);">
     <h2>Adicionar Aula</h2>
-    <form id="formAula" method="POST" action="{% url 'adicionar_aula' %}">
+    {% if messages %}
+      {% for message in messages %}
+      <div style="color: {% if 'error' in message.tags %}red{% else %}green{% endif %}; padding: 10px;">
+        {{ message }}
+      </div>
+      {% endfor %}
+  {% endif %}
+  
+    
+    <form id="formAula" method="POST" action="{% url 'aulas' turma.id_turma %}">
       {% csrf_token %}
       <label>Data: <input type="date" id="dataAula" name="data" required></label>
       <label>Conteúdo: <input type="text" id="conteudoAula" name="conteudo" required></label>
-      <label>Observações: <input type="text" id="conteudoAula" name="conteudo" required></label>
+      <label>Observações: <input type="text" id="observaçãoAula" name="observação" required></label>
       <button type="submit">Adicionar</button>
     </form>
   </div>
@@ -42,15 +51,17 @@
 
     <h2>Histórico de Aulas</h2>
 
-    <table border="1">
+    <table border="1" style="border-collapse: collapse;text-align: center;">
       <tr>
-        <th>Data</th>
+        <th colspan="1">Data</th>
         <th>Conteudo</th>
         <th>Opções</th>
       </tr>
+      <tbody>
      {% for aula in aulas %} 
       <tr>
-        <li><strong>{{ aula.data }}</strong>: {{ aula.conteudo }}</li>
+        <td>{{ aula.data }} </td>
+          <td> {{ aula.conteudo }}</td>
 
         <td>
           <button onclick="editarAula(this)">Editar</button> <!--Permite editar o conteúdo-->
@@ -58,8 +69,11 @@
         </td>
 
       </tr>
-      <tr><td colspan="3">Nenhuma aula registrada.</td></tr> <!--Caso não hajam registros de aula informa isso na tela-->
+      {% empty %}
+        <tr><td colspan="3">Nenhuma aula registrada.</td></tr>
+        {% endfor %}
     </table>
+  </tbody>
   </div>
 
   <div>
@@ -71,18 +85,34 @@
         <th>Observação</th>
         <th>Opções</th>
       </tr>
+      <tbody>
       <tr>
-        <td>08/05/2025</td> <!--Puxa a data do banco e exibe com a observação correspondente, da mais atual > mais antiga-->
-        <td>A turma teve um bom desempenho [...]</td> <!--Puxa a observação referente a data e exibe-->
+        {% for aula in aulas %} 
+      <tr>
+        <tr id="linha-{{ aula.id_aulas }}">
+          <td class="data">{{ aula.data|date:"Y-m-d" }}</td>
+          <td class="conteudo">{{ aula.conteudo }}</td>
+          <td class="obs">{{ aula.objetivos }}</td>
+          <td>
+            
+            <button onclick="editarLinha({{ aula.id_aulas }})">Editar</button>
+            <form method="POST" action="{% url 'editar_aula' turma.id_turma aula.id_aulas %}">
+              {% csrf_token %}
+            <button onclick="salvarEdicao({{ aula.id_aulas }})" style="display:none;">Salvar</button>
+            <button onclick="cancelarEdicao({{ aula.id_aulas }})" style="display:none;">Cancelar</button>
+          </td>
+        </tr>
+      </tr>
+      {% empty %}
+        <tr><td colspan="3">Nenhuma observação registrada.</td></tr>
+        {% endfor %}
 
-        <td>
-          <button onclick="editarAula(this)">Editar</button> <!--Permite editar o conteúdo-->
-          <button onclick="excluirAula(this)">Excluir</button> <!--Exclui o registro-->
-        </td>
+         <!--Puxa a data do banco e exibe com a observação correspondente, da mais atual > mais antiga-->
+         <!--Puxa a observação referente a data e exibe-->
 
       </tr>
-      <tr><td colspan="3">Nenhuma observação registrada.</td></tr> <!--Caso não hajam registros de observações, informa isso na tela-->
     </table>
+  </tbody>
   </div>
   </section>
   
@@ -90,4 +120,69 @@
 
 </footer>
 </body>
+
+<script>
+  const backups = {};
+
+  function editarLinha(id) {
+    const linha = document.getElementById(`linha-${id}`);
+    const dataCell = linha.querySelector(".data");
+    const conteudoCell = linha.querySelector(".conteudo");
+    const obsCell = linha.querySelector(".obs");
+
+    // Salvar os valores originais
+    backups[id] = {
+      data: dataCell.textContent.trim(),
+      conteudo: conteudoCell.textContent.trim(),
+      obs: obsCell.textContent.trim(),
+    };
+
+    // Substituir texto por inputs
+    dataCell.innerHTML = `<input type="date" value="${backups[id].data}">`;
+    conteudoCell.innerHTML = `<input type="text" value="${backups[id].conteudo}">`;
+    obsCell.innerHTML = `<input type="text" value="${backups[id].obs}">`;
+
+    
+
+    // Mostrar/ocultar botões
+    linha.querySelector('button[onclick^="salvarEdicao"]').style.display = "inline";
+    linha.querySelector('button[onclick^="cancelarEdicao"]').style.display = "inline";
+    linha.querySelector('button[onclick^="editarLinha"]').style.display = "none";
+
+  }
+
+  function cancelarEdicao(id) {
+    const linha = document.getElementById(`linha-${id}`);
+    linha.querySelector(".data").textContent = backups[id].data;
+    linha.querySelector(".conteudo").textContent = backups[id].conteudo;
+    linha.querySelector(".obs").textContent = backups[id].obs;
+
+    // Mostrar/ocultar botões
+    linha.querySelector('button[onclick^="salvarEdicao"]').style.display = "none";
+    linha.querySelector('button[onclick^="cancelarEdicao"]').style.display = "none";
+    linha.querySelector('button[onclick^="editarLinha"]').style.display = "inline";
+  }
+
+  function salvarEdicao(id) {
+    const linha = document.getElementById(`linha-${id}`);
+    const data = linha.querySelector(".data input").value;
+    const conteudo = linha.querySelector(".conteudo input").value;
+    const obs = linha.querySelector(".obs input").value;
+
+    // Aqui você pode enviar esses dados por AJAX ou formulário oculto
+    console.log("Salvar:", { id, data, conteudo, obs });
+
+    // Substituir inputs por texto
+    linha.querySelector(".data").textContent = data;
+    linha.querySelector(".conteudo").textContent = conteudo;
+    linha.querySelector(".obs").textContent = obs;
+
+    linha.querySelector('button[onclick^="salvarEdicao"]').style.display = "none";
+    linha.querySelector('button[onclick^="cancelarEdicao"]').style.display = "none";
+    linha.querySelector('button[onclick^="editarLinha"]').style.display = "inline";
+  }
+</script>
+
+
+
 </html>

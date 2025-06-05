@@ -106,7 +106,7 @@ class Turmas(models.Model):
     sala = models.CharField(_('Sala'), max_length=10, null=False)
     num_vagas = models.PositiveIntegerField(_('Vagas'), null=False)
     professor = models.ForeignKey(Professores, verbose_name=_('Professor'), on_delete=models.CASCADE, null=True, blank=True)
-
+    numero_turma = models.CharField(_('Numero da turma'), max_length=1, null=False)
 
     class Meta:
         verbose_name_plural = "Turmas"
@@ -229,9 +229,8 @@ class Aulas(models.Model):
     turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE, null=False)
     data = models.DateField(_('Data'), null=False)
     conteudo = models.TextField(_('Conteúdo da aula'), null=False)
-    objetivos = models.TextField(_('/Objetivos'), null=False)
-    #e a foreignkey pra professor ?
-
+    objetivos = models.TextField(_('Objetivos'), null=False)
+    
     class Meta:
         verbose_name_plural = "Aulas"
 
