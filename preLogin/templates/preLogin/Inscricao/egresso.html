@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egressos</title>
+
+</head>
+<body>
+
+    <header class="cabecalho">
+        <nav class="menu-navegacao">
+            <a href="{% url 'pagInicial' %}">Página inicial</a>
+            <a href="{% url 'inscricao' %}">Matrículas</a>
+            <a href="{% url 'inscricao' %}">Teste de Nivelamento</a>
+            <a href="{% url 'inscricao' %}">Egresso</a>
+            <a href="{% url 'login' %}">Login</a>
+        </nav>
+    </header>
+
+    <section class="informacoes">
+        <p class="descricao-formulario">
+           Este formulário destina-se a alunos veteranos do ECLASS.
+           
+           Por favor, leia e complete as informações com atenção. Em caso de dúvidas, entre em contato com o ECLASS pelas redes sociais (@eclass.igt) ou pelo e-mail: eclass@uece.br.
+           
+           - Este formulário deve ser preenchido apenas uma vez. Para realizar sua matrícula é preciso ter sido aprovado no semestre letivo anterior a este formulário.
+           Caso seja observado algum desacordo em relação à aprovação, sua matrícula não será efetuada.
+           
+           - Alunos não aprovados no semestre anterior ao formulário não terão preferência na ordem de matrícula, tendo sua inscrição deferida somente caso ainda existam vagas remanescentes, após o Teste de Nivelamento, para o semestre em que foi reprovado.
+           
+           - Divulgaremos em nossas redes sociais o início do período letivo.
+           
+           - Após a finalização das matrículas, o informativo do curso será enviado por e-mail contendo informações mais detalhadas (formas de avaliação, cronograma de aulas, datas das provas, material didático, regimento do curso, etc).
+        </p>
+    </section>
+
+    <h1 class="titulo-inscricao">INSCRIÇÃO</h1>
+    
+    <form class="formulario-inscricao" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ inscricao_form.as_p }}
+        <input type="submit" value="Enviar" class="botao-enviar">
+    </form> <!--Mudar para o forms do egresso-->
+
+</body>
+</html>

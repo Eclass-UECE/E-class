@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Notas</title>
+</head>
+<body>
+    <header class="cabecalho">
+        <nav class="menu-navegacao">
+            <a href="#"><div class="icon circle-icon">perfil</div></a>
+            <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
+        </nav>
+    </header>
+
+    <p><b><font color="red">AS NOTAS DEVEM SER INSERIDAS DE 0 A 100, SEM CASAS DECIMAIS</font></b></p>
+
+    <section style="background-color: aquamarine;">
+        <div style="background-color: rgb(0, 254, 169);">
+            <h2>Lançar Notas e Média</h2>
+            <h3>Avaliação</h3>
+            <h3>Período Letivo: 2025.1 </h3> <!---Informa o período letivo do historico de aulas-->
+            <h3>Turma: S6 T2 </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
+            <h3>Etapa: Final Exam</h3> <!--Informa a etapa da prova - Mid ou Final - -->
+        </div>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>MATRÍCULA</th>
+                    <th>NOME</th>
+                    <th>NOTA</th>
+                    <th>OBSERVAÇÕES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>123645</td>
+                    <td>Lorem ipsum</td>
+                    <td><input type="number" min="0" max="100" step="1"></td>
+                    <td><input type="text" size="30"></td>
+                </tr>
+                <tr>
+                    <td>545785</td>
+                    <td>Lorem ipsum</td>
+                    <td><input type="number" min="0" max="100" step="1"></td>
+                    <td><input type="text" size="30"></td>
+                </tr>
+                <tr>
+                    <td>549642</td>
+                    <td>Lorem ipsum</td>
+                    <td><input type="number" min="0" max="100" step="1"></td>
+                    <td><input type="text" size="30"></td>
+                </tr>
+                <tr>
+                    <td>545854</td>
+                    <td>Lorem ipsum</td>
+                    <td><input type="number" min="0" max="100" step="1"></td>
+                    <td><input type="text" size="30"></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

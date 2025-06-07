@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrículas</title>
+
+</head>
+<body>
+
+    <header class="cabecalho">
+        <nav class="menu-navegacao">
+            <a href="{% url 'pagInicial' %}">Página inicial</a>
+            <a href="{% url 'inscricao' %}">Matrículas</a>
+            <a href="{% url 'inscricao' %}">Teste de Nivelamento</a>
+            <a href="{% url 'inscricao' %}">Egresso</a>
+            <a href="{% url 'login' %}">Login</a>
+        </nav>
+    </header>
+
+    <section class="informacoes">
+        <p class="descricao-formulario">
+           Este formulário destina-se a alunos que desejam participar do processo seletivo do ECLASS como Egresso, Semestre 1 ou realizar o teste de nivelamento.
+           Para se inscrever, é preciso ter concluído o Ensino Médio. Por favor, leia e complete as informações com atenção, pois as respostas a este formulário já serão usadas no seu processo seletivo.
+           Em caso de dúvidas, entre em contato com o ECLASS pelas redes sociais (@eclass.igt) ou pelo e-mail: eclass@uece.br.
+           Este formulário deve ser preenchido apenas uma vez. 
+           
+           Sobre o formulário - 
+           Neste formulário estão indicadas as turmas S1 (Manhã e Tarde), Teste de Nivelamento e inscrição de alunos Egressos, marque a alternativa na qual se enquadra para ser direcionado ao seu respectivo formulário
+           
+           Sobre o formulário - 
+           Este é um formulário padrão, informações específicas sobre Egressos e Teste de Nivelamento estão no formulário seguinte (caso tenha marcado alguma dessas opções)
+           
+           Aulas -
+           As aulas do ECLASS serão realizadas presencialmente, no Campus Multi-institucional Humberto Teixeira, em Iguatu.
+           
+           Processo seletivo -
+           
+           4.1  O processo seletivo para ingresso no Semestre 1 do ECLASS compreenderá duas fases, considerando este mesmo formulário:
+           a) A categoria do participante conforme os critérios de prioridade e a documentação correta anexada; 
+           b) A motivação para participar no curso e para ser selecionado como aluno.
+
+           4.2 Em relação ao item 1 acima, a ordem dos critérios de prioridade estão listados de maior grau para o menor, sendo o maior deles alunos de Letras Ingles - UECE e o menor grau o que não se enquadra em nenhum dos itens listados.
+           
+           4.3 Ao responder este formulário o(a) candidato(a) já está automaticamente participando do processo seletivo, por isso leia-o atentamente e responda-o com calma.
+           
+           4.5 O ECLASS não se responsabiliza pelo envio incorreto de documentação, preenchimento inadequado ou por falhas tecnológicas, sendo o candidato desclassificado nestes casos. Portanto, tenha atenção na hora de preencher suas respostas e anexar seus documentos.
+           
+           Resultado -
+           5.1  O resultado final do processo seletivo será divulgado nas nossas redes sociais, por isso fique atento a novas publicações.
+           
+           5.2 Os alunos selecionados estarão automaticamente matriculados.
+           
+           Início das aulas -
+           O período de início das aulas também será divulgado em nossas redes sociais
+           
+           Outras informações -
+           7.1 Após a divulgação do resultado final, o informativo do curso será enviado para os alunos selecionados por e-mail e conterá todas as informações relevantes sobre o curso, como formas de avaliação, datas das provas, material didático, regimento, entre outros.
+           
+           7.2  Todas as informações serão enviadas para os e-mails informados neste formulário. No caso de alunos veteranos da UECE, pedimos que utilizem o e-mail institucional. No caso de aluno novato, informar um e-mail que seja frequentemente acessado
+
+        </p>
+    </section>
+
+    <h1 class="titulo-inscricao">INSCRIÇÃO</h1>
+    
+    <form class="formulario-inscricao" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ inscricao_form.as_p }}
+        <input type="submit" value="Enviar" class="botao-enviar">
+    </form>
+
+<!-- Formatação campo data -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-data');
+    
+        input.addEventListener('input', function () {
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+            if (value.length > 2 && value.length <= 4) {
+                value = value.slice(0, 2) + '/' + value.slice(2);
+            } else if (value.length > 4) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4) + '/' + value.slice(4, 8);
+            }
+            input.value = value;
+        });
+    });
+    </script>
+    
+<!-- Formatação campo telefone -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-telefone');
+    
+        input.addEventListener('input', function () {
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+
+         if (value.length > 12) {
+             value = value.slice(0, 12); // Limita a 11 dígitos (2 do DDD + 9 do número)
+        }
+
+        if (value.length > 2) {
+            value = value.slice(0, 2) + ' ' + value.slice(2);
+        }
+
+        input.value = value;
+        });
+    });
+</script>    
+
+<!-- Formatação campo CPF -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-cpf');
+    
+        input.addEventListener('input', function () {
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+            if (value.length > 3 && value.length <= 6) {
+                value = value.slice(0, 3) + '.' + value.slice(3, 6);
+            } else if (value.length > 6 && value.length <= 9) {
+                value = value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9);
+            }
+            else if (value.length > 9){
+                value = value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9) + '-' +
+                value.slice(9,11);
+            }
+            input.value = value;
+
+            validar_cpf(input.value)
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-email');
+    
+        const emailInput = document.getElementById('email');
+        const erroEmail = document.getElementById('erroEmail');
+
+        form.addEventListener('submit', function(event) {
+            const email = emailInput.value;
+            const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+            if (!emailValido) {
+                event.preventDefault(); // Impede o envio do formulário
+                erroEmail.textContent = 'Por favor, insira um e-mail válido.';
+            } else {
+                erroEmail.textContent = ''; // Limpa erro se válido
+            }
+        });
+    });
+    </script>
+
+
+<!-- Formatação campo data -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-data');
+    
+        input.addEventListener('input', function () {
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+            if (value.length > 2 && value.length <= 4) {
+                value = value.slice(0, 2) + '/' + value.slice(2);
+            } else if (value.length > 4) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4) + '/' + value.slice(4, 8);
+            }
+            input.value = value;
+        });
+    });
+    </script>
+    
+<!-- Formatação campo telefone -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-telefone');
+    
+        input.addEventListener('input', function () {
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+
+         if (value.length > 12) {
+             value = value.slice(0, 12); // Limita a 11 dígitos (2 do DDD + 9 do número)
+        }
+
+        if (value.length > 2) {
+            value = value.slice(0, 2) + ' ' + value.slice(2);
+        }
+
+        input.value = value;
+        });
+    });
+</script>    
+
+<!-- Formatação campo CPF -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-cpf');
+    
+        input.addEventListener('input', function () {
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+            if (value.length > 3 && value.length <= 6) {
+                value = value.slice(0, 3) + '.' + value.slice(3, 6);
+            } else if (value.length > 6 && value.length <= 9) {
+                value = value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9);
+            }
+            else if (value.length > 9){
+                value = value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9) + '-' +
+                value.slice(9,11);
+            }
+            input.value = value;
+
+            validar_cpf(input.value)
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-email');
+    
+        const emailInput = document.getElementById('email');
+        const erroEmail = document.getElementById('erroEmail');
+
+        form.addEventListener('submit', function(event) {
+            const email = emailInput.value;
+            const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+            if (!emailValido) {
+                event.preventDefault(); // Impede o envio do formulário
+                erroEmail.textContent = 'Por favor, insira um e-mail válido.';
+            } else {
+                erroEmail.textContent = ''; // Limpa erro se válido
+            }
+        });
+    });
+    </script>
+
+
+<!-- Formatação campo data -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-data');
+    
+        input.addEventListener('input', function () {
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+            if (value.length > 2 && value.length <= 4) {
+                value = value.slice(0, 2) + '/' + value.slice(2);
+            } else if (value.length > 4) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4) + '/' + value.slice(4, 8);
+            }
+            input.value = value;
+        });
+    });
+    </script>
+    
+<!-- Formatação campo telefone -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-telefone');
+    
+        input.addEventListener('input', function () {
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+
+         if (value.length > 12) {
+             value = value.slice(0, 12); // Limita a 11 dígitos (2 do DDD + 9 do número)
+        }
+
+        if (value.length > 2) {
+            value = value.slice(0, 2) + ' ' + value.slice(2);
+        }
+
+        input.value = value;
+        });
+    });
+</script>    
+
+<!-- Formatação campo CPF -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-cpf');
+    
+        input.addEventListener('input', function () {
+            let value = input.value.replace(/\D/g, ''); // Remove tudo que não for número
+            if (value.length > 3 && value.length <= 6) {
+                value = value.slice(0, 3) + '.' + value.slice(3, 6);
+            } else if (value.length > 6 && value.length <= 9) {
+                value = value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9);
+            }
+            else if (value.length > 9){
+                value = value.slice(0, 3) + '.' + value.slice(3, 6) + '.' + value.slice(6, 9) + '-' +
+                value.slice(9,11);
+            }
+            input.value = value;
+
+            validar_cpf(input.value)
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('campo-email');
+    
+        const emailInput = document.getElementById('email');
+        const erroEmail = document.getElementById('erroEmail');
+
+        form.addEventListener('submit', function(event) {
+            const email = emailInput.value;
+            const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+            if (!emailValido) {
+                event.preventDefault(); // Impede o envio do formulário
+                erroEmail.textContent = 'Por favor, insira um e-mail válido.';
+            } else {
+                erroEmail.textContent = ''; // Limpa erro se válido
+            }
+        });
+    });
+    </script>
+
+
+</body>
+
+</html>
+
+

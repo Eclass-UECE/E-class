@@ -1,0 +1,92 @@
+<!--Aqui ficará guardado o historico de aulas dado no semestre "2023.2" por exemplo-->
+
+<!DOCTYPE html>
+<html lang="pr_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas</title>
+</head>
+<body>
+  <header class="cabecalho">
+    <nav class="menu-navegacao">
+      <a href="#"><div class="icon circle-icon">perfil</div></a>
+      <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
+    </nav>
+  </header>
+
+  <section style="background-color: aquamarine;">
+
+    <div style="background-color: rgb(0, 254, 169);">
+      
+      <h1>Lançar Aulas e Faltas</h1>
+      <h3>Período Letivo: 2025.1 </h3> <!---Informa o período letivo do historico de aulas-->
+      <h3>Turma: S6 T2 </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
+
+      <a href="{% url 'aulas' %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' %}">Exibir Lista de Frequência</a>
+      
+    </div>
+
+    <div class="adicionar-aula" style="background-color: rgb(160, 206, 190);">
+    <h2>Adicionar Aula</h2>
+    <form id="formAula" method="POST">
+      <label>Data: <input type="date" id="dataAula" name="data" required></label>
+      <label>Conteúdo: <input type="text" id="conteudoAula" name="conteudo" required></label>
+      <label>Observações: <input type="text" id="conteudoAula" name="conteudo" required></label>
+      <button type="submit">Adicionar</button>
+    </form>
+  </div>
+
+  <div class="historico-aula" style="background-color: rgb(171, 242, 217);">
+
+    <h2>Histórico de Aulas</h2>
+
+    <table border="1">
+      <tr>
+        <th>Data</th>
+        <th>Conteudo</th>
+        <th>Opções</th>
+      </tr>
+      <tr>
+        <td>08/05/2025</td> <!--Puxa a data do banco e exibe com o conteudo correspondente, da mais atual > mais antiga-->
+        <td>Uso do Will</td> <!--Puxa o conteúdo referente a data e exibe-->
+
+        <td>
+          <button onclick="editarAula(this)">Editar</button> <!--Permite editar o conteúdo-->
+          <button onclick="excluirAula(this)">Excluir</button> <!--Exclui o registro-->
+        </td>
+
+      </tr>
+      <tr><td colspan="3">Nenhuma aula registrada.</td></tr> <!--Caso não hajam registros de aula informa isso na tela-->
+    </table>
+  </div>
+
+  <div>
+    <h2>Observações</h2>
+
+    <table border="1">
+      <tr>
+        <th>Data</th>
+        <th>Observação</th>
+        <th>Opções</th>
+      </tr>
+      <tr>
+        <td>08/05/2025</td> <!--Puxa a data do banco e exibe com a observação correspondente, da mais atual > mais antiga-->
+        <td>A turma teve um bom desempenho [...]</td> <!--Puxa a observação referente a data e exibe-->
+
+        <td>
+          <button onclick="editarAula(this)">Editar</button> <!--Permite editar o conteúdo-->
+          <button onclick="excluirAula(this)">Excluir</button> <!--Exclui o registro-->
+        </td>
+
+      </tr>
+      <tr><td colspan="3">Nenhuma observação registrada.</td></tr> <!--Caso não hajam registros de observações, informa isso na tela-->
+    </table>
+  </div>
+  </section>
+  
+<footer class="rodape">
+
+</footer>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="PT_br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário</title>
+</head>
+<body>
+    <header class="cabecalho">
+    <nav class="menu-navegacao">
+      <a href="#"><div class="icon circle-icon">perfil</div></a>
+      <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
+    </nav>
+  </header>
+  
+  
+  <section class="diarios" style="background-color: aquamarine;">
+  <h2>Meus Diários</h2>
+
+  <table border="1"> <!--Tabela do diário-->
+    <thead>
+      <tr>
+        <th colspan="2">Diário</th>
+        <th>Qtd. Alunos</th>
+        <th>Opções</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>2025.1</td> <!--Informa o semestre letivo-->
+          <td>S6 T2</td> <!--Informa o semestre e a turma-->
+          <td>30</td> <!--Informa a quantidade de alunos naquela turma-->
+          <td lin>
+            <a href="{% url 'aulas' %}">Aulas</a><br> <!--Redireciona para o historico de aulas e frequencia da turma especifica-->
+            <a>Avaliações</a><br>
+            <a href="{% url 'midTerm' %}">Mid Term</a> <!--Redireciona para as provas da turma, Mid e Final-->
+            <a href="{% url 'finalExam' %}">Final Exam</a>
+          </td>
+        </tr>
+        <tr>
+          <td>2024.2</td> <!--Informa o semestre letivo-->
+          <td>S4 T5</td> <!--Informa o semestre e a turma-->
+          <td>15</td> <!--Informa a quantidade de alunos naquela turma-->
+          <td>
+            <a href="{% url 'aulas' %}">Aulas</a><br> <!--Redireciona para o historico de aulas e frequencia da turma especifica-->
+            <a>Avaliações</a><br>
+            <a href="{% url 'midTerm' %}">Mid Term</a> <!--Redireciona para as provas da turma, Mid e Final-->
+            <a href="{% url 'finalExam' %}">Final Exam</a>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+</section>
+
+      
+</body>
+</html>

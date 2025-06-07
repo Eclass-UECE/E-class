@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Frequência</title>
+</head>
+<body>
+    <header class="cabecalho">
+        <nav class="menu-navegacao">
+            <a href="#"><div class="icon circle-icon">perfil</div></a>
+            <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
+        </nav>
+    </header>
+    
+    <section style="background-color: aquamarine;">
+
+    <div style="background-color: rgb(0, 254, 169);">
+      <h1>Lançar Aulas e Faltas</h1>
+      <h3>Período Letivo: 2025.1 </h3> <!---Informa o período letivo do historico de aulas-->
+      <h3>Turma: S6 T2 </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
+      <a href="{% url 'aulas' %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' %}">Exibir Lista de Frequência</a>
+    </div>
+    
+    <form method="POST">
+        <label for="data">Data da nova aula:</label> <!--Permite a adição de novos dias no diario, onde vai salvar separadamente a parte dos dias da data-->
+        <input type="date" name="data" id="data" required>
+        <table border="1" cellpadding="5">
+            <thead>
+                <tr>
+                    <th rowspan="2">Matrícula</th>
+                    <th rowspan="2">Nome</th>
+                    <th>Mês e Ano</th>
+                    <th colspan="4">04/24</th> <!--Puxa a data selecionada e exibe-->
+                    <th colspan="4">06/24</th>
+                    <th rowspan="2">TOTAL</th> <!--Exibe o total de faltas de determinado aluno até o momento-->
+                </tr>
+                <tr>
+                    <th>Dia</th>
+                    <th>4</th> <!--Exibe o dia que haverá aula, abaixo do mês correspondente-->
+                    <th>11</th>
+                    <th>12</th>
+                    <th>25</th>
+                    <th>-</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>123645asdasdadad</td> <!--Matricula do aluno-->
+                    <td>Lorem iasdadadadadadadadpsum</td> <!--Nome do aluno-->
+                    <td></td> <!--Campo vazio abaixo de dia/mês-->
+                    <td><input type="checkbox"></td> <!--Checkboxes para informar se o aluno faltou a aula-->
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox"></td>
+                    <td>15</td> <!--Total de faltas-->
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        
+        <label for="conteudos"><strong>Conteúdos da Aula:</strong></label><br>
+        <textarea id="conteudos" name="conteudos" rows="4" cols="80"></textarea><br> <!--Permite que o professor faça anotações sobre o conteúdo dado na aula, o qual será exibido na área "aulas"-->
+        
+        <br>
+        
+        <label for="observacoes"><strong>Observações:</strong></label><br> <!--Permite que o professor faça observações sobre a aula, o qual também será exibido na área "aulas" -->
+        <textarea id="observacoes" name="observacoes" rows="4" cols="80"></textarea><br>
+        
+        <br>
+        
+        <button type="submit">Salvar Aula</button> <!--Salva as alterações feitas-->
+    </form>
+    </section>
+
+</body>
+</html>
