@@ -1,4 +1,7 @@
 import datetime
+import json
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.shortcuts import redirect, render,get_object_or_404
 from collections import defaultdict
@@ -26,12 +29,9 @@ def aulas(request, id_turma):
     if request.method == 'POST':
         data = request.POST.get('data')
         data_formatada = datetime.datetime.strptime(data, '%Y-%m-%d').strftime('%d/%m/%Y')
-    
         conteudo = request.POST.get('conteudo')
         observação = request.POST.get('observação')
         turma = get_object_or_404(Turmas, id_turma=id_turma)
-
-        observacao = Aulas.objects.filter(turma_id=id_turma).order_by('-data')
 
         if not Aulas.objects.filter(data=data, turma=turma).exists():
             Aulas.objects.create(
@@ -68,14 +68,40 @@ def notas(request):
 def entregaDiario(request):
     return render(request, 'prof/entregaDiario.html')
 
-def editar_aula(request, id_turma, id_aulas):
-    aula = get_object_or_404(Aulas, pk=id_aulas, turma_id=id_turma)
+@csrf_exempt  # Use @csrf_exempt só para testes, o ideal é passar o token CSRF via JS
+def editar_aula(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        id_aula = data.get('id')
+        nova_data = data.get('data')
+        novo_valor = data.get('valor')
+        tabela = data.get('tabela')
 
-    if request.method == 'POST':
-        aula.data = request.POST.get('data')
-        aula.objetivos = request.POST.get('observação')
-        aula.save()
-        return redirect('aulas', id_turma=id_turma)
+        # Converte string data para datetime
+        nova_data_obj = datetime.strptime(nova_data, "%Y-%m-%d").date()
+
+        try:
+            aula = Aulas.objects.get(id=id_aula)
+            aula.data = nova_data_obj
+            if tabela == 1:
+                aula.conteudo = novo_valor
+            else:
+                aula.objetivos = novo_valor
+            aula.save()
+
+            data_formatada = aula.data.strftime("%-d de %B de %Y")  # formato que você usa no template
+
+            return JsonResponse({
+                "status": "sucesso",
+                "data_formatada": data_formatada,
+                "valor": novo_valor
+            })
+
+        except Aulas.DoesNotExist:
+            return JsonResponse({"status": "erro", "mensagem": "Aula não encontrada."}, status=404)
+
+    return JsonResponse({"status": "erro", "mensagem": "Método inválido."}, status=405)
+
 
 def excluir_aula(request, id):
     aula = get_object_or_404(Aulas, id=id)

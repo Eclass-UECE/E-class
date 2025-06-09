@@ -58,15 +58,19 @@
         <th>Opções</th>
       </tr>
       <tbody>
-     {% for aula in aulas %} 
-      <tr>
-        <td>{{ aula.data }} </td>
-          <td> {{ aula.conteudo }}</td>
 
-        <td>
-          <button onclick="editarAula(this)">Editar</button> <!--Permite editar o conteúdo-->
-          <button onclick="excluirAula(this)">Excluir</button> <!--Exclui o registro-->
-        </td>
+     {% for aula in aulas %} 
+          <tr id="linha-{{ aula.id_aulas }}">
+            <td class="data" data_iso="{{ aula.data|date:'Y-m-d' }}">
+              {{ aula.data|date:"j \\d\\e F \\d\\e Y" }}</td>
+            <td class="conteudo">{{ aula.conteudo }}</td>
+
+          <td>
+            <button onclick="editarLinha({{ aula.id_aulas }},1)">Editar</button>
+            <button onclick="ExcluirLinha({{ aula.id_aulas }},1)">Excluir</button>
+            <button onclick="salvarEdicao({{ aula.id_aulas }},1)" style="display:none;">Salvar</button>
+            <button onclick="cancelarEdicao({{ aula.id_aulas }},1)" style="display:none;">Cancelar</button>
+          </td>
 
       </tr>
       {% empty %}
@@ -86,31 +90,28 @@
         <th>Opções</th>
       </tr>
       <tbody>
-      <tr>
+      
         {% for aula in aulas %} 
-      <tr>
         <tr id="linha-{{ aula.id_aulas }}">
-          <td class="data">{{ aula.data|date:"Y-m-d" }}</td>
-          <td class="conteudo">{{ aula.conteudo }}</td>
+          <td class="data" data_iso="{{ aula.data|date:'Y-m-d' }}">
+            {{ aula.data|date:"j \\d\\e F \\d\\e Y" }} </td>
           <td class="obs">{{ aula.objetivos }}</td>
+
           <td>
-            
-            <button onclick="editarLinha({{ aula.id_aulas }})">Editar</button>
-            <form method="POST" action="{% url 'editar_aula' turma.id_turma aula.id_aulas %}">
-              {% csrf_token %}
-            <button onclick="salvarEdicao({{ aula.id_aulas }})" style="display:none;">Salvar</button>
-            <button onclick="cancelarEdicao({{ aula.id_aulas }})" style="display:none;">Cancelar</button>
+            <button onclick="editarLinha({{ aula.id_aulas }},2)">Editar</button>
+            <button onclick="ExcluirLinha({{ aula.id_aulas }},1)">Excluir</button>
+            <button onclick="salvarEdicao({{ aula.id_aulas }},2)" style="display:none;">Salvar</button>
+            <button onclick="cancelarEdicao({{ aula.id_aulas }},2)" style="display:none;">Cancelar</button>
           </td>
+
         </tr>
-      </tr>
-      {% empty %}
+      
+        {% empty %}
         <tr><td colspan="3">Nenhuma observação registrada.</td></tr>
         {% endfor %}
 
          <!--Puxa a data do banco e exibe com a observação correspondente, da mais atual > mais antiga-->
          <!--Puxa a observação referente a data e exibe-->
-
-      </tr>
     </table>
   </tbody>
   </div>
@@ -124,38 +125,59 @@
 <script>
   const backups = {};
 
-  function editarLinha(id) {
+  function editarLinha(id, tabela) {
+    
+    let X;
+    if (tabela == 1){ 
+      X = ".conteudo";
+    }
+    else {
+      X = ".obs";
+    }
+
+    console.log(X)
+
     const linha = document.getElementById(`linha-${id}`);
     const dataCell = linha.querySelector(".data");
-    const conteudoCell = linha.querySelector(".conteudo");
-    const obsCell = linha.querySelector(".obs");
+    const dataISO = dataCell.getAttribute("data_iso");
+    const linhaX = linha.querySelector(X);
+    
 
     // Salvar os valores originais
+  
+    const data = dataCell.textContent.trim();
+    const valor = linhaX.textContent.trim();
+    console.log(dataCell)
+
     backups[id] = {
-      data: dataCell.textContent.trim(),
-      conteudo: conteudoCell.textContent.trim(),
-      obs: obsCell.textContent.trim(),
+      data: data,
+      valor: valor
     };
 
     // Substituir texto por inputs
-    dataCell.innerHTML = `<input type="date" value="${backups[id].data}">`;
-    conteudoCell.innerHTML = `<input type="text" value="${backups[id].conteudo}">`;
-    obsCell.innerHTML = `<input type="text" value="${backups[id].obs}">`;
-
+    dataCell.innerHTML = `<input type="date" value="${dataISO}">`;
+    linhaX.innerHTML = `<input type="text" value="${valor}">`;        
     
-
-    // Mostrar/ocultar botões
+    // Mostrar/ocultar botões 
     linha.querySelector('button[onclick^="salvarEdicao"]').style.display = "inline";
     linha.querySelector('button[onclick^="cancelarEdicao"]').style.display = "inline";
     linha.querySelector('button[onclick^="editarLinha"]').style.display = "none";
 
   }
 
-  function cancelarEdicao(id) {
+  function cancelarEdicao(id, tabela) {
+
+    let X;
+    if (tabela == 1){ 
+      X = ".conteudo";
+    }
+    else {
+      X = ".obs";
+    }
+    
     const linha = document.getElementById(`linha-${id}`);
     linha.querySelector(".data").textContent = backups[id].data;
-    linha.querySelector(".conteudo").textContent = backups[id].conteudo;
-    linha.querySelector(".obs").textContent = backups[id].obs;
+    linha.querySelector(X).textContent = backups[id].valor;
 
     // Mostrar/ocultar botões
     linha.querySelector('button[onclick^="salvarEdicao"]').style.display = "none";
@@ -163,26 +185,44 @@
     linha.querySelector('button[onclick^="editarLinha"]').style.display = "inline";
   }
 
-  function salvarEdicao(id) {
+  function salvarEdicao(id, tabela) {
+
+    let X;
+    if (tabela == 1){ 
+      X = ".conteudo input";
+      Y = ".conteudo"
+    }
+    else {
+      X = ".obs input";
+      Y = ".obs"
+    }
+  
     const linha = document.getElementById(`linha-${id}`);
     const data = linha.querySelector(".data input").value;
-    const conteudo = linha.querySelector(".conteudo input").value;
-    const obs = linha.querySelector(".obs input").value;
+    const linhaX = linha.querySelector(X).value;
 
     // Aqui você pode enviar esses dados por AJAX ou formulário oculto
-    console.log("Salvar:", { id, data, conteudo, obs });
+    console.log("Salvar:", { id, data, linhaX });
 
     // Substituir inputs por texto
-    linha.querySelector(".data").textContent = data;
-    linha.querySelector(".conteudo").textContent = conteudo;
-    linha.querySelector(".obs").textContent = obs;
 
+    const dataFormatada = new Date(data).toLocaleDateString("pt-BR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC"  
+    });
+
+    
+    linha.querySelector(".data").textContent = dataFormatada;
+    linha.querySelector(".data").setAttribute("data-iso", dataFormatada);
+    linha.querySelector(Y).textContent = linhaX;
+  
     linha.querySelector('button[onclick^="salvarEdicao"]').style.display = "none";
     linha.querySelector('button[onclick^="cancelarEdicao"]').style.display = "none";
     linha.querySelector('button[onclick^="editarLinha"]').style.display = "inline";
   }
+
 </script>
-
-
 
 </html>
