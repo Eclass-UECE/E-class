@@ -49,7 +49,21 @@ As seguintes ferramentas, linguagens, bibliotecas e tecnologias foram usadas na 
 <img src="https://img.shields.io/badge/Postgres-CED4DA?style=for-the-badge&logo=postgresql&logoColor=23316192" alt="PostgreSQL" /> 
 <img src="https://img.shields.io/badge/VS_Code-CED4DA?style=for-the-badge&logo=visual%20studio%20code&logoColor=0078D4" alt="VS Code" />
 <img src="https://img.shields.io/badge/python-CED4DA?style=for-the-badge&logo=python&logoColor=3670A0" alt="Python" />
-<img src="https://img.shields.io/badge/GitHub-CED4DA?style=for-the-badge&logo=github&logoColor=20232A" alt="GitHub" /> 
-<img src="https://img.shields.io/badge/GitHub-CED4DA?style=for-the-badge&logo=github&logoColor=20232A" alt="GitHub" /> 
-<img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=20232A" alt="Django" />
-<img src="https://img.shields.io/badge/Miro-F7C922?style=for-the-badge&logo=Miro&logoColor=20232A" alt="Miro" />  
+<img src="https://img.shields.io/badge/GitHub-CED4DA?style=for-the-badge&logo=github&logoColor=20232A" alt="GitHub" />  
+<img src="https://img.shields.io/badge/Django-CED4D4?style=for-the-badge&logo=django&logoColor=20232A" alt="Django" />
+<img src="https://img.shields.io/badge/Miro-CED4D4?style=for-the-badge&logo=Miro&logoColor=20232A" alt="Miro" />  
+
+</br>
+
+## :busts_in_silhouette: Equipe
+
+|    Função     | Nome                                  |                                                                        GitHub                                                                             |
+| :-----------: | :------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|   Front End   | Francisca Kevilly Batista da Silva    |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/KellihKey)      |
+|   Database    | João Pedro Araújo Alves               |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/PorraJonas)     |
+|   Back End    | João Pedro Lima Leite Neto            |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/JoaoPedro846)   |
+|   Front End   | Murício Silva de Lima                 |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/mauriciolima31) |
+|   Back End    | Mikaelle Costa dos Santos             |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/mikaellecosta)  |
+|   Database    | Sérgio Silva de Oliveira              |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/SergioSilva12)  |
+
+
