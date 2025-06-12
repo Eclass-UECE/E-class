@@ -8,6 +8,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('', views.pagInicial, name='pagInicial'),
+    path('inscricao/', views.inscricao_view, name='inscricao'),
+    path('', views.pagInicial, name='pagInicial'),
     path('login/', include('login.urls')),
     path('inscricao/', views.inscricao_view, name='inscricao'),
     path('anexos/<str:inscricao_id>/', views.anexos_view, name='anexos'),

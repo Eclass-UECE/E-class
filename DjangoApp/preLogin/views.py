@@ -7,6 +7,24 @@ import os
 import pickle
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.urls import reverse_lazy
+from django.shortcuts import redirect
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'preLogin/password_reset.html'
+    success_url = reverse_lazy('password_reset_done')
+    email_template_name = 'preLogin/password_reset_email.html'
+    
+    def post(self, request, *args, **kwargs):
+        email = request.POST.get('email')
+        if not User.objects.filter(email=email).exists():
+            messages.error(request, "Este e-mail não está registrado.")
+            return redirect('password_reset')
+        return super().post(request, *args, **kwargs)
+
 
 def pagInicial(request):
     return render(request, 'preLogin/pagInicial.html')

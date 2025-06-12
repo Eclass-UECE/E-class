@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'eclass',
         'USER': 'postgres',
-        'PASSWORD': 'mikadb',
+        'PASSWORD': '3541',
         'HOST': 'localhost',  
         'PORT': '5432',          
     }
@@ -140,3 +140,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'joaopedrollnet@gmail.com'
+EMAIL_HOST_PASSWORD = 'zfdg nkbg dajl zkko'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
