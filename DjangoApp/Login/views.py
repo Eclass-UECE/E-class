@@ -30,7 +30,10 @@ def login_view(request):
 
             if user.senha==senha:
                 print('correto')
-                return HttpResponse(f"Usuário {user.nome_completo} autenticado com sucesso!")
+                request.session['professor_nome_completo'] = user.nome_completo
+                print(user.nome_completo)
+                return render(request, 'prof/pagProf.html')
+                
             else:
                 print('senha errada')
                 return HttpResponse("Senha incorreta.")

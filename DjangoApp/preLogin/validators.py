@@ -35,9 +35,8 @@ def validar_rg(value):
     # Remove qualquer ponto ou traço (caso tenha sido informado nesse formato)
     value = re.sub(r'[^\d]', '', value)
     
-    # Verifica se o valor contém entre 7 e 9 dígitos
-    if not re.match(r'^\d{7,9}$', value):
-        raise ValidationError('O RG deve conter entre 7 e 9 dígitos numéricos.')
+    if not re.match(r'^\d{11}$', value):
+        raise ValidationError('O RG deve conter 11 dígitos numéricos.')
 
     return value
 
