@@ -258,8 +258,6 @@ class RegistroDiario(models.Model):
     diario = models.ForeignKey(Diario, verbose_name=_('Diário'), on_delete=models.CASCADE)
     aluno = models.ForeignKey(Alunos, verbose_name=_('Aluno'), on_delete=models.CASCADE)
     presente = models.BooleanField(_('Presente'), default=True)
-    participacao = models.PositiveIntegerField(_('Participação'), validators=[MinValueValidator(0), MaxValueValidator(5)], default=3)
-    tarefa = models.PositiveIntegerField(_('Tarefa'), validators=[MinValueValidator(0), MaxValueValidator(10)], null=True, blank=True)
     observacoes = models.TextField(_('Observações do aluno'), blank=True, null=True)
     prova = models.ForeignKey(AlunosProvas, on_delete=models.CASCADE, null=True, blank=True)
 
