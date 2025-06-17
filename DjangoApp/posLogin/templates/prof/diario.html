@@ -39,8 +39,8 @@
           <td>
             <a href="{% url 'aulas' turma.id_turma %}">Aulas</a> <!--Redireciona para o historico de aulas e frequencia da turma especifica-->
             <a>Avaliações</a><br>
-            <a href="{% url 'midTerm' %}">Mid Term</a> <!--Redireciona para as provas da turma, Mid e Final-->
-            <a href="{% url 'finalExam' %}">Final Exam</a>
+            <a href="{% url 'midTerm' turma.id_turma %}">Mid Term</a> <!--Redireciona para as provas da turma, Mid e Final-->
+            <a href="{% url 'finalExam' turma.id_turma %}">Final Exam</a>
           </td>
         </tr>
         {% empty %}

@@ -136,7 +136,7 @@ class Inscricao(models.Model):
     diploma_ensino_medio = models.FileField(_('Foto do diploma do ensino médio'), upload_to=upload_path, null=False)
     termo_inscricao = models.CharField(_('''Declaro que li e concordo com os termos de inscrição referente ao período letivo 2024.1 do ECLASS, estando ciente de que o curso não efetuará a matrícula de alunos que fornecerem dados incorretos ou falsos'''), choices=termo_escolhas, max_length=5, null=False)
     teste_nivel = models.CharField(_('Turma teste de nivel'), max_length=100, null=True, blank=True)
-    aprovado = models.BooleanField(_("Aprovado"),default=False, null=True, blank=True)
+    aprovado = models.BooleanField(_("Aprovado"), default=False, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Inscrições"
@@ -203,8 +203,8 @@ class Provas(models.Model):
     id_prova = models.AutoField(_('ID_Prova'), primary_key=True)
     conteudo = models.TextField(_('Conteúdo da prova'), null=False)
     data = models.DateField(_('Data'), null=False)
-    tipo = models.CharField(_('Tipo da prova'), choices=tipo_prova_escolhas, max_length=30, null=False)
-    objetivos = models.TextField(_('Objetivos'), null=False)
+    tipo = models.CharField(_('Tipo da prova'), choices= tipo_prova_escolhas, max_length=30, null=False)
+    objetivos = models.TextField(_('Objetivos'), null=True)
 
     class Meta:
         verbose_name_plural = "Provas"
@@ -229,7 +229,7 @@ class Aulas(models.Model):
     turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE, null=False)
     data = models.DateField(_('Data'), null=False)
     conteudo = models.TextField(_('Conteúdo da aula'), null=False)
-    objetivos = models.TextField(_('Objetivos'), null=False)
+    objetivos = models.TextField(_('Objetivos'), null=True)
     
     class Meta:
         verbose_name_plural = "Aulas"
@@ -241,13 +241,15 @@ class Frequencia(models.Model):
     id_frequencia = models.AutoField(_('ID_Freq'), primary_key=True)
     aluno = models.ForeignKey(Alunos, verbose_name=_('Aluno'), on_delete=models.CASCADE)
     aula = models.ForeignKey(Aulas, verbose_name=_('Aula'), on_delete=models.CASCADE)
-    presenca = models.BooleanField(_('Presença'), default=False)
+    turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE)
+    falta = models.BooleanField(_("falta"), default=False)
+
 
     class Meta:
         verbose_name_plural = "Frequência dos alunos"
     
     def __str__(self):
-        return f"Frequência do aluno:{self.aluno.nome_completo} dia - {self.aula.data}"
+        return f"Frequência do aluno:{self.aluno.nome_completo}"
 
 class DadosBancarios(models.Model):
     id_dadosbanc = models.AutoField(_('ID_DadosBanc'), primary_key=True)

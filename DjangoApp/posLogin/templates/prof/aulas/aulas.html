@@ -23,7 +23,7 @@
       <h3>Período Letivo: {{turma.semestre_atual}} </h3>
       <h3>Turma: S{{turma.semestre_letivo}} T{{turma.numero_turma}} {{turma.turno}}</h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
 
-      <a href="{% url 'aulas' turma.id_turma %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' %}">Exibir Lista de Frequência</a>
+      <a href="{% url 'aulas' turma.id_turma %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' turma.id_turma %}">Exibir Lista de Frequência</a>
       
     </div>
 
@@ -42,7 +42,7 @@
       {% csrf_token %}
       <label>Data: <input type="date" id="dataAula" name="data" required></label>
       <label>Conteúdo: <input type="text" id="conteudoAula" name="conteudo" required></label>
-      <label>Observações: <input type="text" id="observaçãoAula" name="observação" required></label>
+      <label>Observações: <input type="text" id="observaçãoAula" name="observação"></label>
       <button type="submit">Adicionar</button>
     </form>
   </div>
@@ -51,7 +51,7 @@
 
     <h2>Histórico de Aulas</h2>
 
-    <table border="1" style="border-collapse: collapse;text-align: center;">
+    <table id="tabela-1" border="1" style="border-collapse: collapse;text-align: center;">
       <tr>
         <th colspan="1">Data</th>
         <th>Conteudo</th>
@@ -60,14 +60,14 @@
       <tbody>
 
      {% for aula in aulas %} 
-          <tr id="linha-{{ aula.id_aulas }}">
+          <tr id="linha-{{ aula.id_aulas }}-{{ 1 }}">
             <td class="data" data_iso="{{ aula.data|date:'Y-m-d' }}">
               {{ aula.data|date:"j \\d\\e F \\d\\e Y" }}</td>
             <td class="conteudo">{{ aula.conteudo }}</td>
 
           <td>
             <button onclick="editarLinha({{ aula.id_aulas }},1)">Editar</button>
-            <button onclick="ExcluirLinha({{ aula.id_aulas }},1)">Excluir</button>
+            <button onclick="excluirLinha({{ aula.id_aulas }},1)">Excluir</button>
             <button onclick="salvarEdicao({{ aula.id_aulas }},1)" style="display:none;">Salvar</button>
             <button onclick="cancelarEdicao({{ aula.id_aulas }},1)" style="display:none;">Cancelar</button>
           </td>
@@ -83,7 +83,7 @@
   <div>
     <h2>Observações</h2>
 
-    <table border="1">
+    <table id="tabela-2" border="1">
       <tr>
         <th>Data</th>
         <th>Observação</th>
@@ -92,14 +92,13 @@
       <tbody>
       
         {% for aula in aulas %} 
-        <tr id="linha-{{ aula.id_aulas }}">
+        <tr id="linha-{{ aula.id_aulas }}-{{ 2 }}">
           <td class="data" data_iso="{{ aula.data|date:'Y-m-d' }}">
             {{ aula.data|date:"j \\d\\e F \\d\\e Y" }} </td>
-          <td class="obs">{{ aula.objetivos }}</td>
+          <td class="objetivos">{{ aula.objetivos }}</td>
 
           <td>
             <button onclick="editarLinha({{ aula.id_aulas }},2)">Editar</button>
-            <button onclick="ExcluirLinha({{ aula.id_aulas }},1)">Excluir</button>
             <button onclick="salvarEdicao({{ aula.id_aulas }},2)" style="display:none;">Salvar</button>
             <button onclick="cancelarEdicao({{ aula.id_aulas }},2)" style="display:none;">Cancelar</button>
           </td>
@@ -108,12 +107,13 @@
       
         {% empty %}
         <tr><td colspan="3">Nenhuma observação registrada.</td></tr>
-        {% endfor %}
+          {% endfor %}
 
          <!--Puxa a data do banco e exibe com a observação correspondente, da mais atual > mais antiga-->
          <!--Puxa a observação referente a data e exibe-->
+      </tbody>
     </table>
-  </tbody>
+  
   </div>
   </section>
   
@@ -126,28 +126,25 @@
   const backups = {};
 
   function editarLinha(id, tabela) {
-    
+        
     let X;
     if (tabela == 1){ 
       X = ".conteudo";
     }
     else {
-      X = ".obs";
+      X = ".objetivos";
     }
+    
+    const linha = document.getElementById(`linha-${id}-${tabela}`);
 
-    console.log(X)
-
-    const linha = document.getElementById(`linha-${id}`);
     const dataCell = linha.querySelector(".data");
     const dataISO = dataCell.getAttribute("data_iso");
     const linhaX = linha.querySelector(X);
     
-
     // Salvar os valores originais
   
     const data = dataCell.textContent.trim();
     const valor = linhaX.textContent.trim();
-    console.log(dataCell)
 
     backups[id] = {
       data: data,
@@ -171,11 +168,11 @@
     if (tabela == 1){ 
       X = ".conteudo";
     }
-    else {
-      X = ".obs";
+    if (tabela == 2) {
+      X = ".objetivos";
     }
     
-    const linha = document.getElementById(`linha-${id}`);
+    const linha = document.getElementById(`linha-${id}-${tabela}`);
     linha.querySelector(".data").textContent = backups[id].data;
     linha.querySelector(X).textContent = backups[id].valor;
 
@@ -185,19 +182,36 @@
     linha.querySelector('button[onclick^="editarLinha"]').style.display = "inline";
   }
 
+  function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
   function salvarEdicao(id, tabela) {
 
     let X;
     if (tabela == 1){ 
       X = ".conteudo input";
-      Y = ".conteudo"
+      Y = ".conteudo";
+      campo = "conteudo";
     }
-    else {
-      X = ".obs input";
-      Y = ".obs"
+    if (tabela == 2) {
+      X = ".objetivos input";
+      Y = ".objetivos";
+      campo = "objetivos";
     }
   
-    const linha = document.getElementById(`linha-${id}`);
+    const linha = document.getElementById(`linha-${id}-${tabela}`);
     const data = linha.querySelector(".data input").value;
     const linhaX = linha.querySelector(X).value;
 
@@ -213,15 +227,84 @@
       timeZone: "UTC"  
     });
 
-    
     linha.querySelector(".data").textContent = dataFormatada;
-    linha.querySelector(".data").setAttribute("data-iso", dataFormatada);
+    linha.querySelector(".data").setAttribute("data-iso", dataFormatada );
     linha.querySelector(Y).textContent = linhaX;
+
+     // Enviar via fetch
+  fetch("/pagProf/aulas/editar_aula/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken"), 
+    },
+    body: JSON.stringify({
+      id_aulas: id,
+      data: data,
+      linhaX: linhaX,
+      campo: campo
+    }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Erro ao salvar");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Salvo com sucesso!", data);
+    })
+    .catch(error => {
+      alert("Erro ao salvar no banco.");
+      console.error(error);
+    });
   
     linha.querySelector('button[onclick^="salvarEdicao"]').style.display = "none";
     linha.querySelector('button[onclick^="cancelarEdicao"]').style.display = "none";
     linha.querySelector('button[onclick^="editarLinha"]').style.display = "inline";
   }
+
+  function excluirLinha(id, tabela) {
+  if (!confirm("Tem certeza que deseja excluir esta aula? Todo os campos serão perdidos.")) {
+    return;
+  }
+
+  const linha = document.getElementById(`linha-${id}-1`);
+  const linha2 = document.getElementById(`linha-${id}-2`);
+  if (!linha) {
+    console.error("Linha não encontrada.");
+    return;
+  }
+
+  // Enviar requisição para o backend para excluir
+  fetch("/pagProf/aulas/excluir_aula/", {
+    method: "POST", // ou DELETE, dependendo do backend
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken"), // Django precisa disso
+    },
+    body: JSON.stringify({
+      id_aulas: id
+        }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Erro ao excluir");
+      }
+      return response.json();
+    })
+    .then(data => {
+      alert("Excluído com sucesso!", data);
+      linha.remove();
+      linha2.remove();
+   // Remove a linha da tabela na interface
+    })
+    .catch(error => {
+      alert("Erro ao excluir no banco.");
+      console.error(error);
+    });
+}
+
 
 </script>
 
