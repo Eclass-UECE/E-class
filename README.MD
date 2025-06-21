@@ -8,7 +8,7 @@ Este sistema foi desenvolvido como projeto no curso de Ciência da Computação,
 
 ---
 
-## 📘 ECLASS - English Class
+## 📘 ECLASS - English Course for Languages Students
 
 ECLASS é um curso básico de inglês ofertado gratuitamente pela Universidade Estadual do Ceará (UECE) - FECLI Campus Iguatu. O curso tem como objetivo promover o ensino de inglês para a comunidade, contemplando alunos iniciantes, com conhecimento prévio e egressos. O curso é constituido por seis semestres, tendo duração de três anos e certificação.
 
@@ -43,15 +43,17 @@ Os dados das inscrições são armazenados e disponibilizados aos coordenadores,
 
 As seguintes ferramentas, linguagens, bibliotecas e tecnologias foram usadas na construção do projeto:
 
-<img src="https://img.shields.io/badge/Figma-CED4DA?style=for-the-badge&logo=figma&logoColor=DC143C" alt="Figma" /> 
-<img src="https://img.shields.io/badge/HTML-CED4DA?style=for-the-badge&logo=html5&logoColor=23E34F26" alt="HTML" /> 
-<img src="https://img.shields.io/badge/CSS-CED4DA?style=for-the-badge&logo=css3&logoColor=1572B6" alt="CSS" />
-<img src="https://img.shields.io/badge/Postgres-CED4DA?style=for-the-badge&logo=postgresql&logoColor=23316192" alt="PostgreSQL" /> 
-<img src="https://img.shields.io/badge/VS_Code-CED4DA?style=for-the-badge&logo=visual%20studio%20code&logoColor=0078D4" alt="VS Code" />
-<img src="https://img.shields.io/badge/python-CED4DA?style=for-the-badge&logo=python&logoColor=3670A0" alt="Python" />
-<img src="https://img.shields.io/badge/GitHub-CED4DA?style=for-the-badge&logo=github&logoColor=20232A" alt="GitHub" />  
-<img src="https://img.shields.io/badge/Django-CED4D4?style=for-the-badge&logo=django&logoColor=20232A" alt="Django" />
-<img src="https://img.shields.io/badge/Miro-CED4D4?style=for-the-badge&logo=Miro&logoColor=20232A" alt="Miro" />  
+<p align="center">
+  <img src="https://img.shields.io/badge/Figma-CED4DA?style=for-the-badge&logo=figma&logoColor=DC143C" alt="Figma"/>
+  <img src="https://img.shields.io/badge/HTML-CED4DA?style=for-the-badge&logo=html5&logoColor=E34F26" alt="HTML"/>
+  <img src="https://img.shields.io/badge/CSS-CED4DA?style=for-the-badge&logo=css3&logoColor=1572B6" alt="CSS"/>
+  <img src="https://img.shields.io/badge/Postgres-CED4DA?style=for-the-badge&logo=postgresql&logoColor=4169E1" alt="PostgreSQL"/>
+  <img src="https://img.shields.io/badge/VS_Code-CED4DA?style=for-the-badge&logo=visual%20studio%20code&logoColor=0078D4" alt="VS Code"/>
+  <img src="https://img.shields.io/badge/Python-CED4DA?style=for-the-badge&logo=python&logoColor=3670A0" alt="Python"/>
+  <img src="https://img.shields.io/badge/GitHub-CED4DA?style=for-the-badge&logo=github&logoColor=181717" alt="GitHub"/>
+  <img src="https://img.shields.io/badge/Django-CED4DA?style=for-the-badge&logo=django&logoColor=092E20" alt="Django"/>
+  <img src="https://img.shields.io/badge/Miro-CED4DA?style=for-the-badge&logo=miro&logoColor=050038" alt="Miro"/>
+</p>  
 
 </br>
 
@@ -62,7 +64,7 @@ As seguintes ferramentas, linguagens, bibliotecas e tecnologias foram usadas na 
 |   Front End   | Francisca Kevilly Batista da Silva    |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/KellihKey)      |
 |   Database    | João Pedro Araújo Alves               |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/PorraJonas)     |
 |   Back End    | João Pedro Lima Leite Neto            |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/JoaoPedro846)   |
-|   Front End   | Murício Silva de Lima                 |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/mauriciolima31) |
+|   Front End   | Maurício Silva de Lima                |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/mauriciolima31) |
 |   Back End    | Mikaelle Costa dos Santos             |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/mikaellecosta)  |
 |   Database    | Sérgio Silva de Oliveira              |            [![GitHub Badge](https://img.shields.io/badge/GitHub-111217?style=flat-square&logo=github&logoColor=white)](https://github.com/SergioSilva12)  |
 
