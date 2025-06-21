@@ -12,7 +12,7 @@ from django.shortcuts import render,get_object_or_404
 from preLogin.models import *
 
 def paginaProfessor(request):
-    return render(request, 'prof/pagProf.html')
+    return render(request, 'prof/professor/pagProf.html')
 
 def diario(request):
     professor = request.session.get('professor_nome_completo')
@@ -21,7 +21,7 @@ def diario(request):
     professor_turmas = Turmas.objects.filter(professor__nome_completo=professor)
     print(professor_turmas)
     
-    return render(request, 'prof/diario.html', {'professor': professor, 'turmas': professor_turmas})
+    return render(request, 'prof/professor/diario.html', {'professor': professor, 'turmas': professor_turmas})
 
 def aulas(request, id_turma):
     # print(id_turma)
@@ -66,7 +66,7 @@ def frequencia(request, id_turma):
         key = aula.data.strftime('%Y-%m')  # Ex: '2025-06'
         aulas_por_mes[key].append(aula)
 
-      # Agrupar por mês/ano
+    # Agrupar por mês/ano
     aulas_agrupadas = []
 
     locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
@@ -82,7 +82,6 @@ def frequencia(request, id_turma):
 
     presencas_dict = {
         f"{f.aluno.matricula}_{f.aula.id_aulas}": f.falta for f in frequencias
-      
 }   
     for k, v in presencas_dict.items():
         
@@ -103,7 +102,7 @@ def frequencia(request, id_turma):
     print("turma atual", alunos_turma)
 
     return render(request, 'prof/aulas/frequencia.html', context)
-   
+
 @csrf_exempt
 def salvar_faltas(request):
     if request.method == "POST":
@@ -168,7 +167,7 @@ def notas(request, id_turma):
     return render(request, 'prof/provas/notas.html', {'turma': turma, 'alunos_turma': alunos_turma})
 
 def entregaDiario(request):
-    return render(request, 'prof/entregaDiario.html')
+    return render(request, 'prof/professor/entregaDiario.html')
 
 @csrf_exempt
 def editar_aula(request):

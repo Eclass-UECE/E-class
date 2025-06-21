@@ -1,0 +1,160 @@
+@import url('https://fonts.cdnfonts.com/css/extenda-trial');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #0CB28A;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #0a846a;
+}
+
+/* Header */
+.header {
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 60px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.header img {
+    max-width: 120px;
+    height: auto;
+}
+
+.nav-icon {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-icon img {
+    width: 50px;
+    height: auto;
+    transition: transform 0.2s ease;
+}
+
+.nav-icon img:hover {
+    transform: scale(1.05);
+}
+
+/* Média */
+section {
+    background-color: white;
+    padding: 40px 60px;
+    margin: 30px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 1200px;
+}
+
+h1, h2 {
+    font-family: 'Extenda Trial', sans-serif;
+    font-size: 230%;
+    color: #0CB28A;
+    margin-bottom: 10px;
+}
+
+h3 {
+    margin-bottom: 8px;
+}
+
+/* Tabela para as Notas + Médias */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #0CB28A;
+    color: white;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #cccccc; /* Cor mais suave para demarcar */
+}
+
+td {
+    background-color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+th:first-child, td:first-child {
+    text-align: left;
+}
+
+/* Inserção */
+input[type="number"], input[type="text"] {
+    width: 60px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+}
+
+input[type="number"]:read-only {
+    background-color: #e9e9e9;
+    cursor: not-allowed;
+}
+
+input[type="text"] {
+    width: 100px;
+}
+
+/* Botões / Links */
+.button {
+    background-color: #0CB28A;
+    color: white;
+    border: 2px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.button:hover {
+    background-color: #0a846a;
+    color: white;
+}
+
+/* Footer */
+.footer {
+    background-color: #fdfbf8;
+    font-family: 'Roboto', sans-serif;
+    font-size: large;
+    color: #333;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #ccc;
+}
+
+.footer-bottom {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}

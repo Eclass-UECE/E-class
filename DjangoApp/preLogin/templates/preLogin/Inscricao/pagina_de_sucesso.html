@@ -1,12 +1,70 @@
-<h2>SUCESSO</h2>
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Sucesso - Inscrição Concluída</title>
+    <link href="{% static 'css/pagSucesso.css' %}" rel="stylesheet" />
+</head>
+<body>
 
-{% block content %}
-<div class="alert alert-success" role="alert">
-    <h4 class="alert-heading">Inscrição concluída com sucesso!</h4>
-    <p>Todos os arquivos foram recebidos.</p>
-    <hr>
-    <p class="mb-0">Obrigado por sua participação.</p>
-</div>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo"><img src="{% static 'img/eclass_logo2.png' %}" alt="Logo Eclass" /></div>
+        <nav class="navbar">
+            <a href="{% url 'pagInicial' %}">Início</a>
+            <a href="{% url 'inscricao' %}">Matrículas</a>
+        </nav>
+        <a class="btn" href="{% url 'login' %}">Área do Professor</a>
+    </header>
 
-<a href="/" class="btn btn-primary">Voltar ao início</a>
-{% endblock %}
+    <!-- Mensagem de sucesso -->
+    <main class="container success-container">
+        <div class="alert alert-success">
+            <h2>Sucesso!</h2>
+            <h4>Inscrição concluída com sucesso!</h4>
+            <p>Todos os arquivos foram recebidos.</p>
+            <hr />
+            <p>Obrigado por sua participação.</p>
+            <a href="{% url 'pagInicial' %}" class="btn btn-primary">Voltar ao início</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-section logo-footer">
+            <img src="{% static 'img/eclass_logo.png' %}" alt="Logo Eclass" />
+        </div>
+        <div class="footer-section contato">
+            <h3>CONTATO</h3>
+            <p>+55 88 12345-6789</p>
+            <p>eclass@uece.br</p>
+
+            <div class="divider"></div>
+
+            <p>UECE/FECLI - Campus Iguatu</p>
+            <p>Av. Dário Rabelo - Sete de Setembro,<br /> Iguatu - CE</p>
+
+            <div class="divider"></div>
+
+            <a href="https://www.instagram.com/eclass.igt/" target="_blank" class="social-link">
+                <img src="{% static 'img/ig_logo.png' %}" alt="Instagram" />
+                eclass.igt
+            </a>
+        </div>
+        <div class="footer-section informacoes">
+            <h3>INFORMAÇÕES</h3>
+            <ul>
+                <li><a href="{% url 'pagInicial' %}">Início</a></li>
+                <li><a href="{% url 'inscricao' %}">Matrículas</a></li>
+                <li><a href="{% url 'login' %}">Área do Professor</a></li>
+            </ul>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; ECLASS 2025. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

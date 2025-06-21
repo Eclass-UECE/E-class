@@ -1,0 +1,150 @@
+@import url('https://fonts.cdnfonts.com/css/extenda-trial');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #0CB28A;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #0a846a;
+}
+
+/* Header */
+.header {
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 60px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.header img {
+    max-width: 120px;
+    height: auto;
+}
+
+.nav-icon {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-icon img {
+    width: 50px;
+    height: auto;
+    transition: transform 0.2s ease;
+}
+
+.nav-icon img:hover {
+    transform: scale(1.05);
+}
+
+/* Notas */
+section {
+    background-color: white;
+    padding: 40px 60px;
+    margin: 8% auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    max-width: 900px;
+}
+
+h1 {
+    font-family: 'Extenda Trial', sans-serif;
+    font-size: 250%;
+    color: #0CB28A;
+    margin-bottom: 10px;
+}
+
+h3 {
+    margin-bottom: 5px;
+}
+
+.alert {
+    color: #e33521;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px 0;
+}
+
+/* Tabela para as Notas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #0CB28A;
+    color: white;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+td {
+    background-color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+th:first-child, td:first-child {
+    text-align: left;
+}
+
+/* Botões / Links */
+.button {
+    background-color: #0CB28A;
+    color: white;
+    border: 2px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.button:hover {
+    background-color: #0a846a;
+    color: white;
+}
+
+/* Footer */
+.footer {
+    background-color: #fdfbf8;
+    font-family: 'Roboto', sans-serif;
+    font-size: large;
+    color: #333;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #ccc;
+}
+
+.footer-bottom {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}

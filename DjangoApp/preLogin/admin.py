@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Alunos, Professores, Coordenadores, Inscricao, Turmas, Provas, AnexosInscricao, AlunosProvas, Aulas, Frequencia, DadosBancarios
+from .models import Alunos, Professores, Coordenadores, Inscricao, Turmas, Provas, AnexosInscricao, AlunosProvas, Aulas, Frequencia
 
 admin.site.register(Inscricao)
 admin.site.register(Alunos)
@@ -11,4 +11,3 @@ admin.site.register(AnexosInscricao)
 admin.site.register(AlunosProvas)
 admin.site.register(Aulas)
 admin.site.register(Frequencia)
-admin.site.register(DadosBancarios)

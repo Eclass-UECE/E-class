@@ -1,0 +1,176 @@
+@import url('https://fonts.cdnfonts.com/css/extenda-trial');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+body {
+    font-family: 'Roboto', sans-serif;
+    background: #f5f5f5;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+/* === HEADER === */
+.header {
+    background: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 60px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.header img {
+    max-width: 120px;
+    height: auto;
+}
+
+.nav-icon {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-icon img {
+    width: 50px;
+    height: auto;
+    transition: transform 0.2s ease;
+}
+
+.nav-icon img:hover {
+    transform: scale(1.05);
+}
+
+/* === TABELA DE DIÁRIOS === */
+.diarios {
+    padding: 40px 60px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: 40px auto;
+    margin-bottom: 17%;
+}
+
+.diarios h2 {
+    font-family: 'Extenda Trial', sans-serif;
+    font-size: 250%;
+    margin-bottom: 20px;
+    color: #0CB28A;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+thead {
+    background-color: #0CB28A;
+    color: white;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+th {
+    font-weight: bold;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td a {
+    display: inline-block;
+    margin: 2px 5px;
+    padding: 5px 10px;
+    background-color: #FF5C00;
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+td a:hover {
+    background-color: #e65100;
+}
+
+.footer {
+    background-color: #fdfbf8;
+    font-family: 'Roboto', sans-serif;
+    font-size: large;
+    color: #333;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #ccc;
+}
+
+.footer-bottom {
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+/* === RESPONSIVO === */
+@media (max-width: 1024px) {
+    .header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 20px;
+    }
+
+    .nav-icon {
+        gap: 15px;
+    }
+
+    .diarios {
+        padding: 20px;
+    }
+
+    th, td {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 600px) {
+    .header img {
+        max-width: 90px;
+    }
+
+    .nav-icon img {
+        width: 40px;
+    }
+
+    .diarios h2 {
+        font-size: 180%;
+    }
+
+    table {
+        font-size: 13px;
+    }
+
+    td a {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+}
