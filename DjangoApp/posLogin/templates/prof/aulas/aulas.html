@@ -1,33 +1,40 @@
-<!--Aqui ficará guardado o historico de aulas dado no semestre "2023.2" por exemplo-->
-
 <!DOCTYPE html>
+{% load static %}
 <html lang="pr_BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aulas</title>
+    <link rel="stylesheet" href="{% static 'css/aulas.css' %}">
 </head>
 <body>
-  <header class="cabecalho">
-    <nav class="menu-navegacao">
-      <a href="#"><div class="icon circle-icon">perfil</div></a>
-      <a href="{% url 'diario'%}"><div class="icon">diario</div></a>
-    </nav>
+  
+  <!-- Header -->
+  <header class="header">
+    <a href="{% url 'pagInicial' %}">
+      <img src="{% static 'img/eclass_logo3.png' %}" alt="Eclass">
+    </a>
+
+    <div class="nav-icon">
+      <a href="{% url 'pagProf' %}">
+        <img src="{% static 'img/home_icon_alt.png' %}" alt="Home">
+      </a>
+      <a href="{% url 'diario' %}">
+        <img src="{% static 'img/diario_icon_alt.png' %}" alt="Diário">
+      </a>
+    </div>
   </header>
 
-  <section style="background-color: aquamarine;">
+  <section class="table">
 
-    <div style="background-color: rgb(0, 254, 169);">
-      
-      <h1>Lançar Aulas e Faltas</h1>
+    <div> 
+      <h1 class="title-section">Lançar Aulas e Faltas</h1>
       <h3>Período Letivo: {{turma.semestre_atual}} </h3>
       <h3>Turma: S{{turma.semestre_letivo}} T{{turma.numero_turma}} {{turma.turno}}</h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
+      <a href="{% url 'aulas' turma.id_turma %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' turma.id_turma %}">Exibir Lista de Frequência</a>  
+    </div></br></br>
 
-      <a href="{% url 'aulas' turma.id_turma %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' turma.id_turma %}">Exibir Lista de Frequência</a>
-      
-    </div>
-
-    <div class="adicionar-aula" style="background-color: rgb(160, 206, 190);">
+    <div class="adicionar-aula">
     <h2>Adicionar Aula</h2>
     {% if messages %}
       {% for message in messages %}
@@ -35,7 +42,7 @@
         {{ message }}
       </div>
       {% endfor %}
-  {% endif %}
+      {% endif %}
   
     
     <form id="formAula" method="POST" action="{% url 'aulas' turma.id_turma %}">
@@ -45,13 +52,13 @@
       <label>Observações: <input type="text" id="observaçãoAula" name="observação"></label>
       <button type="submit">Adicionar</button>
     </form>
-  </div>
+  </div></br></br>
 
-  <div class="historico-aula" style="background-color: rgb(171, 242, 217);">
+  <div class="historico-aula">
 
     <h2>Histórico de Aulas</h2>
 
-    <table id="tabela-1" border="1" style="border-collapse: collapse;text-align: center;">
+    <table id="tabela-1" border="1">
       <tr>
         <th colspan="1">Data</th>
         <th>Conteudo</th>
@@ -59,7 +66,7 @@
       </tr>
       <tbody>
 
-     {% for aula in aulas %} 
+        {% for aula in aulas %} 
           <tr id="linha-{{ aula.id_aulas }}-{{ 1 }}">
             <td class="data" data_iso="{{ aula.data|date:'Y-m-d' }}">
               {{ aula.data|date:"j \\d\\e F \\d\\e Y" }}</td>
@@ -78,9 +85,9 @@
         {% endfor %}
     </table>
   </tbody>
-  </div>
+  </div></br></br>
 
-  <div>
+  <div class="historico-obs">
     <h2>Observações</h2>
 
     <table id="tabela-2" border="1">
@@ -116,10 +123,13 @@
   
   </div>
   </section>
-  
-<footer class="rodape">
 
-</footer>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-bottom">
+      © 2024 E-Class | Todos os direitos reservados
+    </div>
+  </footer>
 </body>
 
 <script>
@@ -304,8 +314,6 @@
       console.error(error);
     });
 }
-
-
 </script>
 
 </html>

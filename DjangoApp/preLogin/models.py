@@ -1,7 +1,8 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.translation import gettext_lazy as _
-from .validators import validar_cpf, validar_rg, validar_telefone
+from .validators import validar_cpf, validar_rg, validar_telefone, validar_arquivo, validar_termo
+
 
 def upload_path(instance, filename):
     # Para AnexosInscricao, use instance.inscricao.cpf
@@ -131,10 +132,10 @@ class Inscricao(models.Model):
     ocupacao = models.CharField(_('Qual a sua ocupação atual?'), max_length=255, null=False)
     motivacao = models.TextField(_('''Escreva aqui as suas motivações para participar no curso e também mencione as razões pelas quais você deve ser selecionada(o) para cursar o ECLASS. (Lembre de mencionar os critérios de prioridade listados anteriormente nos quais você se encaixa para a elaboração da resposta)'''), null=False)
     turma_entrada = models.CharField(_('Turma de entrada'), choices=turma_entrada_escolhas, max_length=50, null=False)
-    foto_frente = models.FileField(_('Foto da identidade (Frente)'), upload_to=upload_path, null=False)
-    foto_verso = models.FileField(_('Foto da identidade (Verso)'), upload_to=upload_path, null=False)
-    diploma_ensino_medio = models.FileField(_('Foto do diploma do ensino médio'), upload_to=upload_path, null=False)
-    termo_inscricao = models.CharField(_('''Declaro que li e concordo com os termos de inscrição referente ao período letivo 2024.1 do ECLASS, estando ciente de que o curso não efetuará a matrícula de alunos que fornecerem dados incorretos ou falsos'''), choices=termo_escolhas, max_length=5, null=False)
+    foto_frente = models.FileField(_('Foto da identidade (Frente)'), upload_to=upload_path, validators=[validar_arquivo], null=False)
+    foto_verso = models.FileField(_('Foto da identidade (Verso)'), upload_to=upload_path, validators=[validar_arquivo], null=False)
+    diploma_ensino_medio = models.FileField(_('Foto do diploma do ensino médio'), upload_to=upload_path, validators=[validar_arquivo], null=False)
+    termo_inscricao = models.BooleanField(_('''Declaro que li e concordo com os termos de inscrição referente ao período letivo 2024.1 do ECLASS, estando ciente de que o curso não efetuará a matrícula de alunos que fornecerem dados incorretos ou falsos'''), validators=[validar_termo], null=False)
     teste_nivel = models.CharField(_('Turma teste de nivel'), max_length=100, null=True, blank=True)
     aprovado = models.BooleanField(_("Aprovado"), default=False, null=True, blank=True)
 
@@ -190,7 +191,7 @@ class Coordenadores(models.Model):
 
 class AnexosInscricao(models.Model):
     inscricao = models.ForeignKey(Inscricao, on_delete=models.CASCADE)
-    arquivo = models.FileField(upload_to=upload_path)
+    arquivo = models.FileField(upload_to=upload_path, validators=[validar_arquivo])
     data_upload = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -250,16 +251,3 @@ class Frequencia(models.Model):
     
     def __str__(self):
         return f"Frequência do aluno:{self.aluno.nome_completo}"
-
-class DadosBancarios(models.Model):
-    id_dadosbanc = models.AutoField(_('ID_DadosBanc'), primary_key=True)
-    professor = models.ForeignKey(Professores, verbose_name=_('Professor'), on_delete=models.CASCADE)
-    nome_banco = models.CharField(_('Nome do banco'), max_length=100, null=False)
-    agencia = models.CharField(_('Número da agência'), max_length=30, null=False)
-    numero_conta = models.CharField(_('Número da conta'), max_length=50, null=False)
-
-    class Meta:
-        verbose_name_plural = "Dados Bancários"
-
-    def __str__(self):
-        return f"Conta do professor - {self.professor.nome_completo}"

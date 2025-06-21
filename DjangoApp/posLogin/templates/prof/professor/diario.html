@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diário</title>
+    <link rel="stylesheet" href="{% static 'css/diario.css' %}">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/extenda-trial">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+</head>
+<body>
+    
+    <!-- Header -->
+    <header class="header">
+        <a href="{% url 'pagInicial' %}">
+            <img src="{% static 'img/eclass_logo3.png' %}" alt="Eclass">
+        </a>
+        <div class="nav-icon">
+            <a href="{% url 'pagProf' %}">
+                <img src="{% static 'img/home_icon_alt.png' %}" alt="Home">
+            </a>
+                <a href="{% url 'diario' %}">
+                    <img src="{% static 'img/diario_icon_alt.png' %}" alt="Diário">
+                </a>
+            </div>
+    </header>
+
+        <!-- Diário -->
+        <section class="diarios">
+            <h2>Meus Diários</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Semestre</th>
+                        <th>Turma</th>
+                        <th>Sala</th>
+                        <th>Qtd. Alunos</th>
+                        <th>Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turma in turmas %}
+                    <tr>
+                        <td>{{ turma.semestre_atual }}</td>
+                        <td>S{{ turma.semestre_letivo }} T{{ turma.numero_turma }} {{ turma.turno }}</td>
+                        <td>{{ turma.sala }}</td>
+                        <td>{{ turma.num_vagas }}</td>
+                        <td>
+                            <a href="{% url 'aulas' turma.id_turma %}">Aulas</a>
+                            <a href="{% url 'midTerm' turma.id_turma %}">Mid Term</a>
+                            <a href="{% url 'finalExam' turma.id_turma %}">Final Exam</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5">Nenhuma turma registrada.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            © 2024 E-Class | Todos os direitos reservados
+        </div>
+    </footer>
+
+</body>
+</html>

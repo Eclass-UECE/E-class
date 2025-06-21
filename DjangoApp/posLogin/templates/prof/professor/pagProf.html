@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Professor</title>
+    <link rel="stylesheet" href="{% static 'css/pagProf.css' %}">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/extenda-trial">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <img src="{% static 'img/eclass_logo3.png' %}">
+        <div class="icon">
+            <a href="{% url 'diario' %}">
+                <img src="{% static 'img/diario_icon_alt.png' %}">
+            </a>
+        </div>
+    </header>
+
+    <!-- Conteúdo -->
+    <section class="area-prof">
+        <div class="container">
+
+            <div class="cards">
+                <div class="card">
+                    <a href="{% url 'diario' %}">
+                        <img class="logo-card" src="{% static 'img/diario_icon_alt.png' %}" alt="Diário">
+                    </a>
+                    <h3 class="title-card">Diário de Aula</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            © 2024 E-Class | Todos os direitos reservados
+        </div>
+    </footer>
+
+</body>
+</html>

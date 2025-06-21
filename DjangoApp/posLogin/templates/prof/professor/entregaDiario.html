@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt_br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrega do Diário</title>
+    <link rel="stylesheet" href="{% static 'css/entregaDiario.css' %}">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <a href="{% url 'pagInicial' %}">
+            <img src="{% static 'img/eclass_logo3.png' %}" alt="Eclass">
+        </a>
+        <div class="nav-icon">
+            <a href="{% url 'pagProf' %}">
+                <img src="{% static 'img/home_icon_alt.png' %}" alt="Home">
+            </a>
+                <a href="{% url 'diario' %}">
+                    <img src="{% static 'img/diario_icon_alt.png' %}" alt="Diário">
+                </a>
+            </div>
+    </header>
+
+  <section>
+
+    <div>
+      <h1>Entrega do Diário</h1>
+      <h3>Período Letivo: 2025.1 </h3> <!---Informa o período letivo do historico de aulas-->
+      <h3>Turma: S6 T2 </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
+    </div><br>
+
+    <!-- Histórico da turma -->
+    <div class="historico-aula">
+      <h2>Histórico de Notas</h2>
+      <table>
+        <thead>
+          <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th colspan="2">Média Mid</th>
+              <th colspan="2">Média Final</th>
+            <th colspan="2">Notas Finais</th>
+          </tr>
+          <tr>
+            <th>Matrícula</th>
+            <th>Nome</th>
+            <th>Situação</th>
+            <th>Nota Oral</th>
+            <th>Nota Escrita</th>
+            <th>Nota Oral</th>
+            <th>Nota Escrita</th>
+            <th>Média Final</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1276985</td>
+            <td>Lorem ipsum</td>
+            <td>CURSANDO</td>
+            <td>10</td>
+            <td>10</td>
+            <td>10</td>
+            <td>10</td>
+            <td>10</td>
+          </tr>
+          <!-- Repetir as linhas conforme necessário -->
+        </tbody>
+      </table></br>
+    </div>
+
+    <!-- Histórico de conteúdos ministrados -->
+    <div class="historico-conteudos">
+      <h2>Conteúdos Ministrados</h3>
+      <ul style="list-style: none; padding-left: 0;">
+        <li>[16/02/2020] - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+        <li>[20/02/2020] - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+        <li>[25/02/2020] - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+        <li>[05/03/2020] - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+        <li>[10/03/2020] - Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+      </ul>
+    </div></br>
+    <button type="button" onclick="" class="button">Salvar</button>
+  </section>
+  
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            © 2024 E-Class | Todos os direitos reservados
+        </div>
+    </footer>
+</body>
+</html>

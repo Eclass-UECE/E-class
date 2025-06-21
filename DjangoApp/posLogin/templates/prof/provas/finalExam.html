@@ -1,69 +1,80 @@
-<!--Aqui vai ser as ultimas provas, como a nossa N2. Duas provas ORAIS e duas provas ESCRITA-->
 <!DOCTYPE html>
+{% load static %}
 <html lang="PT-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mid Term</title>
+    <link rel="stylesheet" href="{% static 'css/midTerm.css' %}">
 </head>
 <body>
-    <header class="cabecalho">
-    <nav class="menu-navegacao">
-      <a href="#"><div class="icon circle-icon">perfil</div></a>
-      <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
-    </nav>
-  </header>
 
-  <section style="background-color: aquamarine;">
-    <div style="background-color: rgb(0, 254, 169);">
-      <h1>Avaliações</h1>
-      <h3>Período Letivo: {{turma.semestre_atual}} </h3> <!---Informa o período letivo do historico de aulas-->
-      <h3>Turma: S{{turma.semestre_letivo}} T{{turma.numero_turma}} {{turma.turno}} </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
-      <h3>Etapa: Final Exam</h3> <!--Informa a etapa da prova - Mid ou Final - -->
-    </div>
+    <!-- Header -->
+    <header class="header">
+        <a href="{% url 'pagInicial' %}">
+            <img src="{% static 'img/eclass_logo3.png' %}" alt="Eclass">
+        </a>
 
-    <br>
+        <div class="nav-icon">
+            <a href="{% url 'pagProf' %}">
+                <img src="{% static 'img/home_icon_alt.png' %}" alt="Home">
+            </a>
+            <a href="{% url 'diario' %}">
+                <img src="{% static 'img/diario_icon_alt.png' %}" alt="Diário">
+            </a>
+        </div>
+    </header>
+
+    <!-- Provas -->
+    <section>
+        <div>
+            <h1>Avaliações</h1></br>
+            <h3>Período Letivo: {{turma.semestre_atual}} </h3> <!---Informa o período letivo do historico de aulas-->
+            <h3>Turma: S{{turma.semestre_letivo}} T{{turma.numero_turma}} {{turma.turno}} </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
+            <h3>Etapa: Final Exam</h3> <!--Informa a etapa da prova - Mid ou Final - -->
+        </div>
+
     <!--Existem 4 provas, divididas entre Oral e Escrita. (Writing, Use of English, Speaking e Listening)-->
-    <table border="1">
+    <!-- Tabela com as avaliações -->
+    <table>
         <thead>
             <tr>
                 <th>Avaliação</th>
                 <th>Data</th>
                 <th colspan="2">Opções</th>
             </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Writing</td> 
-                    <td>04/05/2025</td> <!--Informa a data na qual a prova foi aplicada-->
-                    <td><a href="{% url 'notas' turma.id_turma %}">ALTERAR</a></td> <!--Permite editar em uma nova página, adicionando a nota dos alunos e a data de aplicação-->
-                    <td><a href="#">EXCLUIR</a></td> <!--Permite a exclusão da prova, a decidir-->
-                </tr>
-                <tr>
-                    <td>Use of English</td>
-                    <td>04/05/2025</td>
-                    <td><a href="{% url 'notas' turma.id_turma %}">ALTERAR</a></td>
-                    <td><a href="#">EXCLUIR</a></td>
-                </tr>
-                <tr>
-                    <td>Speaking</td>
-                    <td>11/05/2025</td>
-                    <td><a href="{% url 'notas' turma.id_turma %}">ALTERAR</a></td>
-                    <td><a href="#">EXCLUIR</a></td>
-                </tr>
-                <tr>
-                    <td>Listening</td>
-                    <td>11/05/2025</td>
-                    <td><a href="{% url 'notas' turma.id_turma %}">ALTERAR</a></td>
-                    <td><a href="#">EXCLUIR</a></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <br><br>
-
-        <a href="{% url 'media' %}">Calcular Média</a> <!--Redireciona o professor para a página de "média" para ver, editar e adicionar a média dos alunos-->
-
+        </thead>
+        <tbody>
+            <tr>
+                <td>Writing</td> 
+                <td>04/05/2025</td> <!--Informa a data na qual a prova foi aplicada-->
+                <td><a href="{% url 'notas' turma.id_turma %}" class="button">ALTERAR</a></td> <!--Permite editar em uma nova página, adicionando a nota dos alunos e a data de aplicação-->
+            </tr>
+            <tr>
+                <td>Use of English</td>
+                <td>04/05/2025</td>
+                <td><a href="{% url 'notas' turma.id_turma %}" class="button">ALTERAR</a></td>
+            </tr>
+            <tr>
+                <td>Speaking</td>
+                <td>11/05/2025</td>
+                <td><a href="{% url 'notas' turma.id_turma %}" class="button">ALTERAR</a></td>
+            </tr>
+            <tr>
+                <td>Listening</td>
+                <td>11/05/2025</td>
+                <td><a href="{% url 'notas' turma.id_turma %}" class="button">ALTERAR</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="{% url 'media' %}">Calcular Média</a> <!--Redireciona o professor para a página de "média" para ver, editar e adicionar a média dos alunos-->
     </section>
+
+        <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+        © 2024 E-Class | Todos os direitos reservados
+        </div>
+    </footer>
 </body>
 </html>

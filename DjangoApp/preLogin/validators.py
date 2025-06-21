@@ -1,4 +1,4 @@
-import re
+import re, os
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 
@@ -49,3 +49,18 @@ def validar_ingressao(value):
         ingressao_validator(value)
     except ValidationError as e:
         raise e
+
+def validar_arquivo(arquivo):
+    extensoes_permitidas = ['.pdf', '.jpg', '.jpeg', '.png']
+    tamanho_maximo = 10 * 1024 * 1024  # 10MB
+
+    ext = os.path.splitext(arquivo.name)[1].lower()
+    if ext not in extensoes_permitidas:
+        raise ValidationError('Tipo de arquivo não permitido. Envie um PDF ou imagem (JPG, PNG).')
+
+    if arquivo.size > tamanho_maximo:
+        raise ValidationError('O arquivo excede o tamanho máximo de 10MB.')
+
+def validar_termo(value):
+    if value == False:
+        raise ValidationError('Você deve aceitar os termos de inscrição para prosseguir')

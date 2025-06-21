@@ -89,16 +89,6 @@ class TestedenivelForm(forms.ModelForm):
     def clean_teste_nivel(self):
         # Ignora validação do modelo
         return self.cleaned_data['teste_nivel']
-
-
-    cpf = forms.CharField(
-        label='CPF',
-        max_length=14,
-        widget=forms.TextInput(attrs={
-            'placeholder': '123.456.789-00',
-            'id': 'campo-cpf'
-        })
-    )
 class MultiFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 

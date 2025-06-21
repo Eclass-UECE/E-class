@@ -1,33 +1,28 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <div>
-            <label for="matricula">Matricula:</label>
-            <input type="text" id="matricula" name="matricula" required>
-        </div>
-        <div>
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" required>
-        </div>
-        <button type="submit">Entrar</button>
-    </form>
+{% extends 'base.html' %}
 
-    <a href="{% url 'password_reset' %}">Esqueci a senha</a>
+{% block title %}Login - Eclass{% endblock %}
 
-    {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-</body>
-</html>
+{% block content %}
+<h2>Login</h2>
+
+<form method="POST" action="{% url 'login' %}">
+  {% csrf_token %}
+  <label for="matricula">Matrícula</label>
+  <input type="text" id="matricula" name="matricula" required />
+
+  <label for="senha">Senha</label>
+  <input type="password" id="senha" name="senha" required />
+
+  <button type="submit">Entrar</button>
+</form>
+
+<p><a href="{% url 'password_reset' %}">Esqueci a senha</a></p>
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

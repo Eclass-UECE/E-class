@@ -1,110 +1,200 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="PT_br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eclass</title>
+    <link rel="stylesheet" href="{% static 'css/pagInicial.css' %}">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/extenda-trial">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&display=swap">
 </head>
 <body>
 
-    <!--Barra de navegação-->
-    <header style="background-color: rgb(56, 172, 235); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
-        <nav>
-            <a href="#quemSomos">Quem somos</a>
-            <a href="#sobreEclass">Sobre o Eclass</a>
+    <!-- Barra de navegação -->
+    <header class="header">
+        <div class="logo"><img src="{% static 'img/eclass_logo.png' %}"></div>
+        <nav class="navbar">
+            <a href="#about">Quem somos</a>
+            <a href="#faq">FAQs</a>
             <a href="{% url 'inscricao' %}">Matrículas</a>
-            <a href="{% url 'inscricao' %}">Teste de Nivelamento</a>
-            <a href="{% url 'inscricao' %}">Egresso</a>
-            <a href="{% url 'login' %}">Login</a>
         </nav>
-    
+        <a class="btn" href="{% url 'login' %}">Área do Professor</a>
     </header>
 
-    <!--Banner para inscrição-->
-    <div id="matricula" style="background-color: #00bfff; padding: 50px; text-align: center;">
-        <a href="http://127.0.0.1:8000//inscricao/">Inscreva-se Já!</a>
-    </div>
-
-        <!--Áreas de "sobre" e "quem somos"-->
-    <div id="sobreEclass" style="padding: 20px;">
-        <h1>Sobre o Eclass</h1>
-        <h3>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-            It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-            Why do we use it?
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
-            The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here,
-            content here', making it look like readable English.
-            Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text,
-            and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years,
-            sometimes by accident, sometimes on purpose (injected humour and the like).
-
-
-            Where does it come from?
-            Contrary to popular belief, Lorem Ipsum is not simply random text.
-            It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.
-            Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,
-            consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature,
-            discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
-            (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics,
-            very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
-            comes from a line in section 1.10.32.
-        </h3>
-    </div>
-
-    <div id="quemSomos" style="padding: 20px;">
-        <h1>Quem somos</h1>
-        <h3>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-            when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-            It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-            Why do we use it?
-            It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
-            The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here,
-            content here', making it look like readable English.
-            Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text,
-            and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years,
-            sometimes by accident, sometimes on purpose (injected humour and the like).
-
-
-            Where does it come from?
-            Contrary to popular belief, Lorem Ipsum is not simply random text.
-            It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.
-            Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,
-            consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature,
-            discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum"
-            (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics,
-            very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
-            comes from a line in section 1.10.32.
-        </h3>
-    </div>
-
-    <iframe width="350" height="200" src="https://www.youtube.com/embed/RfZ2wD0gi5Q"></iframe>
-    <iframe width="350" height="200" src="https://www.youtube.com/embed/EBe7HF8MYek"></iframe>
-    <iframe width="350" height="200" src="https://www.youtube.com/embed/GyaY_TIfHUI"></iframe>
-
-    <!--Rodapé com mais informações e redes sociais-->
-    <footer style="background-color: #ddd; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+    <!-- Banner para inscrição -->
+    <section class="banner">
         <div>
-            <p>Lorem ipsum dolor sit amet</p>
-            <p>eclass@gmail.com</p>
-            <p>(88) 91234-5678</p>
+            <a href="{% url 'inscricao' %}"><span class="text-banner">Inscreva-se já</span><span class="detail-banner">!</span></a>
         </div>
-        <div>
-            <a href="https://www.instagram.com/eclass.igt/" target="_blank">
-                <img src="" alt="Instagram" style="width: 30px; height: 30px;"> <!--Adicionar a logo do insta-->
+    </section>
+    
+    <!-- Por que escolher -->
+    <section class="features">
+        <h2><span class="title">POR QUE ESCOLHER O ECLASS</span><span class="detail-title">?</span></h2>
+        <div class="cards">
+            <div class="card">
+                <img class="logo-card" src="{% static 'img/logo_card1.png' %}"></br>
+                <h3><span class="title-card"><span class="numb">100%</span> GRATUITO</span></h3>
+                <p>O ECLASS é o curso gratuito de língua inglesa da UECE de Iguatu. É lecionado pelos alunos do curso de letras da FECLI</p>
+            </div>
+            <div class="card">
+                <img class="logo-card" src="{% static 'img/logo_card2.png' %}"></br>
+                <h3><span class="title-card"><span class="numb">1</span> DIA NA SEMANA</span></h3>
+                <p>Com aulas apenas as sextas e sábados, o ECLASS te garante um horário totalmente flexível e facíl de adequar a sua rotina.</p>
+            </div>
+            <div class="card">
+                <img class="logo-card" src="{% static 'img/logo_card3.png' %}"></br>
+                <h3><span class="title-card"><span class="details">CERTIFICADO</span> DE CONCLUSÃO</span></h3>
+                <p>O ECLASS tem duração de 3 anos, com uma certificação de 408h/a, uma formação excelente para seu currículo profissional.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quem Somos -->
+    <section class="about" id="about">
+        <div class="about-img">
+            <img src="{% static 'img/about_img.png' %}">
+        </div>
+        <div class="about-text">
+            <h1><span class="title-about">QUEM SOMOS<span class="details">.</span></h1>
+            <p>O ECLASS – English Course for Languages Students é um curso gratuito de inglês da UECE (FECLI – Iguatu), 
+                voltado para quem concluiu o Ensino Médio. Idealizado pelas professoras Isabela Damasceno, Sara Bevenuto e Wanderlene Araújo, 
+                e ministrado por bolsistas da monitoria acadêmica. O curso oferece um ensino comunicativo de nível básico e surgiu para atender à 
+                necessidade dos alunos de Letras em desenvolver suas habilidades linguístico-comunicativas em inglês, formando os chamados Eclassers.
+            </p>
+        </div>
+    </section>
+
+    <!-- Depoimentos -->
+    <section class="testimonials">
+        <h2><span class="title">O QUE FALAM DO ECLASS</span><span class="detail-title">?</span></h2>
+        <p>Desde nossa criação, o ECLASS já foi reconhecido e amplamente divulgado em jornais, 
+            portais de notícias e em redes sociais, mostrando todo nosso alcance</p></br>
+        <div class="videos">
+            <iframe width="400" height="250" src="https://www.youtube.com/embed/RfZ2wD0gi5Q"></iframe>
+            <iframe width="400" height="250" src="https://www.youtube.com/embed/EBe7HF8MYek"></iframe>
+            <iframe width="400" height="250" src="https://www.youtube.com/embed/GyaY_TIfHUI"></iframe>
+        </div>
+    </section></br>
+
+        <!-- FAQ -->
+    <section class="faq" id="faq">
+
+        <div class="faq-content">
+            <h2><span class="title">PERGUNTAS FREQUENTES</span><span class="detail-title">.</span></h2>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    O ECLASS emite certificado?
+                    <span class="icon">&#x276F;</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Sim. Após a conclusão de toda a formação do curso, os alunos recebem um certificado de 408h/a para agregar ao currículo profissional e abrir oportunidades de mercado e ensino.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Preciso de algum nível de conhecimento prévio?
+                    <span class="icon">&#x276F;</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Não. Para participar do ECLASS não é necessário nenhum tipo de conhecimento prévio da língua inglesa.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Posso fazer o ECLASS ainda estando no Ensino Médio?
+                    <span class="icon">&#x276F;</span>
+                </button>
+                <div class="faq-answer">
+                    <p>Não. Um dos pré-requisitos para ser aluno do ECLASS é ter concluído o Ensino Médio.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Quais dias da semana posso fazer o curso?
+                    <span class="icon">&#x276F;</span>
+                </button>
+                <div class="faq-answer">
+                    <p>As aulas ocorrem às sextas e sábados no campus da UECE - Iguatu.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Qual o material utilizado no curso?
+                    <span class="icon">&#x276F;</span>
+                </button>
+                <div class="faq-answer">
+                    <p>O ECLASS utiliza o livro Touchstone da Cambridge como material de apoio.</p>
+                </div>
+            </div>
+        </div>
+        <div class="faq-image-left">
+            <img src="{% static 'img/about_img.png' %}" alt="Imagem FAQ">
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-section logo-footer">
+            <img src="{% static 'img/eclass_logo.png' %}" alt="Logo Eclass">
+        </div>
+
+        <div class="footer-section contato">
+            <h3>CONTATO</h3>
+            <p>+55 88 12345-6789</p>
+            <p>eclass@uece.br</p>
+
+            <div class="divider"></div>
+
+            <p>UECE/FECLI - Campus Iguatu</p>
+            <p>Av. Dário Rabelo - Sete de Setembro,<br> Iguatu - CE</p>
+
+            <div class="divider"></div>
+
+            <a href="https://www.instagram.com/eclass.igt/" target="_blank" class="social-link">
+                <img src="{% static 'img/ig_logo.png' %}" alt="Instagram">
+                eclass.igt
             </a>
         </div>
+
+        <div class="footer-section informacoes">
+            <h3>INFORMAÇÕES</h3>
+            <ul>
+                <li><a href="#about">Quem Somos</a></li>
+                <li><a href="#faq">FAQs</a></li>
+                <li><a href="{% url 'inscricao' %}">Matrículas</a></li>
+                <li><a href="{% url 'login' %}">Área do Professor</a></li>
+            </ul>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; ECLASS 2025. Todos os direitos reservados.</p>
+        </div>
     </footer>
+
+<script>
+    const questions = document.querySelectorAll('.faq-question');
+
+    questions.forEach(question => {
+        question.addEventListener('click', () => {
+            const faqItem = question.parentElement;
+            const isActive = faqItem.classList.contains('active');
+
+            // Fecha todos
+            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+
+            // Se não estava aberto, abre o clicado
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

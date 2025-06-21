@@ -62,7 +62,7 @@ def anexos_view(request, inscricao_id):
                 return render(request, 'preLogin/Inscricao/anexos.html', {
                     'inscricao': inscricao,
                     'anexos_existentes': anexos_existentes,
-                    'teste_nivel_condicao': 'teste_de_nivel',
+                    'teste_nivel_condicao': 'testeNivel',
                     'mensagem_sucesso': f'{len(files)} arquivo(s) enviado(s) com sucesso!'
                 })
             
@@ -81,22 +81,23 @@ def anexos_view(request, inscricao_id):
     })
 
 
-def testedenivel_view(request, inscricao_id):
+def testeNivel_view(request, inscricao_id):
     inscricao = get_object_or_404(Inscricao, id_inscricao=inscricao_id)
     
     if request.method == 'POST':
-        testenivel_form = TestedenivelForm(request.POST, instance=inscricao)
+        testeNivel_form = TestedenivelForm(request.POST, instance=inscricao)
         
-        if testenivel_form.is_valid():
-            testenivel_form.save()
+        if testeNivel_form.is_valid():
+            testeNivel_form.save()
             return HttpResponseRedirect(reverse('pagina_de_sucesso', kwargs={'inscricao_id': inscricao.id_inscricao}))
     else:
-        testenivel_form = TestedenivelForm(instance=inscricao)
+        testeNivel_form = TestedenivelForm(instance=inscricao)
     
-    return render(request, 'preLogin/Inscricao/teste_de_nivel.html', {
+    return render(request, 'preLogin/Inscricao/testeNivel.html', {
         'inscricao': inscricao,
-        'form': testenivel_form  # Note que mudei o nome para 'form' para ficar mais genérico
+        'form': testeNivel_form
     })
+
 
 def sucesso_view(request, inscricao_id):
     inscricao = get_object_or_404(Inscricao, id_inscricao=inscricao_id)

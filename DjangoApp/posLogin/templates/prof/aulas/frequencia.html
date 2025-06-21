@@ -1,52 +1,58 @@
-{% load dict_filters %}
-
 <!DOCTYPE html>
+{% load dict_filters %}
+{% load static %}
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Lista de Frequência</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aulas</title>
+    <link rel="stylesheet" href="{% static 'css/frequencia.css' %}">
 </head>
 <body>
-    <header class="cabecalho">
-        <nav class="menu-navegacao">
-            <a href="#"><div class="icon circle-icon">perfil</div></a>
-            <a href="{% url 'diario' %}"><div class="icon">diario</div></a>
-        </nav>
+    
+    <!-- Header -->
+    <header class="header">
+        <a href="{% url 'pagInicial' %}">
+        <img src="{% static 'img/eclass_logo3.png' %}" alt="Eclass">
+        </a>
+
+        <div class="nav-icon">
+        <a href="{% url 'pagProf' %}">
+            <img src="{% static 'img/home_icon_alt.png' %}" alt="Home">
+        </a>
+        <a href="{% url 'diario' %}">
+            <img src="{% static 'img/diario_icon_alt.png' %}" alt="Diário">
+        </a>
+        </div>
     </header>
     
-    <section style="background-color: aquamarine;">
+    <!-- Opções e infos. -->
+    <section>
+        <div>
+            <h1 class="title-section">Lançar Aulas e Faltas</h1>
+            <h3>Período Letivo: {{turma.semestre_atual}} </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
+            <h3>Turma: S{{turma.semestre_letivo}} T{{turma.numero_turma}} {{turma.turno}}</h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
+            <a href="{% url 'aulas' turma.id_turma %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' turma.id_turma %}">Exibir Lista de Frequência</a>
+        </div></br></br>
 
-    <div style="background-color: rgb(0, 254, 169);">
-      <h1>Lançar Aulas e Faltas</h1>
-      <h3>Período Letivo: {{turma.semestre_atual}} </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
-      <h3>Turma: S{{turma.semestre_letivo}} T{{turma.numero_turma}} {{turma.turno}}</h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
-
-      <a href="{% url 'aulas' turma.id_turma %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' turma.id_turma %}">Exibir Lista de Frequência</a>
-
-    </div>
-    <br>
-    <form method="POST" action="{% url 'frequencia' turma.id_turma %}">
+        <!-- Tabela de presença -->
+        <div class="container">
+            <form method="POST" action="{% url 'frequencia' turma.id_turma %}">
         {% csrf_token %}
 
-        <table border="1" cellpadding="5">
+            <table border="1" cellpadding="5">
             <thead>
-               
                 <tr>
                     <th rowspan="2">Matrícula</th>
                     <th rowspan="2">Nome</th>
                     <th>Mês e Ano</th>
-                    
                     {% for grupo in aulas_agrupadas %}
                         <th colspan="{{ grupo.dias|length }}">{{ grupo.mes }}/{{ grupo.ano }}</th>
                     {% endfor %}
-                
-                    <th rowspan="2">TOTAL</th>
-
+                    <th rowspan="2" class="col-total">TOTAL</th>
                 </tr>
-                
                 <tr>
                     <th>Dia</th>
-
                     {% for grupo in aulas_agrupadas %}
                         {% for aula in grupo.dias %}
                             <th>{{ aula.data|date:"d" }}</th>
@@ -55,14 +61,11 @@
                 </tr>      
             </thead>
             <tbody>
-                
                 {% for alunos_turma in alunos %}
                 <tr class="linha-aluno">
                     <td class="aluno_id"> {{ alunos_turma.matricula}}</td> <!--Matricula do aluno-->
                     <td>{{alunos_turma.nome_completo}}</td> <!--Nome do aluno-->
                     <td></td> <!--Campo vazio abaixo de dia/mês-->
-                    
-
                     {% for grupo in aulas_agrupadas %}
                         {% for aula in grupo.dias %}
                         {% with matricula_str=alunos_turma.matricula|stringformat:"s" %}
@@ -82,20 +85,20 @@
                     {% endfor %}
                     <td  name="faltas_{{ aluno.matricula }}" class="total-faltas"></td>
                 {% endfor %}
-                 
-
             </tbody>
-
         </table>
+        </div></br></br>
 
-        <button type="button" onclick="salvarPresencas({{turma.id_turma}})">Salvar</button>
-
-        <br>
-
-
+        <button class="button" type="button" onclick="salvarPresencas({{turma.id_turma}})">Salvar</button>
     </form>
-
     </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+        © 2024 E-Class | Todos os direitos reservados
+        </div>
+    </footer>
 
 </body>
 
@@ -209,7 +212,4 @@
     }
 
 </script>
-
-
-
 </html>

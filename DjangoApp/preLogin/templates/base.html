@@ -1,19 +1,172 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Eclass - Redefinição de senha{% endblock %}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Eclass{% endblock %}</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #f5f5f5;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header / Navbar */
+        header {
+            background: #f5f5f5;
+            color: white;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .logo img {
+            max-width: 150px;
+            height: auto;
+        }
+        
+        nav a {
+            margin: 0 14px;
+            font-size: larger;
+            text-decoration: none;
+            color: #333;
+        }
+
+        nav a:hover {
+            text-decoration: none;
+        }
+
+        .btn {
+            background: #FF5C00;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #e65000;
+        }
+
+        /* Main */
+        main {
+            flex-grow: 1;
+            max-width: 480px;
+            width: 100%;
+            margin: 40px auto;
+            background: white;
+            padding: 30px 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            color: #0CB28A;
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #FF5C00;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            border-radius: 20px;
+            border: 1px solid #FF5C00;
+            background-color: #FF5C00;
+            color: #FFFFFF;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 5px 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e65000;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        form p {
+            font-size: 14px;
+            color: #333;
+        }
+
+        ul.messages {
+            color: #d9534f;
+            margin-top: 15px;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        ul.messages li {
+            margin-bottom: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #fdfbf8;
+            color: #333;
+            padding: 20px 40px;
+            border-top: 1px solid #ccc;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
 </head>
+
 <body>
+    <!-- Header / Navbar -->
     <header>
-        <h1>Eclass</h1>
+        <div class="logo"><img src="{% static 'img/eclass_logo3.png' %}"></div>
+        <nav>
+            <a href="{% url 'pagInicial' %}">Início</a>
+        </nav>
     </header>
+
+    <!-- Main -->
     <main>
         {% block content %}
         {% endblock %}
     </main>
+
+    <!-- Footer -->
     <footer>
-        <p>Rodapé do site</p>
+        <div class="footer">
+            &copy; 2025 Eclass - Todos os direitos reservados.
+        </div>
     </footer>
 </body>
 </html>
