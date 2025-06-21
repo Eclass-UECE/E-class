@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'eclass',
         'USER': 'postgres',
-        'PASSWORD': '3541',
+        'PASSWORD': 'mikadb',
         'HOST': 'localhost',  
         'PORT': '5432',          
     }

@@ -158,9 +158,13 @@
             
     function salvarPresencas(id_turma) {
         const dados = [];
-
+        
         document.querySelectorAll('.presenca-checkbox').forEach(checkbox => {
             const nameParts = checkbox.name.split('_');
+            console.log(nameParts);
+            const linha = document.getElementById(`linha-${id}-${tabela}`);
+
+            const dataCell = linha.querySelector(".data");
             const alunoId = nameParts[1];
             const aulaId = nameParts[2];
             const falta = checkbox.checked;

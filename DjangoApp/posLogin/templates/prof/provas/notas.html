@@ -35,17 +35,103 @@
             </thead>
             <tbody>
                     {% for aluno in alunos_turma %}
-                    <tr>
-                        <td>{{ aluno.matricula }}</td>
-                        <td>{{ aluno.nome_completo }}</td>
-                        <td><input type="number" min="0" max="100" step="1"></td>
-                        <td><input type="text" size="30"></td>
-                    {% endfor %}                
-                    </tr>
+                    <tr id="linha-{{ aluno.matricula }}">
+                        <td class="matricula"> {{ aluno.matricula }}</td>
+                        <td class="nome">{{ aluno.nome_completo }}</td>
+                        <td>
+                            <input 
+                            type="number" 
+                            class="nota"
+                            name="nota_{{ aluno.matricula }}
+                            min="0" max="100" step="1"></td>
+                        <td>
+                            <input 
+                            type="text"
+                            class="observação"
+                            name="observação_{{ aluno.matricula }}"
+                            size="30"></td>
+
+                            </tr>
+
+                        {% endfor %}       
+                    
             </tbody>
         </table>
-        <button type="button" onclick="salvarPresencas({{turma.id_turma}})">Salvar</button>
+        <td>  <button type="button" onclick="salvarNota({{aluno.matricula}})">Salvar</button>
 
     </section>
 </body>
+
+<script>
+
+function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+function salvarNota(matricula) {
+
+    obsInput = ".objetivos input";
+    obsClass= ".objetivos";
+    obsCampo = "objetivos";
+
+    notaInput = ".nota input";
+    notaClass= ".nota";
+    notaCampo = "nota";
+
+    const dados = [];
+    document.querySelectorAll('tbody tr').forEach(linha => {
+        const matricula = linha.querySelector('.matricula').textContent.trim();
+        const nota = linha.querySelector('.nota').value;
+        const observacao = linha.querySelector('.observação').value;
+
+        dados.push({
+            matricula: matricula,
+            nota: nota,
+            observacao: observacao
+        });
+    });
+
+    console.log(dados); // Enviar para o backend com fetch() ou AJAX
+
+  fetch("/pagProf/aulas/notas/", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "X-CSRFToken": getCookie("csrftoken"), 
+  },
+  body: JSON.stringify({
+    dados: dados,
+  }),
+})
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Erro ao salvar");
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log("Salvo com sucesso!", data);
+  })
+  .catch(error => {
+    alert("Erro ao salvar no banco.");
+    console.error(error);
+  });
+  
+  }
+  
+  
+  </script>
+
+
 </html>

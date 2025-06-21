@@ -15,7 +15,5 @@ urlpatterns = [
     path('aulas/editar_aula/', views.editar_aula, name='editar_aula'),
     path('aulas/excluir_aula/', views.excluir_aula, name='excluir_aula'),
     path('aulas/salvar_faltas/', views.salvar_faltas, name='salvar_faltas'),
-
-
     # path('adicionar_aula/<int:id_turma>',views.adicionar_aula, name='adicionar_aula'),
 ]   

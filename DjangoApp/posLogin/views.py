@@ -149,8 +149,6 @@ def salvar_faltas(request):
 
 def midTerm(request, id_turma):
     turma = get_object_or_404(Turmas, id_turma=id_turma)
-
-    print(turma)
     return render(request, 'prof/provas/midTerm.html', {'turma': turma})
 
 def finalExam(request, id_turma):
