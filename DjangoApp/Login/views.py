@@ -32,7 +32,7 @@ def login_view(request):
                 print('correto')
                 request.session['professor_nome_completo'] = user.nome_completo
                 print(user.nome_completo)
-                return render(request, 'prof/pagProf.html')
+                return render(request, 'prof/professor/pagProf.html')
                 
             else:
                 print('senha errada')

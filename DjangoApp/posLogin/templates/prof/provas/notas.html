@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load dict_filters %}
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -32,12 +33,11 @@
             <h1>Lançar Notas</h1>
             <h3>Período Letivo: {{turma.semestre_atual}} </h3> <!---Informa o período letivo do historico de aulas-->
             <h3>Turma: S{{turma.semestre_letivo}} T{{turma.numero_turma}} {{turma.turno}} </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
-            <h3>Etapa: </h3> <!--Informa a etapa da prova - Mid ou Final - -->
-            <label for="dataProva"><strong>Data da Prova:</strong></label>
-            <input type="date" id="dataProva" name="dataProva">
+            <h3 id="etapa" name="etapa">Etapa: {{provas.etapa}}</h3> <!--Informa a etapa da prova - Mid ou Final - -->
+
         </div>
 
-        <p class="alert">AS NOTAS DEVEM SER INSERIDAS DE 0 A 100, SEM CASAS DECIMAIS</p>
+        <p class="alert">AS NOTAS DEVEM SER INSERIDAS DE 0 A 100</p>
 
         <table>
             <thead>
@@ -45,35 +45,42 @@
                     <th>MATRÍCULA</th>
                     <th>NOME</th>
                     <th>NOTA</th>
-                    <th>OBSERVAÇÕES</th>
+                    <th>AÇÕES</th>
                 </tr>
             </thead>
             <tbody>
                     {% for aluno in alunos_turma %}
-                    <tr id="linha-{{ aluno.matricula }}">
+                    <tr id="linha-{{ aluno.matricula }}" class="linha" >
                         <td class="matricula"> {{ aluno.matricula }}</td>
                         <td class="nome">{{ aluno.nome_completo }}</td>
-                        <td>
-                            <input 
-                            type="number" 
+                        <td
+                            type="number"
                             class="nota"
-                            name="nota_{{ aluno.matricula }}
-                            min="0" max="100" step="1"></td>
-                        <td>
-                            <input 
-                            type="text"
-                            class="observação"
-                            name="observação_{{ aluno.matricula }}"
-                            size="30"></td>
+                            name="nota_{{ aluno.matricula }}">
 
-                            </tr>
+                        {% with alunos_provas_dicts|get:aluno.matricula as nota %}
+                            {% if nota is not None %}
+                            {{ alunos_provas_dicts|get:aluno.matricula }}
+                            {% else %}
+                            <span style="color: rgb(235, 14, 14);">Nota não registrada</span>
+                            {% endif %}
+                        {% endwith %}
 
-                        {% endfor %}       
+                        </td>
                     
+                      <td>
+                        <button onclick="editarLinha({{ aluno.matricula }})">Editar</button>
+                        <button onclick="cancelarEdicao({{ aluno.matricula }})" style="display:none;">Cancelar</button>
+                        <button onclick="salvarNota({{provas.id_prova}}, {{provas.turma_id}}, {{ aluno.matricula }})" style="display:none;">Salvar</button>
+
+                      </td>
+                    
+
+                    {% endfor %}     
+  
             </tbody>
         </table>
-        <td>  <button type="button" onclick="salvarNota({{aluno.matricula}})">Salvar</button>
-
+    </tr>
     </section>
 
     <!-- Footer -->
@@ -89,7 +96,7 @@
 
         //Limita a nota para 100
         document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('input[type=number]').forEach(input => {
+        document.querySelectorAll('input[type=text]').forEach(input => {
             input.addEventListener('input', () => {
             let val = input.value;
             if (val === '') return;
@@ -107,8 +114,9 @@
     </script>
 
 <script>
-
-function getCookie(name) {
+    const backups = {};
+        // Função CSRF
+    function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
             const cookies = document.cookie.split(';');
@@ -122,60 +130,94 @@ function getCookie(name) {
         }
         return cookieValue;
     }
+            
+    function salvarNota(id_prova, id_turma, aluno_id) {
+        const dados = [];
 
-function salvarNota(matricula) {
+        const linha = document.getElementById(`linha-${aluno_id}`);
+        const nota = linha.querySelector(".nota input").value;
+        const matricula = linha.querySelector(".matricula").textContent.trim();
 
-    obsInput = ".objetivos input";
-    obsClass= ".objetivos";
-    obsCampo = "objetivos";
-
-    notaInput = ".nota input";
-    notaClass= ".nota";
-    notaCampo = "nota";
-
-    const dados = [];
-    document.querySelectorAll('tbody tr').forEach(linha => {
-        const matricula = linha.querySelector('.matricula').textContent.trim();
-        const nota = linha.querySelector('.nota').value;
-        const observacao = linha.querySelector('.observação').value;
+        // Substituir inputs por texto
+        linha.querySelector(".nota").innerHTML = `${nota}`;
 
         dados.push({
-            matricula: matricula,
-            nota: nota,
-            observacao: observacao
+           nota: nota,
+            aluno_id: matricula,
+            prova_id: id_prova,
+            turma_id: id_turma
+            });
+
+            console.log(dados);
+      
+
+        fetch("/pagProf/midTerm/salvar_nota/", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCookie("csrftoken"), 
+        },
+        body: JSON.stringify({
+            dados: dados,
+        }),
+    })
+        .then(response => {
+        if (!response.ok) {
+            throw new Error("Erro ao salvar");
+        }
+        return response.json();
+        })
+        .then(data => {
+        console.log("Salvo com sucesso!", data);
+        })
+        .catch(error => {
+        alert("Erro ao salvar no banco.");
+        console.error(error);
         });
-    });
-
-    console.log(dados); // Enviar para o backend com fetch() ou AJAX
-
-  fetch("/pagProf/aulas/notas/", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "X-CSRFToken": getCookie("csrftoken"), 
-  },
-  body: JSON.stringify({
-    dados: dados,
-  }),
-})
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Erro ao salvar");
+        
+        // Mostrar/ocultar botões
+        
+        linha.querySelector('button[onclick^="cancelarEdicao"]').style.display = "none";
+        linha.querySelector('button[onclick^="salvarNota"]').style.display = "none";
+        linha.querySelector('button[onclick^="editarLinha"]').style.display = "inline";
+        
     }
-    return response.json();
-  })
-  .then(data => {
-    console.log("Salvo com sucesso!", data);
-  })
-  .catch(error => {
-    alert("Erro ao salvar no banco.");
-    console.error(error);
-  });
-  
-  }
-  
-  
-  </script>
+
+    function cancelarEdicao(id_aluno) {
+
+        const linha = document.getElementById(`linha-${id_aluno}`);
+       
+        linha.querySelector(".nota").textContent = backups[id_aluno].valor;
+
+        // Mostrar/ocultar botões
+        
+        linha.querySelector('button[onclick^="cancelarEdicao"]').style.display = "none";
+        linha.querySelector('button[onclick^="salvarNota"]').style.display = "none";
+        linha.querySelector('button[onclick^="editarLinha"]').style.display = "inline";
+}
+    function editarLinha(id_aluno) {
+        
+        const linha = document.getElementById(`linha-${id_aluno}`);
+        
+        const nota = linha.querySelector(".nota");
+        console.log(nota);
+        const valorNota = nota.textContent.trim();
+
+        backups[id_aluno] = {
+            valor: valorNota
+        };
+      
+        // Substituir texto por inputs
+        nota.innerHTML = `<input type="text" value="${valorNota}">`;        
+        
+        // Mostrar/ocultar botões 
+    
+        linha.querySelector('button[onclick^="editarLinha"]').style.display = "none";
+        linha.querySelector('button[onclick^="salvarNota"]').style.display = "inline";
+        linha.querySelector('button[onclick^="cancelarEdicao"]').style.display = "inline";
+
+      }
+</script>
 
 
 </html>

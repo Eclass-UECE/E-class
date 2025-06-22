@@ -202,10 +202,10 @@ class AnexosInscricao(models.Model):
 
 class Provas(models.Model):
     id_prova = models.AutoField(_('ID_Prova'), primary_key=True)
-    conteudo = models.TextField(_('Conteúdo da prova'), null=False)
     data = models.DateField(_('Data'), null=False)
     tipo = models.CharField(_('Tipo da prova'), choices= tipo_prova_escolhas, max_length=30, null=False)
-    objetivos = models.TextField(_('Objetivos'), null=True)
+    turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE, null=False)
+    etapa = models.CharField(_('Etapa'), null=False)
 
     class Meta:
         verbose_name_plural = "Provas"
@@ -218,6 +218,7 @@ class AlunosProvas(models.Model):
     aluno = models.ForeignKey(Alunos, verbose_name=_('Aluno'), on_delete=models.CASCADE)
     prova = models.ForeignKey(Provas, verbose_name=_('Prova'), on_delete=models.CASCADE)
     nota = models.FloatField(_('Nota'), validators=[MinValueValidator(0.0), MaxValueValidator(100.0)], null=False)
+    turma = models.ForeignKey(Turmas, verbose_name=_('Turma'), on_delete=models.CASCADE, null=False)
 
     class Meta:
         verbose_name_plural = "Notas"

@@ -31,9 +31,29 @@
             <h1>Avaliações</h1></br>
             <h3>Período Letivo: {{turma.semestre_atual}} </h3> <!---Informa o período letivo do historico de aulas-->
             <h3>Turma: S{{turma.semestre_letivo}} T{{turma.numero_turma}} {{turma.turno}} </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
-            <h3>Etapa: Mid Term</h3> <!--Informa a etapa da prova - Mid ou Final - -->
+            <h3 id="etapa" name="etapa">Etapa: Mid Term</h3> <!--Informa a etapa da prova - Mid ou Final - -->
         </div>
 
+        <br>
+        <div class="adicionar-aula">
+            <h2>Adicionar Prova</h2>
+            {% if messages %}
+              {% for message in messages %}
+              <div style="color: {% if 'error' in message.tags %}red{% else %}green{% endif %}; padding: 10px;">
+                {{ message }}
+              </div>
+              {% endfor %}
+              {% endif %}
+            <br>
+            <form id="formAula" method="POST" action="{% url 'midTerm' turma.id_turma %}">
+              {% csrf_token %}
+              <label>Avaliação: <input type="text" id="avaliação" name="avaliação" required></label>
+              <label>Data: <input type="date" id="dataAula" name="data" required>
+              <input type="hidden" id="etapa" name="etapa" value="Mid Term">
+              <button type="submit">Adicionar</button>
+            </form>
+          </div>
+        
     <!--Existem 4 provas, divididas entre Oral e Escrita. (Writing, Use of English, Speaking e Listening)-->
     <!-- Tabela com as avaliações -->
     <table>
@@ -45,26 +65,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Writing</td> 
-                <td>04/05/2025</td> <!--Informa a data na qual a prova foi aplicada-->
-                <td><a href="{% url 'notas' turma.id_turma %}" class="button">ALTERAR</a></td> <!--Permite editar em uma nova página, adicionando a nota dos alunos e a data de aplicação-->
+            {% for prova in provas %} 
+
+            <tr id="linha-prova">
+                <td class="tipo">{{ prova.tipo }}</td> 
+                <td class="data">{{ prova.data }}</td>
+                <td><a href="{% url 'notas' turma.id_turma 'Mid Term' %}" class="button">ALTERAR</a></td> <!--Permite editar em uma nova página, adicionando a nota dos alunos e a data de aplicação-->
+                <td>
+                    <button onclick="excluirLinha({{ prova.id_prova }})">Excluir</button>
+                  </td>
             </tr>
-            <tr>
-                <td>Use of English</td>
-                <td>04/05/2025</td>
-                <td><a href="{% url 'notas' turma.id_turma %}" class="button">ALTERAR</a></td>
-            </tr>
-            <tr>
-                <td>Speaking</td>
-                <td>11/05/2025</td>
-                <td><a href="{% url 'notas' turma.id_turma %}" class="button">ALTERAR</a></td>
-            </tr>
-            <tr>
-                <td>Listening</td>
-                <td>11/05/2025</td>
-                <td><a href="{% url 'notas' turma.id_turma %}" class="button">ALTERAR</a></td>
-            </tr>
+            {% empty %}
+            <tr><td colspan="3">Nenhuma prova registrada.</td></tr>
+            {% endfor %}
         </tbody>
     </table>
     <a href="{% url 'media' %}">Calcular Média</a> <!--Redireciona o professor para a página de "média" para ver, editar e adicionar a média dos alunos-->
@@ -78,5 +91,61 @@
     </footer>
 
 </body>
+<script>
 
+function getCookie(name) {
+  let cookieValue = null;
+  if (document.cookie && document.cookie !== "") {
+    const cookies = document.cookie.split(";");
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim();
+      if (cookie.substring(0, name.length + 1) === name + "=") {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+}
+
+function excluirLinha(id_prova) {
+  if (!confirm("Tem certeza que deseja excluir esta aula? Todo os campos serão perdidos.")) {
+    return;
+  }
+
+  const linha = document.getElementById(`linha-prova`);
+  if (!linha) {
+    console.error("Linha não encontrada.");
+    return;
+  }
+
+  // Enviar requisição para o backend para excluir
+  fetch("/pagProf/midTerm/excluir_prova/", {
+    method: "POST", // ou DELETE, dependendo do backend
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken"), // Django precisa disso
+    },
+    body: JSON.stringify({
+        id_prova: id_prova
+        }),
+  })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Erro ao excluir");
+      }
+      return response.json();
+    })
+    .then(data => {
+      alert("Excluído com sucesso!", data);
+      linha.remove();
+   // Remove a linha da tabela na interface
+    })
+    .catch(error => {
+      alert("Erro ao excluir no banco.");
+      console.error(error);
+    });
+}
+
+</script>
 </html>
