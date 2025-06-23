@@ -13,20 +13,19 @@ def login_view(request):
         matricula = request.POST.get('matricula')
         senha = request.POST.get('senha')
                 
-         # Validar diretamente no banco de dados
+        # Validar diretamente no banco de dados
         try:
             # Verifica se o usuário existe no banco
 
             user = get_object_or_404(Professores, matricula=matricula)
             print("prof", user)
-          
             # Checa a senha diretamente
             print('bd= ', user.senha)
             print('form= ', senha)
             print('acess=' ,user.primeiro_acesso)
 
             if user.primeiro_acesso is None:
-               return HttpResponse("Primeiro Acesso! Redefina sua senha para prosseguir.")
+                return HttpResponse("Primeiro Acesso! Redefina sua senha para prosseguir.")
 
             if user.senha==senha:
                 print('correto')
@@ -42,4 +41,3 @@ def login_view(request):
             return HttpResponse("Usuário não encontrado.")
         
     return render(request, 'Login/pagLogin.html')
-
