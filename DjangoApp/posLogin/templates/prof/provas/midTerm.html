@@ -50,7 +50,7 @@
               <label>Avaliação: <input type="text" id="avaliação" name="avaliação" required></label>
               <label>Data: <input type="date" id="dataAula" name="data" required>
               <input type="hidden" id="etapa" name="etapa" value="Mid Term">
-              <button type="submit">Adicionar</button>
+              <button type="submit" class="button">Adicionar</button>
             </form>
           </div>
         
@@ -70,16 +70,16 @@
             <tr id="linha-prova">
                 <td class="tipo">{{ prova.tipo }}</td> 
                 <td class="data">{{ prova.data }}</td>
-                <td><a href="{% url 'notas' turma.id_turma 'Mid Term' %}" class="button">ALTERAR</a></td> <!--Permite editar em uma nova página, adicionando a nota dos alunos e a data de aplicação-->
+                <td><a href="{% url 'notas' turma.id_turma 'Mid Term' %}" class="button">Alterar</a></td> <!--Permite editar em uma nova página, adicionando a nota dos alunos e a data de aplicação-->
                 <td>
-                    <button onclick="excluirLinha({{ prova.id_prova }})">Excluir</button>
+                    <button onclick="excluirLinha({{ prova.id_prova }})" class="button">Excluir</button>
                   </td>
             </tr>
             {% empty %}
             <tr><td colspan="3">Nenhuma prova registrada.</td></tr>
             {% endfor %}
         </tbody>
-    </table>
+    </table></br>
     <a href="{% url 'media' %}">Calcular Média</a> <!--Redireciona o professor para a página de "média" para ver, editar e adicionar a média dos alunos-->
     </section>
 

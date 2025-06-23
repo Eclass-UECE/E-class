@@ -245,3 +245,79 @@ body {
     font-size: 14px;
     color: #666;
 }
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 2% 5%;
+    }
+
+    .logo img {
+        max-width: 120px;
+    }
+
+    .navbar a {
+        margin: 8px 10px;
+        font-size: 1rem;
+    }
+
+    .btn,
+    .btn-enviar,
+    .btn-ir {
+        width: 100%;
+        padding: 12px 0;
+        font-size: 1.1rem;
+        text-align: center;
+    }
+
+    .anexos {
+        max-width: 95%;
+        padding: 5% 3%;
+    }
+
+    .text-anexos {
+        font-size: 250%;
+    }
+
+    .upload-section {
+        padding: 15px;
+    }
+
+    .files-list {
+        max-width: 95%;
+        padding: 15px;
+    }
+
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 10px;
+        gap: 20px;
+    }
+
+    .footer-section {
+        min-width: auto;
+        width: 100%;
+        text-align: center;
+    }
+
+    .logo-footer img {
+        max-width: 150px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .anexos {
+        max-width: 1200px;
+    }
+
+    .files-list {
+        max-width: 1200px;
+    }
+
+    .footer {
+        padding: 40px 100px 20px;
+    }
+}
