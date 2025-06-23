@@ -174,14 +174,6 @@
 
   function cancelarEdicao(id, tabela) {
 
-    let X;
-    if (tabela == 1){ 
-      X = ".conteudo";
-    }
-    if (tabela == 2) {
-      X = ".objetivos";
-    }
-    
     const linha = document.getElementById(`linha-${id}-${tabela}`);
     linha.querySelector(".data").textContent = backups[id].data;
     linha.querySelector(X).textContent = backups[id].valor;
@@ -239,7 +231,8 @@
 
     linha.querySelector(".data").textContent = dataFormatada;
     linha.querySelector(".data").setAttribute("data-iso", dataFormatada );
-    linha.querySelector(Y).textContent = linhaX;
+    linha.querySelector(".conteudo").innerHTML = `${linhaX}`;
+
 
      // Enviar via fetch
   fetch("/pagProf/aulas/editar_aula/", {

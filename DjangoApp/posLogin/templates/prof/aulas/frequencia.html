@@ -165,15 +165,13 @@
         document.querySelectorAll('.presenca-checkbox').forEach(checkbox => {
             const nameParts = checkbox.name.split('_');
             console.log(nameParts);
-            const linha = document.getElementById(`linha-${id}-${tabela}`);
+            const linha = document.getElementById(`linha-aluno`);
 
-            const dataCell = linha.querySelector(".data");
             const alunoId = nameParts[1];
             const aulaId = nameParts[2];
             const falta = checkbox.checked;
             const total_faltas = atualizarTotaisPresencas()
 
-            console.log(total_faltas) 
             dados.push({
                 aluno_id: alunoId,
                 aula_id: aulaId,

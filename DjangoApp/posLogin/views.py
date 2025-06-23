@@ -11,6 +11,7 @@ from collections import defaultdict
 from django.shortcuts import render,get_object_or_404
 from preLogin.models import *
 
+
 def paginaProfessor(request):
     return render(request, 'prof/professor/pagProf.html')
 
@@ -148,21 +149,124 @@ def salvar_faltas(request):
 
 def midTerm(request, id_turma):
     turma = get_object_or_404(Turmas, id_turma=id_turma)
-    return render(request, 'prof/provas/midTerm.html', {'turma': turma})
+    prova = Provas.objects.filter(turma_id=id_turma, etapa="Mid Term").order_by('-data')
 
+    if request.method == 'POST':
+        data = request.POST.get('data')
+        data_formatada = datetime.datetime.strptime(data, '%Y-%m-%d').strftime('%d/%m/%Y')
+        tipo = request.POST.get('avaliação')
+        etapa = request.POST.get('etapa')
+        turma = get_object_or_404(Turmas, id_turma=id_turma)
+
+        if not Provas.objects.filter(tipo=tipo, turma=turma, etapa=etapa).exists():
+            Provas.objects.create(
+                data=data, 
+                tipo=tipo, 
+                turma=turma,
+                etapa=etapa
+        ) 
+            messages.success(request, f"Prova de {tipo} cadastrada com sucesso!")
+        else:
+            messages.error(request, f"A prova de {tipo} já existe!")
+
+         
+        # REDIRECIONAMENTO para evitar reenvio se o usuário atualizar
+        return redirect('midTerm', id_turma=id_turma)
+  
+    return render(request, 'prof/provas/midTerm.html', {'turma': turma, 'provas': prova})
+
+    
 def finalExam(request, id_turma):
     turma = get_object_or_404(Turmas, id_turma=id_turma)
-    print(turma)
-    return render(request, 'prof/provas/finalExam.html', {'turma': turma})
+    prova = Provas.objects.filter(turma_id=id_turma, etapa="Final Exam").order_by('-data')
+
+    if request.method == 'POST':
+        data = request.POST.get('data')
+        data_formatada = datetime.datetime.strptime(data, '%Y-%m-%d').strftime('%d/%m/%Y')
+        tipo = request.POST.get('avaliação')
+        etapa = request.POST.get('etapa')
+        turma = get_object_or_404(Turmas, id_turma=id_turma)
+
+        if not Provas.objects.filter(tipo=tipo, turma=turma, etapa=etapa).exists():
+            Provas.objects.create(
+                data=data, 
+                tipo=tipo, 
+                turma=turma,
+                etapa=etapa
+        ) 
+            messages.success(request, f"Prova de {tipo} cadastrada com sucesso!")
+        else:
+            messages.error(request, f"A prova de {tipo} já existe!")
+
+         
+        # REDIRECIONAMENTO para evitar reenvio se o usuário atualizar
+        return redirect('midTerm', id_turma=id_turma)
+  
+    return render(request, 'prof/provas/finalExam.html', {'turma': turma, 'provas': prova})
 
 def media(request):
     return render(request, 'prof/provas/media.html')
 
-def notas(request, id_turma):
+def notas(request, id_turma, etapa):
+    print(etapa)
     turma = get_object_or_404(Turmas, id_turma=id_turma)
     alunos_turma = Alunos.objects.filter(turma_id = turma).order_by('matricula')
+    prova = Provas.objects.get(turma_id=turma, etapa=etapa)
+    alunos_prova = AlunosProvas.objects.filter(turma_id=turma, prova_id=prova)
+
+    alunos_provas_dict = {aluno.aluno_id: aluno.nota for aluno in alunos_prova}
+
     print(turma)
-    return render(request, 'prof/provas/notas.html', {'turma': turma, 'alunos_turma': alunos_turma})
+    return render(request, 'prof/provas/notas.html', {'turma': turma, 'alunos_turma': alunos_turma, 
+                                              'provas': prova, 'alunos_provas_dicts': alunos_provas_dict})
+
+@csrf_exempt
+def salvar_nota(request):
+     if request.method == "POST":
+        body = json.loads(request.body)
+        presencas = body.get("dados", [])
+
+        for p in presencas:
+
+            nota_str = p.get("nota")
+            aluno_id = p.get("aluno_id")
+            prova_id = p.get("prova_id")
+            turma_id = p.get("turma_id")
+            print('aluno',aluno_id)
+            print('prova',prova_id)
+            print('turma',turma_id)
+
+            nota_str = nota_str.replace(',', '.')  # troca vírgula por ponto
+            nota = float(nota_str) 
+            
+            registro = AlunosProvas.objects.filter(aluno_id=aluno_id, turma_id=turma_id)
+
+            # Verifica se há registro do aluno naquela turma
+        
+            if registro.exists():
+                    AlunosProvas.objects.update_or_create(
+                        aluno_id=aluno_id,
+                        turma_id=turma_id,
+                        prova_id=prova_id,
+                        defaults={
+                            'nota': nota,
+                        }
+                    )
+            else:
+                    AlunosProvas.objects.update_or_create(
+                        aluno_id=aluno_id,
+                        turma_id=turma_id,
+                        prova_id=prova_id,
+                        defaults={
+                            'nota': nota,
+                        }
+                    )
+
+                   
+        return JsonResponse({"status": "ok"})
+
+     return JsonResponse({"error": "método inválido"}, status=405)
+
 
 def entregaDiario(request):
     return render(request, 'prof/professor/entregaDiario.html')
@@ -198,10 +302,24 @@ def excluir_aula(request):
         try:
             dados = json.loads(request.body)
             id_aulas = dados.get("id_aulas")
-           
-        
+                   
             aula = Aulas.objects.get(id_aulas=id_aulas)
             aula.delete()
+            
+            return JsonResponse({"status": "ok"})
+        except Exception as e:
+            return JsonResponse({"status": "erro", "mensagem": str(e)}, status=400)
+    return JsonResponse({"erro": "Método não permitido"}, status=405)
+
+@csrf_exempt
+def excluir_prova(request):
+    if request.method == 'POST':
+        try:
+            dados = json.loads(request.body)
+            id_prova = dados.get("id_prova")
+                   
+            prova = Provas.objects.get(id_prova=id_prova)
+            prova.delete()
             
             return JsonResponse({"status": "ok"})
         except Exception as e:
