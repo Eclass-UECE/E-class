@@ -33,7 +33,9 @@
             <h3>Período Letivo: {{turma.semestre_atual}} </h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
             <h3>Turma: S{{turma.semestre_letivo}} T{{turma.numero_turma}} {{turma.turno}}</h3> <!--Informa o semestre e a turma a qual pertece o historico de aulas-->
             <a href="{% url 'aulas' turma.id_turma %}">Exibir Conteúdos</a> | <a href="{% url 'frequencia' turma.id_turma %}">Exibir Lista de Frequência</a>
-        </div></br></br>
+        </div></br>
+
+        <div id="mensagem" style="display: none; color: green; font-weight: bold;"></div><br>
 
         <!-- Tabela de presença -->
         <div class="container">
@@ -200,6 +202,16 @@
         })
         .then(data => {
         console.log("Salvo com sucesso!", data);
+        
+        const mensagemDiv = document.getElementById("mensagem");
+        mensagemDiv.textContent = "Frequência salva com sucesso!";
+        mensagemDiv.style.display = "block";
+
+        // Oculta depois de 5 segundos (opcional)
+        setTimeout(() => {
+            mensagemDiv.style.display = "none";
+        }, 5000);
+
         })
         .catch(error => {
         alert("Erro ao salvar no banco.");

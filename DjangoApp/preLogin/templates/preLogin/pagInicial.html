@@ -22,6 +22,16 @@
         <a class="btn" href="{% url 'login' %}">Área do Professor</a>
     </header>
 
+    <!-- ChatBot com IA da OPENAI -->
+
+    <h2>Chat com IA</h2>
+
+    <label for="pergunta">Pergunta:</label>
+    <input type="text" id="pergunta" name="pergunta"/>
+    <button onclick="enviarPergunta()">Enviar</button>
+
+    <p><strong>Resposta:</strong> <span id="resposta"></span></p>
+
     <!-- Banner para inscrição -->
     <section class="banner">
         <div>
@@ -197,4 +207,45 @@
 </script>
 
 </body>
+
+<script>
+    function getCookie(name) {
+      // para enviar CSRF token
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.startsWith(name + "=")) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    
+    function enviarPergunta() {
+      const pergunta = document.getElementById("pergunta").value;
+      
+      fetch("{% url 'responde_ia' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: JSON.stringify({ pergunta: pergunta }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          document.getElementById("resposta").textContent = data.resposta;
+        })
+        .catch((error) => {
+          console.error("Erro:", error);
+          document.getElementById("resposta").textContent = "Erro ao obter resposta.";
+        });
+    }
+    </script>
+    
+
 </html>

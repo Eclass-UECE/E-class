@@ -7,39 +7,33 @@ from preLogin.models import *
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.contrib import messages
+
 
 def login_view(request):
     if request.method == 'POST':
         matricula = request.POST.get('matricula')
         senha = request.POST.get('senha')
                 
-         # Validar diretamente no banco de dados
-        try:
-            # Verifica se o usuário existe no banco
-
-            user = get_object_or_404(Professores, matricula=matricula)
-            print("prof", user)
+        # Validar diretamente no banco de dados
+        # Verifica se o usuário existe no banco
+        user = Professores.objects.filter(matricula=matricula).exists()
           
-            # Checa a senha diretamente
-            print('bd= ', user.senha)
-            print('form= ', senha)
-            print('acess=' ,user.primeiro_acesso)
+        # Checa a senha diretamente no banco
+        if user:
+            user = Professores.objects.get(matricula=matricula)
 
-            if user.primeiro_acesso is None:
-               return HttpResponse("Primeiro Acesso! Redefina sua senha para prosseguir.")
-
-            if user.senha==senha:
-                print('correto')
+            if user.primeiro_acesso is True:
+                messages.success(request, "Primeiro acesso detectado. Redefina sua senha clicando no botão 'Esqueci a senha' e tente acessar novamente!")
+            
+            elif user.senha==senha:
                 request.session['professor_nome_completo'] = user.nome_completo
-                print(user.nome_completo)
                 return render(request, 'prof/professor/pagProf.html')
-                
             else:
-                print('senha errada')
-                return HttpResponse("Senha incorreta.")
-        except Professores.DoesNotExist:
-            print('execao')
-            return HttpResponse("Usuário não encontrado.")
+                messages.success(request, "Senha incorreta! Tente novamente.")
+
+        else:
+            messages.success(request, "Usuário não cadastrado no sistema.")
         
     return render(request, 'Login/pagLogin.html')
 

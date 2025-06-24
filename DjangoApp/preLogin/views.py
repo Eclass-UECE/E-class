@@ -12,6 +12,10 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
+import json
+
+from django.http import JsonResponse
+import openai  # ou outra lib
 
 class CustomPasswordResetView(PasswordResetView):
     template_name = 'preLogin/password_reset.html'
@@ -28,6 +32,23 @@ class CustomPasswordResetView(PasswordResetView):
 
 def pagInicial(request):
     return render(request, 'preLogin/pagInicial.html')
+
+def responde_ia(request):
+
+    data = json.loads(request.body)
+    prompt = data.get('pergunta')
+    # print(prompt)
+
+    if not prompt:
+        return JsonResponse({"erro": "A pergunta não pode estar vazia."}, status=400)
+
+    openai.api_key = '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'
+    resposta = openai.ChatCompletion.create(
+    model="gpt-4o-mini",
+    messages=[{"role": "user", "content": prompt}]
+        )
+    return JsonResponse({'resposta': resposta.choices[0].message['content']})
+
 
 def inscricao_view(request):
     if request.method == 'POST':

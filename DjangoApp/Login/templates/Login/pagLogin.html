@@ -1,28 +1,35 @@
-{% extends 'base.html' %}
+  {% extends 'base.html' %}
 
-{% block title %}Login - Eclass{% endblock %}
+  {% block title %}Login - Eclass{% endblock %}
 
-{% block content %}
-<h2>Login</h2>
+  {% block content %}
+  <h2>Login</h2>
 
-<form method="POST" action="{% url 'login' %}">
-  {% csrf_token %}
-  <label for="matricula">Matrícula</label>
-  <input type="text" id="matricula" name="matricula" required />
+  <form method="POST" action="{% url 'login' %}">
+    {% csrf_token %}
+    <label for="matricula">Matrícula</label>
+    <input type="text" id="matricula" name="matricula" required />
 
-  <label for="senha">Senha</label>
-  <input type="password" id="senha" name="senha" required />
+    <label for="senha">Senha</label>
+    <input type="password" id="senha" name="senha" required />
 
-  <button type="submit">Entrar</button>
-</form>
+    <button type="submit">Entrar</button>
+  </form>
 
-<p><a href="{% url 'password_reset' %}">Esqueci a senha</a></p>
+  <p><a href="{% url 'password_reset' %}">Esqueci a senha</a></p><br>
 
-{% if messages %}
-  <ul class="messages">
+
+  {% if messages %}
+  <div id="mensagem" style="color: green; font-weight: bold;">
     {% for message in messages %}
-      <li>{{ message }}</li>
+      {{ message }}
     {% endfor %}
-  </ul>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      document.getElementById("mensagem").style.display = "none";
+    }, 5000);
+  </script>
 {% endif %}
 {% endblock %}

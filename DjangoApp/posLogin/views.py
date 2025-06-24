@@ -141,8 +141,7 @@ def salvar_faltas(request):
                             'falta': falta,
                         }
                     )
-
-                   
+     
         return JsonResponse({"status": "ok"})
 
     return JsonResponse({"error": "método inválido"}, status=405)
@@ -174,7 +173,6 @@ def midTerm(request, id_turma):
         return redirect('midTerm', id_turma=id_turma)
   
     return render(request, 'prof/provas/midTerm.html', {'turma': turma, 'provas': prova})
-
     
 def finalExam(request, id_turma):
     turma = get_object_or_404(Turmas, id_turma=id_turma)
@@ -200,19 +198,19 @@ def finalExam(request, id_turma):
 
          
         # REDIRECIONAMENTO para evitar reenvio se o usuário atualizar
-        return redirect('midTerm', id_turma=id_turma)
+        return redirect('finalExam', id_turma=id_turma)
   
     return render(request, 'prof/provas/finalExam.html', {'turma': turma, 'provas': prova})
 
 def media(request):
     return render(request, 'prof/provas/media.html')
 
-def notas(request, id_turma, etapa):
+def notas(request, id_turma, etapa, prova_id):
     print(etapa)
     turma = get_object_or_404(Turmas, id_turma=id_turma)
     alunos_turma = Alunos.objects.filter(turma_id = turma).order_by('matricula')
-    prova = Provas.objects.get(turma_id=turma, etapa=etapa)
-    alunos_prova = AlunosProvas.objects.filter(turma_id=turma, prova_id=prova)
+    prova = Provas.objects.get(turma_id=turma, etapa=etapa, id_prova=prova_id)
+    alunos_prova = AlunosProvas.objects.filter(turma_id=turma, prova_id=prova_id).order_by('-aluno_id')
 
     alunos_provas_dict = {aluno.aluno_id: aluno.nota for aluno in alunos_prova}
 
@@ -266,7 +264,6 @@ def salvar_nota(request):
         return JsonResponse({"status": "ok"})
 
      return JsonResponse({"error": "método inválido"}, status=405)
-
 
 def entregaDiario(request):
     return render(request, 'prof/professor/entregaDiario.html')
