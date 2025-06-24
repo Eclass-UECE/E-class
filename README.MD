@@ -37,6 +37,11 @@ Os dados das inscrições são armazenados e disponibilizados aos coordenadores,
 - **Professores:** possuem uma área para lançar notas, registrar faltas e descrever os conteúdos ministrados nas aulas.
 - **Coordenadores:** têm acesso a essas informações através da funcionalidade de "entrega de diário", podendo acompanhar o desempenho das turmas e dos professores.
 
+### 4. Diário do Profesor
+
+- O professor poderá acessar seu diário para acompanhamento de turmas.
+- Em diário, ficarão guardadas informações da turma (semestre, periodo letivo, horário de aulas), assim como provas, frequência e conteúdos ministrados.
+
 ---
 
 ## 🛠️ Tecnologias
