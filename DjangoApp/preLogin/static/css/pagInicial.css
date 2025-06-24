@@ -187,6 +187,7 @@ a {
     gap: 20px;
     flex-wrap: wrap;
     overflow: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 /* FAQ - Dúvidas */

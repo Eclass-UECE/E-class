@@ -117,18 +117,20 @@ th:first-child, td:first-child {
 
 /* Botões / Links */
 .button {
-    background-color: #0CB28A;
+    background-color: #FF5C00;
     color: white;
-    border: 2px;
-    padding: 6px 12px;
+    border: none;
+    padding: 5px 10px;
     border-radius: 6px;
-    transition: all 0.3s ease;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 400;
+    font-size: 14px;      /* define tamanho igual */
     display: inline-block;
 }
 
 .button:hover {
-    background-color: #0a846a;
-    color: white;
+    background-color: #e65100;
 }
 
 /* Footer */

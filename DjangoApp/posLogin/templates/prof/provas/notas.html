@@ -69,12 +69,12 @@
 
                         </td>
                     
-                      <td>
-                        <button onclick="editarLinha({{ aluno.matricula }})">Editar</button>
-                        <button onclick="cancelarEdicao({{ aluno.matricula }})" style="display:none;">Cancelar</button>
-                        <button onclick="salvarNota({{provas.id_prova}}, {{provas.turma_id}}, {{ aluno.matricula }})" style="display:none;">Salvar</button>
+                        <td>
+                            <button onclick="editarLinha({{ aluno.matricula }})" class="button">Editar</button>
+                            <button onclick="cancelarEdicao({{ aluno.matricula }})" style="display:none;" class="button">Cancelar</button>
+                            <button onclick="salvarNota({{provas.id_prova}}, {{provas.turma_id}}, {{ aluno.matricula }})" style="display:none;" class="button">Salvar</button>
 
-                      </td>
+                        </td>
                     
 
                     {% endfor %}     
@@ -92,27 +92,6 @@
     </footer>
 
 </body>
-
-    <script>
-
-        //Limita a nota para 100
-        document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('input[type=text]').forEach(input => {
-            input.addEventListener('input', () => {
-            let val = input.value;
-            if (val === '') return;
-            val = parseInt(val);
-            if (isNaN(val)) {
-                input.value = '';
-                return;
-            }
-            if (val > 100) input.value = 100;
-            else if (val < 0) input.value = 0;
-            });
-        });
-        });
-
-    </script>
 
 <script>
     const backups = {};
@@ -219,6 +198,5 @@
 
       }
 </script>
-
 
 </html>

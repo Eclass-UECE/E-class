@@ -18,7 +18,7 @@ def login_view(request):
         # Validar diretamente no banco de dados
         # Verifica se o usuário existe no banco
         user = Professores.objects.filter(matricula=matricula).exists()
-          
+
         # Checa a senha diretamente no banco
         if user:
             user = Professores.objects.get(matricula=matricula)
@@ -27,6 +27,7 @@ def login_view(request):
                 messages.success(request, "Primeiro acesso detectado. Redefina sua senha clicando no botão 'Esqueci a senha' e tente acessar novamente!")
             
             elif user.senha==senha:
+
                 request.session['professor_nome_completo'] = user.nome_completo
                 return render(request, 'prof/professor/pagProf.html')
             else:
@@ -36,4 +37,3 @@ def login_view(request):
             messages.success(request, "Usuário não cadastrado no sistema.")
         
     return render(request, 'Login/pagLogin.html')
-

@@ -203,3 +203,80 @@ a {
     font-size: 14px;
     color: #666;
 }
+
+/* Responsividade para telas até 768px (celulares/tablets) */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: center;
+        padding: 2% 5%;
+        gap: 15px;
+    }
+
+    .logo img {
+        max-width: 120px;
+    }
+
+    .navbar a {
+        margin: 8px 10px;
+        font-size: 1rem;
+    }
+
+    .formulario-inscricao {
+        width: 90%;
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .botao-enviar {
+        width: 100%;
+        padding: 15px 0;
+        font-size: 1.1rem;
+    }
+
+    .banner {
+        max-width: 95%;
+        padding: 10% 5% 40px;
+        font-size: 90%;
+    }
+
+    .text-banner {
+        font-size: 300%;
+    }
+
+    .descricao-formulario {
+        max-width: 90%;
+        margin: 20px auto;
+    }
+
+    .footer {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 10px;
+    }
+
+    .footer-section {
+        width: 100%;
+        min-width: auto;
+        text-align: center;
+    }
+
+    .logo-footer img {
+        max-width: 150px;
+    }
+}
+
+/* Ajustes para telas maiores que 1200px */
+@media (min-width: 1200px) {
+    .banner {
+        max-width: 1400px;
+    }
+
+    .formulario-inscricao {
+        max-width: 600px;
+    }
+
+    .footer {
+        padding: 40px 100px 20px;
+    }
+}
