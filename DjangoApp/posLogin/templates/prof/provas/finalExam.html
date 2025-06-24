@@ -70,11 +70,7 @@
             <tr id="linha-prova">
                 <td class="tipo">{{ prova.tipo }}</td> 
                 <td class="data">{{ prova.data }}</td>
-<<<<<<< HEAD
                 <td><a href="{% url 'notas' turma.id_turma 'Final Exam' prova.id_prova %}" class="button">ALTERAR</a></td> <!--Permite editar em uma nova página, adicionando a nota dos alunos e a data de aplicação-->
-=======
-                <td><a href="{% url 'notas' turma.id_turma 'Final Exam' %}" class="button">Alterar</a></td> <!--Permite editar em uma nova página, adicionando a nota dos alunos e a data de aplicação-->
->>>>>>> 8f59e073c63343d416ed254354fdd362bb7bf6bc
                 <td>
                   <button onclick="excluirLinha({{ prova.id_prova }})" class="button">Excluir</button>
                 </td>

@@ -37,12 +37,12 @@ def responde_ia(request):
 
     data = json.loads(request.body)
     prompt = data.get('pergunta')
-    # print(prompt)
-
+    print(prompt)
+    
     if not prompt:
         return JsonResponse({"erro": "A pergunta não pode estar vazia."}, status=400)
 
-    openai.api_key = 'sua_key'
+    openai.api_key = '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'
     resposta = openai.ChatCompletion.create(
     model="gpt-4o-mini",
     messages=[{"role": "user", "content": prompt}]
